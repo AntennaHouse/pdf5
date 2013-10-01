@@ -16,7 +16,7 @@ Root files
 - README.md  
   This file.
 
-- pdf5-plugin.pdf  
+- pdf5_manual.pdf  
   Plug-in user's manual. To use plug-in read this first.
 
 - ahf-setting.xml  
@@ -28,7 +28,7 @@ Root files
 com.antennahouse.pdf5 folder
 ----------------------------
 This folder contains PDF5 plug-in files and folders. To install this plug-in, 
-refer to pdf5-plugin.pdf.
+refer to pdf5_manual.pdf.
 
 index-data folder
 -----------------
