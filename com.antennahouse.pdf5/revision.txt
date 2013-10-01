@@ -1,0 +1,81 @@
+﻿_______________________________________________________________________________
+
+                 Antenna House pdf5 Plugin Revision Notes
+
+      Copyright (C) 2009-2013 Antenna House, Inc. All rights reserved.
+             Antenna House is a trademark of Antenna House, Inc.
+_______________________________________________________________________________
+
+Oct, 2013
+V2.1 release
+- Add ahf.opt, ahf.dir property to set Formatter setting file path and Formatter install folder. (build.xml)
+- Use property "user.input.dir" instead of "dita.input.dirname" because the latter is deprecated. (build.xml)
+- Add the code to avoid DITA-OT bug. (https://github.com/dita-ot/dita-ot/issues/1539) (*.xsl)
+- Add the code to distinguish external and local image. (dita2fo_bodyelements.xsl)
+- Change xsl:param PRM_MAP_DIR to PRM_MAP_DIR_URL and pass the URI of the input map. (dita2fo_param.xsl)
+- Reject indexterm element that has no effective text. (dita2fo_indexi18n.xsl,dita2fo_index.xsl)
+- Fix the bug that ignores last index-see entry that is written after multiple index-see or index-see-also element. (dita2fo_indexcommon.xsl)
+- Remove topic,link that is pointed from topicref/@print="no" or points topicref/@print="no". (dita2fo_convmerged.xsl)
+- Add declaration for transtype as a print type.(plugin.xml)
+- Add plug-in start message.(dita2fo_main.xsl,dita2fo_param.xsl,build.xml)
+- Add border-before-width.conditionality="retain" to table frame attribute.(default_style.xml)
+
+Jan, 2013
+V2.0 release
+- Fix the @id generation bug when the corresponding element is descendant of map. (dita2fo_attribute.xsl)
+- Refine the backmatter processing. (dita2fo_backmatter.xsl)
+- Add footnote processing to ol/ul. (dita2fo_bodyelements.xsl)
+- Correct the image/@href processing to generate the reference to original image location.(dita2fo_bodyelements.xsl)
+- Refine the bookmark processing. (dita2fo_bookmark.xsl)
+- Add the code for range indexterm complement.
+- Refine the merged middle file processing to support DITA 1.2 elements. (dita2fo_convmerged.xsl)
+- Simplify the document check function. (dita2fo_documentcheck.xsl)
+- Refine the footnote processing. (dita2fo_footnote.xsl)
+- Refine the frontmatter processing. (dita2fo_frontmatter.xsl)
+- Add the plug-in relative path ('%plug-in-path%') support in style definition file. (dita2fo_genatrset.xsl)
+- Add the glossary list function. (dita2fo_glossaryelements.xsl, dita2fo_glossarylist.xsl, dita2fo_glossaryrelatedelements.xsl)
+- Refine the index related module and introduce the dita2fo_indexsort.xsl for multiple key sorting.
+- Fix the table count bug. (dita2fo_tableelements.xsl)
+- Add the template for stepsection. (dita2fo_taskelements.xsl)
+- Add the template for bodydiv. (dita2fo_topicelements.xsl) 
+- Refine the xref processing. (dita2fo_xref.xsl)
+- Set the property not to copy image files to the output folder. (integrator.xml)
+- Correct the target name to adapt to DITA-OT 1.6.3 and 1.7. (integrator.xml)
+- -Dcommon.graphic parameter has been deprecated. (build.xml)
+- Change the plug-in folder name from pdf5 to com.antennahouse.pdf5.
+- Fix the stylesheet error FORG0002 in Mac OS. (build.xml)
+- Fix the stylesheet error FORG0002 when the plug-in is invoked from oXygen.(dita2fo_bodyelements.xsl, dita2fo_param.xsl)
+
+Sep, 2011
+V1.1 release
+- Add the command-line parameter -Duse.output.class.deprecated -Duse.output.class.nohyphenate.
+- Generate fo:block for section, example, abstract, (shortdesc).
+- Fix the keep-with-next property bug in note element last block.
+- Add hyphenate="false" and other Formatter extension property to codeblock, codeph, filepath.
+- Honer the entry attribute other than colspec attribute in table element.
+- Support part,chapter with no href but navtitle attribute.
+- Change the task/steps/step/cmd treatment from block to inline.
+- Add the relative-align="baseline" to fo:list-item.
+- Remove text-align="center" from table/tgroup/thead style.
+- Support foreign element that contains SVG or MathML.
+- Support XSL-FO in the style definition file.
+- Set the font-size in table to 9.5pt.
+- Add the common graphic file copy task to the ant build file.
+- Add style definition file check routine.
+- Output footnote by one topic.
+- Add the function ahf:getAttribute().
+- Add the blank page to the cover.
+- Add the include element to the style definition file.
+- Add -Dxsl.file parameter to command-line parameter.
+- Add border-after-width.conditionality="retain" to generated fo:table-cell.
+- Change the page no format to 1,2,3... from I,II,III... in backmatter.
+- Copy bookmap/@xml:lang attribute to fo:root.
+- Fix the lang attribute of xsl:sort for index sorting.
+- Change the parameter name from PRM_GEN_UNIQUE_ID to PRM_USE_OID.
+- Fix the error that string() function parameter should not be xs:string*.
+- Fix the bug that indexterm in the topic/body are not processed.
+
+Dec, 2009
+V1.0 release
+
+                       --- END OF DOCUMENT --

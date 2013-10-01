@@ -1,0 +1,266 @@
+<?xml version="1.0"?>
+<project name="com.antennahouse.pdf5.build"  basedir=".">
+    <!-- Set property -->
+    <property name="customization.dir" value="${basedir}/Customization"/>
+    <property name="ot.dir" value="${basedir}/../.."/>
+    <property name="i18n.lib.dir" value="${basedir}${file.separator}lib"/>
+    <property name="i18n.home" value="${basedir}${file.separator}lib${file.separator}i18n_support"/>
+    <property name="merged.file" value="${dita.map.filename.root}_MERGED.xml" />
+    <property name="converted.merged.file" value="${dita.map.filename.root}_CONVERTED.xml" />
+    <property name="xsl.dir" value="${basedir}${file.separator}xsl"/>
+	<!--property name="common.graphic" value="${basedir}${file.separator}common-graphic"/-->
+    
+    <!-- XSLT parameter -->
+    <property name="xsl.file" value="xsl${file.separator}dita2fo_shell.xsl"/>
+    <property name="style.def.file" value="../config/default_style.xml"/>
+    <property name="alt.style.def.file" value="''"/>
+    <property name="include.frontmatter.to.toc" value="no"/>
+    <property name="add.numbering.title.prefix" value="yes" />
+    <property name="add.part.to.title" value="yes" />
+    <property name="add.thumbnail.index" value="yes" />
+    <property name="assume.sortas.pinyin" value="no" />
+    <property name="xml.lang" value="''" />
+    <property name="output.pdf" value="${dita.map.filename.root}.pdf"/>
+    <property name="make.see.link" value="yes"/>
+    <property name="output.draft.comment" value="no"/>
+    <property name="output.required.cleanup" value="no"/>
+    <property name="use.oid" value="yes"/>
+    <property name="format.dl.as.block" value="yes"/>
+    <property name="apply.toc.attr" value="yes"/>
+    <property name="online.pdf" value="yes"/>
+    <property name="use.output.class.deprecated" value="no"/>
+    <property name="use.output.class.nohyphenate" value="no"/>
+    <property name="output.start.message" value="yes"/>
+    <property name="use.i18n.index.lib" value="no"/>
+    
+    <!-- AH Formatter Option file -->
+    <condition property="ahf.opt" value="${env.AHF_OPT}">
+        <or>
+            <and>
+                <available file="${env.AHF_OPT}"/>
+                <not>
+                    <equals arg1="${env.AHF_OPT}" arg2=""/>
+                </not>
+                <not>
+                    <isset property="ahf.opt"/>
+                </not>
+            </and>
+        </or>
+    </condition>
+
+    <!-- Check AH Formatter Environment -->
+    <condition property="has.ahf.option">
+        <isset property="ahf.opt"/>
+    </condition>
+
+    <condition property="ahf.dir" value="${env.AHF_DIR}">
+        <and>
+            <available file="${env.AHF_DIR}"/>
+            <not>
+                <equals arg1="${env.AHF_DIR}" arg2=""/>
+            </not>
+            <not>
+                <isset property="ahf.dir"/>
+            </not>
+        </and>
+    </condition>
+    
+    <condition property="ahf.cmd" value="run.sh">
+        <available file="${ahf.dir}/run.sh"/>
+    </condition>
+    
+    <condition property="ahf.cmd" value="AHFCmd.exe">
+        <and>
+            <not>
+                <isset property="ahf.cmd"/>
+            </not>
+            <available file="${ahf.dir}/AHFCmd.exe"/>
+        </and>
+    </condition>
+	
+    <condition property="ahf.cmd" value="XSLCmd.exe">
+        <and>
+            <not>
+                <isset property="ahf.cmd"/>
+            </not>
+            <available file="${ahf.dir}/XSLCmd.exe"/>
+        </and>
+    </condition>
+	
+    <!-- Make absolute path for temporary directory -->
+    <available property="build.temp.dir" value="${dita.temp.dir}" file="${dita.temp.dir}" type="dir"/>
+    <condition property="build.temp.dir" value="${caller.basedir}${file.separator}${dita.temp.dir}">
+        <not>
+            <isset property="build.temp.dir"/>
+        </not>
+    </condition>
+
+    <path id="project.class.path">
+        <pathelement location="${i18n.lib.dir}${file.separator}i18n_support${file.separator}lib${file.separator}icu4j-4_8.jar"/>
+        <pathelement location="${i18n.lib.dir}${file.separator}ah_i18n_index.jar"/>
+        <pathelement location="${i18n.lib.dir}${file.separator}i18n_support.jar"/>
+        <pathelement path="${java.class.path}"/>
+    </path>
+
+    <!-- Make URL for input directory -->
+    <makeurl property="user.input.dir.url" file="${user.input.dir}"/>
+
+    <!-- Main target -->
+    <target name="merged2pdf">
+    	<echo message="dita.temp.dir=${dita.temp.dir} build.temp.dir=${build.temp.dir}"/>
+    	<echo message="dita.dir=${dita.dir}"/>
+    	<echo message="basedir=${basedir}"/>
+    	<echo message="outputFile=${dita.map.output.dir}${file.separator}${output.pdf}"/>
+        <antcall target="transform.merged2pdf">
+            <param name="inputFile"  value="${build.temp.dir}${file.separator}${merged.file}"/>
+            <param name="outputFile" value="${dita.map.output.dir}${file.separator}${output.pdf}"/>
+        </antcall>
+    </target>
+
+    <target name="transform.merged2pdf">
+
+        <antcall target="transform.merged">
+            <param name="inputFile" value="${inputFile}"/>
+            <param name="outputFile" value="${build.temp.dir}${file.separator}${converted.merged.file}"/>
+        </antcall>
+
+        <antcall target="transform.merged2psmi">
+            <param name="inputFile" value="${build.temp.dir}${file.separator}${converted.merged.file}"/>
+            <param name="outputFile" value="${build.temp.dir}${file.separator}${dita.map.filename.root}_psmi.fo"/>
+        </antcall>
+
+        <antcall target="transform.psmi2fo">
+            <param name="inputFile" value="${build.temp.dir}${file.separator}${dita.map.filename.root}_psmi.fo"/>
+            <param name="outputFile" value="${dita.map.output.dir}${file.separator}${dita.map.filename.root}.fo"/>
+        </antcall>
+
+        <!--antcall target="copy.common.graphic"/-->
+
+        <antcall target="transform.fo2pdf">
+            <param name="inputFile" value="${dita.map.output.dir}${file.separator}${dita.map.filename.root}.fo"/>
+            <param name="outputFile" value="${outputFile}"/>
+        </antcall>
+
+        <!--delete>
+            <fileset dir="${dita.map.output.dir}" includes="${dita.map.filename.root}.fo"/>
+        </delete-->
+    </target>
+
+    <!-- Convert merged middle file -->
+    <target name="transform.merged">
+        <property name="stylesheet" value="${xsl.dir}${file.separator}dita2fo_convmerged.xsl"/>
+        <xslt processor="trax"
+          in="${inputFile}"
+          out="${outputFile}" style="${stylesheet}">
+        </xslt>
+    </target>
+
+    <!-- Make XSL-FO(PSMI) from merged middle file -->
+    <target name="transform.merged2psmi">
+        
+        <property name="stylesheet" value="${basedir}${file.separator}${xsl.file}"/>
+        
+        <!-- XSLT Transformation Class Name -->
+        <property name="transformer.classname" value="net.sf.saxon.Transform"/>
+        
+        <echo message="Stylesheet=${stylesheet}"/>
+        <echo message="use.i18n.index.lib=${use.i18n.index.lib}"/>
+        <echo message="user.input.dir=${user.input.dir}"/>
+        
+        <java classname="${transformer.classname}" classpathref="project.class.path" failonerror="true">
+            <arg line='-t'/>
+            <arg line='-o:"${outputFile}"'/>
+            <arg line='-s:"${inputFile}"'/>
+            <arg line='-xsl:"${stylesheet}"'/>
+            <arg line='"PRM_STYLE_DEF_FILE=${style.def.file}"'/>
+            <arg line='"PRM_ALT_STYLE_DEF_FILE=${alt.style.def.file}"'/>
+            <arg line='"PRM_INCLUDE_FRONTMATTER_TO_TOC=${include.frontmatter.to.toc}"'/>
+            <arg line='"PRM_ADD_NUMBERING_TITLE_PREFIX=${add.numbering.title.prefix}"'/>
+            <arg line='"PRM_ADD_PART_TO_TITLE=${add.part.to.title}"'/>
+            <arg line='"PRM_ADD_THUMBNAIL_INDEX=${add.thumbnail.index}"'/>
+            <arg line='"PRM_ASSUME_SORTAS_PINYIN=${assume.sortas.pinyin}"'/>
+            <arg line='"PRM_LANG=${xml.lang}"'/>
+            <arg line='"PRM_MAKE_SEE_LINK=${make.see.link}"'/>
+            <arg line='"PRM_OUTPUT_DRAFT_COMMENT=${output.draft.comment}"'/>
+            <arg line='"PRM_OUTPUT_REQUIRED_CLEANUP=${output.required.cleanup}"'/>
+            <arg line='"PRM_USE_OID=${use.oid}"'/>
+            <arg line='"PRM_FORMAT_DL_AS_BLOCK=${format.dl.as.block}"'/>
+            <arg line='"PRM_APPLY_TOC_ATTR=${apply.toc.attr}"'/>
+            <arg line='"PRM_ONLINE_PDF=${online.pdf}"'/>
+            <arg line='"PRM_USE_OUTPUT_CLASS_DEPRECATED=${use.output.class.deprecated}"'/>
+            <arg line='"PRM_USE_OUTPUT_CLASS_NOHYPHENATE=${use.output.class.nohyphenate}"'/>
+            <arg line='"PRM_OUTPUT_START_MESSAGE=${output.start.message}"'/>
+            <arg line='"PRM_USE_I18N_INDEX_LIB=${use.i18n.index.lib}"'/>
+            <arg line='"PRM_MAP_DIR_URL=${user.input.dir.url}"'/>
+            <sysproperty key="com.innodata.i18n.home" value="${i18n.home}"/>
+            <sysproperty key="use.i18n.index.lib" value="${use.i18n.index.lib}"/>
+        </java>
+    </target>
+
+    <!-- Make XSL-FO from XSL-FO(PSMI) -->
+    <target name="transform.psmi2fo">
+        
+        <property name="stylesheet" value="${xsl.dir}${file.separator}psmi.xsl"/>
+        
+        <xslt processor="trax"
+          in="${inputFile}"
+          out="${outputFile}" style="${stylesheet}">
+        </xslt>
+        
+    </target>
+
+	<!-- Copy common graphic -->
+    <!--target name="copy.common.graphic">
+        <copy todir="${dita.map.output.dir}" overwrite="true">
+            <fileset dir="${common.graphic}" includes="*.*"/>
+	    </copy>
+    </target-->
+
+    <!-- Make PDF from XSL-FO -->
+    <target name="transform.fo2pdf">
+        <antcall target="transform.fo2pdf.ahf">
+            <param name="inputFile" value="${inputFile}"/>
+            <param name="outputFile" value="${outputFile}"/>
+        </antcall>
+    </target>
+    
+    <target name="transform.fo2pdf.ahf" depends="transform.fo2pdf.ahf.check, transform.fo2pdf.ahf.option, transform.fo2pdf.ahf.nooption"/>
+    
+    <target name="transform.fo2pdf.ahf.check">
+        <fail unless="ahf.dir" message="AHF_DIR folder does not exist or AHF_DIR environment variable is missing."/>
+        <fail unless="ahf.cmd" message="Missing AH Formatter commandline executable (Windows) or shell (Linux) file at AHF_DIR folder."/>
+        <echo>ahf.dir="${ahf.dir}"</echo>
+        <echo>ahf.opt="${ahf.opt}"</echo>
+        <echo>Execute command="${ahf.cmd}"</echo>
+        <echo>Output PDF="${outputFile}"</echo>
+    </target>
+    
+    <target name="transform.fo2pdf.ahf.option" if="has.ahf.option">
+        <exec executable="${ahf.dir}/${ahf.cmd}" logerror="true" failonerror="true">
+            <arg value="-d"/>
+            <arg value="${inputFile}"/>
+            <arg value="-o"/>
+            <arg value="${outputFile}"/>
+            <arg value="-p"/>
+            <arg value="@PDF"/>
+            <arg value="-extlevel"/>
+            <arg value="4"/>
+            <arg value="-i"/>
+            <arg value="${ahf.opt}"/>
+        </exec>
+    </target>
+    
+    <target name="transform.fo2pdf.ahf.nooption" unless="has.ahf.option">
+        <exec executable="${ahf.dir}/${ahf.cmd}" logerror="true" failonerror="true">
+            <arg value="-d"/>
+            <arg value="${inputFile}"/>
+            <arg value="-p"/>
+            <arg value="@PDF"/>
+            <arg value="-o"/>
+            <arg value="${outputFile}"/>
+            <arg value="-extlevel"/>
+            <arg value="4"/>
+        </exec>
+    </target>
+    
+</project>
