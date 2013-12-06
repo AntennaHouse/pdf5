@@ -57,5 +57,5 @@ E-mail : info@antennahouse.com
     <xsl:include href="dita2fo_glossarylist.xsl"/>
     <xsl:include href="dita2fo_prologelements.xsl"/>
     <xsl:include href="dita2fo_regacyconversionelements.xsl"/>
-
+    <xsl:include href="dita2fo_dir_attribute.xsl"/>
 </xsl:stylesheet>

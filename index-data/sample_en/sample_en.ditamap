@@ -13,9 +13,9 @@
                     <printlocation>Japan</printlocation>
                     <published>
                         <completed>
-                            <day>12</day>
-                            <month>11</month>
-                            <year>2009</year>
+                            <day>06</day>
+                            <month>12</month>
+                            <year>2013</year>
                         </completed>
                     </published>
                 </publisherinformation>
@@ -35,7 +35,7 @@
                         </vrmlist>
                 </prodinfo>
                 <bookid>
-                        <bookpartno>UD2009-001</bookpartno>
+                        <bookpartno>UD2013-001</bookpartno>
                         <edition>1</edition>
                 </bookid>
                 <bookrights>
@@ -43,7 +43,7 @@
                                 <year>2006</year>
                         </copyrfirst>
                         <copyrlast>
-                                <year>2009</year>
+                                <year>2013</year>
                         </copyrlast>
                         <bookowner>
                                 <organization>Antenna House, Inc.</organization>
@@ -136,7 +136,11 @@
         <chapter navtitle="Complecated index example">
             <topicref href="topics-en/p_complecated_index_example.xml" type="topic"/>
         </chapter>
-
+    
+        <chapter navtitle="Dir attribute example">
+            <topicref href="topics-en/p_dir_attribute.xml" type="topic"/>
+        </chapter>
+    
         <appendices>
             <topicmeta>
                 <keywords>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="topic_l3z_qq5_jm">
+  <title>@dir attribute</title>
+  <body>
+    <dl>
+      <dlentry>
+        <dt>dir="ltr": </dt>
+        <dd><p dir="ltr">Extensible Markup Language XML is a markup language that defines a set of rules for encoding documents in a format that is both human-readable and machine-readable.</p></dd>
+      </dlentry>
+      <dlentry>
+        <dt>dir="rtl": </dt>
+        <dd><p dir="rtl">Extensible Markup Language XML is a markup language that defines a set of rules for encoding documents in a format that is both human-readable and machine-readable.</p></dd>
+      </dlentry>
+      <dlentry>
+        <dt>dir="rlo": </dt>
+        <dd><p dir="rlo">Extensible Markup Language XML is a markup language that defines a set of rules for encoding documents in a format that is both human-readable and machine-readable.</p></dd>
+      </dlentry>
+    </dl>
+  </body>
+</topic>

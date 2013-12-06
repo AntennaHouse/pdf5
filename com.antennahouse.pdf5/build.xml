@@ -24,7 +24,7 @@
     <property name="make.see.link" value="yes"/>
     <property name="output.draft.comment" value="no"/>
     <property name="output.required.cleanup" value="no"/>
-    <property name="use.oid" value="yes"/>
+    <property name="use.oid" value="no"/>
     <property name="format.dl.as.block" value="yes"/>
     <property name="apply.toc.attr" value="yes"/>
     <property name="online.pdf" value="yes"/>
