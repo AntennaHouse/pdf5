@@ -9,7 +9,6 @@ Dec, 2013
 V2.1.1 release
 - Set default value of "use.oid" to "no". (build.xml)
 - Added @dir template for BIDI processing. (dita2fo_dir_attribute.xsl)
-- Remove @dir processing. (dita2fo_attribute.xsl)
 
 Oct, 2013
 V2.1 release
