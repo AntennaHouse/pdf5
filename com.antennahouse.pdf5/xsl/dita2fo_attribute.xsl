@@ -236,8 +236,10 @@ E-mail : info@antennahouse.com
             <xsl:sequence select="$prmElement/@xml:lang"/>
         </xsl:if>
         
-        <!-- localization-atts: dir -->
-        <xsl:if test="$prmElement/@dir">
+        <!-- localization-atts: dir
+             Moved to dita2fo_dir_attribute.xsl
+         -->
+        <!--xsl:if test="$prmElement/@dir">
             <xsl:variable name="dir" select="$prmElement/@dir"/>
             <xsl:choose>
                 <xsl:when test="($dir='ltr') or ($dir='rtl')">
@@ -245,7 +247,7 @@ E-mail : info@antennahouse.com
                 </xsl:when>
                 <xsl:otherwise/>
             </xsl:choose>
-        </xsl:if>
+        </xsl:if-->
     </xsl:function>
     
     <!-- 
