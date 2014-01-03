@@ -1,14 +1,72 @@
 <?xml version="1.0"?>
+<!-- Notes:
+    2014-01-02
+    Changed for I18n Index Library plug-in integration.
+    If you don't install I18n Index Library plug-in, there is no consideration needed for it.
+    - Default value for property use.i18n.index.lib is "no".
+      If you use I18n Index Library, set this property explicitly to "yes" in DITA-OT command-line.
+      -Duse.i18n.index.lib=yes
+      If I18n Index Library is not installed in DITA-OT, do not set property use.i18n.index.lib to "yes". 
+    - If I18n Index Library plug-in is installed, following property are passed from [DITA-OT]/build.xml.
+      com.antennahouse.i18n.home
+      com.antennahouse.i18n_index.plugin.lib
+    - Currently I18n Index Library .jar file is hard-coded in this plug-in. 
+  -->
 <project name="com.antennahouse.pdf5.build"  basedir=".">
     <!-- Set property -->
     <property name="customization.dir" value="${basedir}/Customization"/>
     <property name="ot.dir" value="${basedir}/../.."/>
-    <property name="i18n.lib.dir" value="${basedir}${file.separator}lib"/>
-    <property name="i18n.home" value="${basedir}${file.separator}lib${file.separator}i18n_support"/>
     <property name="merged.file" value="${dita.map.filename.root}_MERGED.xml" />
     <property name="converted.merged.file" value="${dita.map.filename.root}_CONVERTED.xml" />
     <property name="xsl.dir" value="${basedir}${file.separator}xsl"/>
-	<!--property name="common.graphic" value="${basedir}${file.separator}common-graphic"/-->
+
+    <!-- I18n Index LIbrary Settings -->
+    <property name="use.i18n.index.lib" value="no"/>
+    <!--property name="i18n.lib.dir" value="${basedir}${file.separator}lib"/>
+    <property name="i18n.home" value="${basedir}${file.separator}lib${file.separator}i18n_support"/-->
+    <condition property="i18n.home" value="${com.antennahouse.i18n.home}">
+        <isset property="com.antennahouse.i18n.home"/>
+    </condition>
+
+    <!-- I18n Index Library Path
+         - Available only when I18n Index Library is installed in DITA-OT or plug-in local lib folder.
+      -->
+    <path id="i18n_index.class.path">
+        <pathelement location="${com.antennahouse.i18n_index.plugin.lib}${file.separator}i18n_support${file.separator}lib${file.separator}icu4j-4_8.jar"/>
+        <pathelement location="${com.antennahouse.i18n_index.plugin.lib}${file.separator}ah_i18n_index.jar"/>
+        <pathelement location="${com.antennahouse.i18n_index.plugin.lib}${file.separator}i18n_support.jar"/>
+    </path>
+
+    <!--path id="i18n_index.class.path">
+        <pathelement location="${i18n.lib.dir}${file.separator}i18n_support${file.separator}lib${file.separator}icu4j-4_8.jar"/>
+        <pathelement location="${i18n.lib.dir}${file.separator}ah_i18n_index.jar"/>
+        <pathelement location="${i18n.lib.dir}${file.separator}i18n_support.jar"/>
+    </path-->
+
+    <condition property="use.18n_index.class.path">
+        <and>
+            <equals arg1="${use.i18n.index.lib}" arg2="yes"/>
+            <or>
+                <isset property="com.antennahouse.i18n_index.plugin.lib"/>
+                <isset property="i18n.lib.dir"/>
+            </or>
+        </and>
+    </condition>
+
+    <!-- Logical check -->
+    <fail message="[com.antennahouse.pdf5] I18n Index Library plug-in is needed if use.i18n.index.lib is 'yes'.">
+        <condition>
+            <and>
+                <equals arg1="${use.i18n.index.lib}" arg2="yes"/>
+                <not>
+                    <isset property="com.antennahouse.i18n_index.plugin.lib"/>
+                </not>
+                <not>
+                    <isset property="i18n.lib.dir"/>
+                </not>
+            </and>
+        </condition>
+    </fail>
     
     <!-- XSLT parameter -->
     <property name="xsl.file" value="xsl${file.separator}dita2fo_shell.xsl"/>
@@ -31,7 +89,6 @@
     <property name="use.output.class.deprecated" value="no"/>
     <property name="use.output.class.nohyphenate" value="no"/>
     <property name="output.start.message" value="yes"/>
-    <property name="use.i18n.index.lib" value="no"/>
     
     <!-- AH Formatter Option file -->
     <condition property="ahf.opt" value="${env.AHF_OPT}">
@@ -95,13 +152,6 @@
         </not>
     </condition>
 
-    <path id="project.class.path">
-        <pathelement location="${i18n.lib.dir}${file.separator}i18n_support${file.separator}lib${file.separator}icu4j-4_8.jar"/>
-        <pathelement location="${i18n.lib.dir}${file.separator}ah_i18n_index.jar"/>
-        <pathelement location="${i18n.lib.dir}${file.separator}i18n_support.jar"/>
-        <pathelement path="${java.class.path}"/>
-    </path>
-
     <!-- Make URL for input directory -->
     <makeurl property="user.input.dir.url" file="${user.input.dir}"/>
 
@@ -116,6 +166,21 @@
             <param name="outputFile" value="${dita.map.output.dir}${file.separator}${output.pdf}"/>
         </antcall>
     </target>
+    
+    <target name="build.project.class.path.wo.plugin" unless="use.18n_index.class.path">
+        <path id="project.class.path">
+            <pathelement path="${java.class.path}"/>
+        </path>
+    </target>
+
+    <target name="build.project.class.path.with.plugin" if="use.18n_index.class.path">
+        <path id="project.class.path">
+            <path refid="i18n_index.class.path"/>
+            <pathelement path="${java.class.path}"/>
+        </path>
+    </target>
+
+    <target name="build.project.class.path" depends="build.project.class.path.wo.plugin,build.project.class.path.with.plugin"/>
 
     <target name="transform.merged2pdf">
 
@@ -134,16 +199,11 @@
             <param name="outputFile" value="${dita.map.output.dir}${file.separator}${dita.map.filename.root}.fo"/>
         </antcall>
 
-        <!--antcall target="copy.common.graphic"/-->
-
         <antcall target="transform.fo2pdf">
             <param name="inputFile" value="${dita.map.output.dir}${file.separator}${dita.map.filename.root}.fo"/>
             <param name="outputFile" value="${outputFile}"/>
         </antcall>
 
-        <!--delete>
-            <fileset dir="${dita.map.output.dir}" includes="${dita.map.filename.root}.fo"/>
-        </delete-->
     </target>
 
     <!-- Convert merged middle file -->
@@ -156,8 +216,8 @@
     </target>
 
     <!-- Make XSL-FO(PSMI) from merged middle file -->
-    <target name="transform.merged2psmi">
-        
+    <target name="transform.merged2psmi" depends="build.project.class.path">
+
         <property name="stylesheet" value="${basedir}${file.separator}${xsl.file}"/>
         
         <!-- XSLT Transformation Class Name -->
@@ -166,6 +226,9 @@
         <echo message="Stylesheet=${stylesheet}"/>
         <echo message="use.i18n.index.lib=${use.i18n.index.lib}"/>
         <echo message="user.input.dir=${user.input.dir}"/>
+        
+        <property name="classpath" refid="project.class.path"/>
+        <echo message="classpath=${classpath}"/>
         
         <java classname="${transformer.classname}" classpathref="project.class.path" failonerror="true">
             <arg line='-t'/>
@@ -199,22 +262,12 @@
 
     <!-- Make XSL-FO from XSL-FO(PSMI) -->
     <target name="transform.psmi2fo">
-        
         <property name="stylesheet" value="${xsl.dir}${file.separator}psmi.xsl"/>
-        
         <xslt processor="trax"
           in="${inputFile}"
           out="${outputFile}" style="${stylesheet}">
         </xslt>
-        
     </target>
-
-	<!-- Copy common graphic -->
-    <!--target name="copy.common.graphic">
-        <copy todir="${dita.map.output.dir}" overwrite="true">
-            <fileset dir="${common.graphic}" includes="*.*"/>
-	    </copy>
-    </target-->
 
     <!-- Make PDF from XSL-FO -->
     <target name="transform.fo2pdf">

@@ -220,7 +220,7 @@ E-mail : info@antennahouse.com
      function:	colspec template
      param:	    prmTopicRef, prmNeedId, prmTgroupAttr
      return:	fo:table-column
-     note:		
+     note:		Added border style "atsTableColumn" to set default border width. 2014-01-03 t.makita
      -->
     <xsl:template match="*[contains(@class, ' topic/colspec ')]">
         <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
@@ -228,6 +228,7 @@ E-mail : info@antennahouse.com
         <xsl:param name="prmTgroupAttr" required="yes" as="element()"/>
     
         <fo:table-column>
+            <xsl:copy-of select="ahf:getAttributeSet('atsTableColumn')"/>
             <xsl:copy-of select="ahf:getColSpecAttr(.)"/>
             <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
             <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,$prmNeedId)"/>

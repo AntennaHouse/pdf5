@@ -100,6 +100,19 @@ URL : http://www.antennahouse.co.jp/
         <variable name="cCollationURI">http://saxon.sf.net/collation?lang=ja;</variable>
  </variables>
  <attribute-sets>
+    <basic>
+        <!-- If you want to change fonts for bold style, customize below attribute-set.  -->
+        <attribute-set name="atsB">
+            <attribute name="font-weight">normal</attribute>
+        </attribute-set>
+        
+        <attribute-set name="atsBTitle" use-attribute-sets="atsB">
+        </attribute-set>
+        
+        <attribute-set name="atsBMonospace" use-attribute-sets="atsB">
+        </attribute-set>
+        
+    </basic>
  
     <index-attribute>
         <attribute-set name="atsIndexGroupTitle">

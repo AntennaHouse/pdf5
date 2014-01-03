@@ -2,9 +2,17 @@
 
                  Antenna House pdf5 Plugin Revision Notes
 
-      Copyright (C) 2009-2013 Antenna House, Inc. All rights reserved.
+      Copyright (C) 2009-2014 Antenna House, Inc. All rights reserved.
              Antenna House is a trademark of Antenna House, Inc.
 _______________________________________________________________________________
+Jan, 2014
+V2.1.2 release
+- Change <attribute name="font-weight">bold</attribute> to use "atsB" style for CJK customization. 
+  (default_style.xml,ja_style.xml)
+- Fix the border-width bug that occurs when specifying @rowsep/@colsep="1" for colspec element.
+  (default_style.xml,dita2fo_tableelements.xsl)
+- Modify build.xml for the following I18n Index Library release. (build.xml)
+
 Dec, 2013
 V2.1.1 release
 - Set default value of "use.oid" to "no". (build.xml)

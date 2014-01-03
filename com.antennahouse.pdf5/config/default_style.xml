@@ -441,9 +441,9 @@ URL : http://www.antennahouse.com/
     </paper-attribute-set>
     
     <common-attribute>
-        <attribute-set name="atsPageNumber">
+        <attribute-set name="atsPageNumber" use-attribute-sets="atsB">
             <attribute name="font-size">11pt</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
         </attribute-set>
     </common-attribute>
     
@@ -592,9 +592,9 @@ URL : http://www.antennahouse.com/
     </frontmatter-atribute>
     
     <toc-attribute>
-        <attribute-set name="atsTocLevel1">
+        <attribute-set name="atsTocLevel1" use-attribute-sets="atsB">
             <attribute name="font-family">$General_Text_Font</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-size">11.5pt</attribute>
             <attribute name="text-align">justify</attribute>
             <attribute name="text-align-last">justify</attribute>
@@ -910,11 +910,11 @@ URL : http://www.antennahouse.com/
         <attribute-set name="atsIndexRegionAfter_InlineContainer" use-attribute-sets="atsFrontmatterRegionAfter_InlineContainer">
         </attribute-set>
 
-        <attribute-set name="atsIndexGroupTitle">
+        <attribute-set name="atsIndexGroupTitle" use-attribute-sets="atsBTitle">
             <attribute name="width">10mm</attribute>
             <attribute name="text-align">left</attribute>
             <attribute name="font-size">$Index_Group_Font_Size</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="space-before">4mm</attribute>
             <!--attribute name="space-before.conditionality">retain</attribute-->
@@ -988,8 +988,8 @@ URL : http://www.antennahouse.com/
             <attribute name="page-number-treatment">link</attribute>
         </attribute-set>
 
-        <attribute-set name="atsIndexPreferred">
-            <attribute name="font-weight">bold</attribute>
+        <attribute-set name="atsIndexPreferred" use-attribute-sets="atsB">
+            <!--attribute name="font-weight">bold</attribute-->
         </attribute-set>
 
         <!-- Dummy block for fo:index-range-end -->
@@ -1049,30 +1049,30 @@ URL : http://www.antennahouse.com/
         </attribute-set>
     
         <!-- Frontmatter -->
-        <attribute-set name="atsFmHeader1">
+        <attribute-set name="atsFmHeader1" use-attribute-sets="atsBTitle">
             <attribute name="start-indent">0mm</attribute>
             <attribute name="font-size">24pt</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="break-before">page</attribute>
             <attribute name="space-after">4mm</attribute>
             <attribute name="span">all</attribute>
         </attribute-set>
 
-        <attribute-set name="atsFmHeader2">
+        <attribute-set name="atsFmHeader2" use-attribute-sets="atsBTitle">
             <attribute name="start-indent">0mm</attribute>
             <attribute name="font-size">20pt</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="break-before">page</attribute>
             <attribute name="space-before">6mm</attribute>
             <attribute name="space-after">2mm</attribute>
         </attribute-set>
 
-        <attribute-set name="atsFmHeader3">
+        <attribute-set name="atsFmHeader3" use-attribute-sets="atsBTitle">
             <attribute name="start-indent">0mm</attribute>
             <attribute name="font-size">16pt</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="break-before">auto</attribute>
             <attribute name="space-before">2mm</attribute>
@@ -1082,12 +1082,12 @@ URL : http://www.antennahouse.com/
     
         <!-- Part/Chapter Heading -->
         <!-- level 1 -->
-        <attribute-set name="atsChapterHead1">
+        <attribute-set name="atsChapterHead1" use-attribute-sets="atsBTitle">
             <attribute name="start-indent">0mm</attribute>
             <attribute name="break-before">odd-page</attribute>
             <attribute name="space-after">4mm</attribute>
             <attribute name="font-size">24pt</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="text-align">start</attribute>
         </attribute-set>
@@ -1097,25 +1097,25 @@ URL : http://www.antennahouse.com/
         </attribute-set>
 
         <!-- level 2 -->
-        <attribute-set name="atsChapterHead2">
+        <attribute-set name="atsChapterHead2" use-attribute-sets="atsBTitle">
             <attribute name="start-indent">0mm</attribute>
             <attribute name="break-before">page</attribute>
             <attribute name="space-before">6mm</attribute>
             <attribute name="space-after">2mm</attribute>
             <attribute name="font-size">20pt</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="text-align">start</attribute>
         </attribute-set>
 
         <!-- level 3 -->
-        <attribute-set name="atsChapterHead3">
+        <attribute-set name="atsChapterHead3" use-attribute-sets="atsBTitle">
             <attribute name="start-indent">0mm</attribute>
             <attribute name="break-before">auto</attribute>
             <attribute name="space-before">4mm</attribute>
             <attribute name="space-after">2mm</attribute>
             <attribute name="font-size">16pt</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="text-align">start</attribute>
             <attribute name="keep-with-next.within-page">always</attribute>
@@ -1123,12 +1123,12 @@ URL : http://www.antennahouse.com/
 
         <!-- Appendix Heading -->
         <!-- level 1 -->
-        <attribute-set name="atsAppendixHead1">
+        <attribute-set name="atsAppendixHead1" use-attribute-sets="atsBTitle">
             <attribute name="start-indent">0mm</attribute>
             <attribute name="break-before">odd-page</attribute>
             <attribute name="space-after">4mm</attribute>
             <attribute name="font-size">24pt</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="text-align">start</attribute>
         </attribute-set>
@@ -1138,25 +1138,25 @@ URL : http://www.antennahouse.com/
         </attribute-set>
 
         <!-- level 2 -->
-        <attribute-set name="atsAppendixHead2">
+        <attribute-set name="atsAppendixHead2" use-attribute-sets="atsBTitle">
             <attribute name="start-indent">0mm</attribute>
             <attribute name="break-before">page</attribute>
             <attribute name="space-before">6mm</attribute>
             <attribute name="space-after">2mm</attribute>
             <attribute name="font-size">20pt</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="text-align">start</attribute>
         </attribute-set>
 
         <!-- level 3 -->
-        <attribute-set name="atsAppendixHead3">
+        <attribute-set name="atsAppendixHead3" use-attribute-sets="atsBTitle">
             <attribute name="start-indent">0mm</attribute>
             <attribute name="break-before">auto</attribute>
             <attribute name="space-before">4mm</attribute>
             <attribute name="space-after">2mm</attribute>
             <attribute name="font-size">16pt</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="text-align">start</attribute>
             <attribute name="keep-with-next.within-page">always</attribute>
@@ -1188,9 +1188,9 @@ URL : http://www.antennahouse.com/
             <attribute name="baseline-shift">0.1em</attribute>
         </attribute-set>
 
-        <attribute-set name="atsHeader4Body" use-attribute-sets="atsTitle">
+        <attribute-set name="atsHeader4Body" use-attribute-sets="atsTitle atsB">
             <attribute name="font-size">14pt</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
         </attribute-set>
 
         <!-- Header 5: Round Bullet Title -->
@@ -1218,9 +1218,9 @@ URL : http://www.antennahouse.com/
         <attribute-set name="atsHeader5LabelInline">
         </attribute-set>
 
-        <attribute-set name="atsHeader5Body">
+        <attribute-set name="atsHeader5Body" use-attribute-sets="atsBTitle">
             <attribute name="font-size">12pt</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-family">$General_Title_Font</attribute>
         </attribute-set>
 
@@ -1277,8 +1277,8 @@ URL : http://www.antennahouse.com/
         <attribute-set name="atsPropertyTableBodyCell" use-attribute-sets="atsSimpleTableBodyCell">
         </attribute-set>
 
-           <attribute-set name="atsPropertyTableKeyCol">
-            <attribute name="font-weight">bold</attribute>
+           <attribute-set name="atsPropertyTableKeyCol" use-attribute-sets="atsB">
+            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="background-color">rgb(217,217,217)</attribute>
         </attribute-set>
 
@@ -1344,8 +1344,8 @@ URL : http://www.antennahouse.com/
         <attribute-set name="atsChdesc" use-attribute-sets="atsSimpleTableBodyCell">
         </attribute-set>
         
-        <attribute-set name="atsChKeyCol">
-            <attribute name="font-weight">bold</attribute>
+        <attribute-set name="atsChKeyCol" use-attribute-sets="atsB">
+            <!--attribute name="font-weight">bold</attribute-->
         </attribute-set>
 
         <attribute-set name="atsChNoKeyCol">
@@ -1461,9 +1461,9 @@ URL : http://www.antennahouse.com/
             <attribute name="table-layout">auto</attribute>
         </attribute-set>
         
-        <attribute-set name="atsDlhead">
+        <attribute-set name="atsDlhead" use-attribute-sets="atsB">
             <attribute name="start-indent">0pt</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
         </attribute-set>
 
         <attribute-set name="atsDlbody">
@@ -1480,9 +1480,9 @@ URL : http://www.antennahouse.com/
         <attribute-set name="atsDlentry">
         </attribute-set>
 
-        <attribute-set name="atsDt">
+        <attribute-set name="atsDt" use-attribute-sets="atsB">
             <attribute name="padding-before">$Para_Space_Before</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
         </attribute-set>
 
         <attribute-set name="atsDlBlock" >
@@ -1491,10 +1491,10 @@ URL : http://www.antennahouse.com/
         <attribute-set name="atsDlentryBlock">
         </attribute-set>
 
-        <attribute-set name="atsDtBlock">
+        <attribute-set name="atsDtBlock" use-attribute-sets="atsBTitle">
             <attribute name="space-before">$Dl_Dt_Block_Space_Before</attribute>
             <attribute name="font-family">$General_Title_Font</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="keep-with-next">always</attribute>
         </attribute-set>
 
@@ -1643,10 +1643,14 @@ URL : http://www.antennahouse.com/
             <attribute name="keep-with-previous.within-page">always</attribute>
         </attribute-set>
 
-        <attribute-set name="atsThead">
+        <attribute-set name="atsTableColumn">
+            <attribute name="border">0.5pt none black</attribute>
+        </attribute-set>
+
+        <attribute-set name="atsThead" use-attribute-sets="atsB">
             <attribute name="start-indent">0mm</attribute>
             <attribute name="end-indent">0mm</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
             <!-- Specification change: #3224 2011-08-30 t.makita -->
             <!--attribute name="text-align">center</attribute-->
             <attribute name="background-color">rgb(217,217,217)</attribute>
@@ -1662,8 +1666,8 @@ URL : http://www.antennahouse.com/
             <!--attribute name="keep-together.within-page">always</attribute--><!-- Dangerous! -->
         </attribute-set>
 
-        <attribute-set name="atsHeaderRow">
-            <attribute name="font-weight">bold</attribute>
+        <attribute-set name="atsHeaderRow" use-attribute-sets="atsB">
+            <!--attribute name="font-weight">bold</attribute-->
             <!-- Specification change: #3224 2011-08-30 t.makita -->
             <!--attribute name="text-align">center</attribute-->
             <attribute name="background-color">rgb(217,217,217)</attribute>
@@ -1696,10 +1700,10 @@ URL : http://www.antennahouse.com/
             <attribute name="width">100%</attribute>
         </attribute-set>
 
-        <attribute-set name="atsSimpleTableHeader">
+        <attribute-set name="atsSimpleTableHeader" use-attribute-sets="atsB">
             <attribute name="start-indent">0mm</attribute>
             <attribute name="end-indent">0mm</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
             <!-- Specification change: #3224 2011-08-30 t.makita -->
             <!--attribute name="text-align">center</attribute-->
             <attribute name="background-color">rgb(217,217,217)</attribute>
@@ -1726,8 +1730,8 @@ URL : http://www.antennahouse.com/
             <attribute name="padding">1mm</attribute>
         </attribute-set>
 
-        <attribute-set name="atsSimpleTableKeyCol">
-            <attribute name="font-weight">bold</attribute>
+        <attribute-set name="atsSimpleTableKeyCol" use-attribute-sets="atsB">
+            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="background-color">rgb(217,217,217)</attribute>
         </attribute-set>
 
@@ -1775,9 +1779,9 @@ URL : http://www.antennahouse.com/
         <attribute-set name="atsRelatedLinkLeader1" use-attribute-sets="atsNotesCommonLeader">
             <attribute name="leader-length">5%</attribute>
         </attribute-set>
-        <attribute-set name="atsRelatedLinkInline">
+        <attribute-set name="atsRelatedLinkInline" use-attribute-sets="atsB">
             <attribute name="baseline-shift">-0.3em</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
         </attribute-set>
         <attribute-set name="atsRelatedLinkLeader2" use-attribute-sets="atsNotesCommonLeader"/>
         <attribute-set name="atsRelatedLinkLeader3" use-attribute-sets="atsNotesCommonLeader">
@@ -1796,9 +1800,9 @@ URL : http://www.antennahouse.com/
         <attribute-set name="atsPostnoteLeader1" use-attribute-sets="atsNotesCommonLeader">
             <attribute name="leader-length">5%</attribute>
         </attribute-set>
-        <attribute-set name="atsPostnoteInline">
+        <attribute-set name="atsPostnoteInline" use-attribute-sets="atsB">
             <attribute name="baseline-shift">-0.3em</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
         </attribute-set>
         <attribute-set name="atsPostnoteLeader2" use-attribute-sets="atsNotesCommonLeader"/>
         <attribute-set name="atsPostnoteLeader3" use-attribute-sets="atsNotesCommonLeader">
@@ -1853,10 +1857,10 @@ URL : http://www.antennahouse.com/
         </attribute-set>
         
         <!-- Note title string style for SVG (CSS) -->
-        <attribute-set name="atsNoteTitleStyle">
+        <attribute-set name="atsNoteTitleStyle" use-attribute-sets="atsBTitle">
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="font-size">12pt</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="fill">black</attribute>
         </attribute-set>
 
@@ -1911,9 +1915,9 @@ URL : http://www.antennahouse.com/
             <attribute name="baseline-shift">super</attribute>
         </attribute-set>
 
-        <attribute-set name="atsTmSymbolSm">
+        <attribute-set name="atsTmSymbolSm" use-attribute-sets="atsB">
             <attribute name="font-size">0.5em</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="baseline-shift">40%</attribute>
         </attribute-set>
 
@@ -1955,6 +1959,12 @@ URL : http://www.antennahouse.com/
         <!-- b -->
         <attribute-set name="atsB">
             <attribute name="font-weight">bold</attribute>
+        </attribute-set>
+        
+        <attribute-set name="atsBTitle" use-attribute-sets="atsB">
+        </attribute-set>
+
+        <attribute-set name="atsBMonospace" use-attribute-sets="atsB">
         </attribute-set>
 
         <!-- i -->
@@ -2023,8 +2033,8 @@ URL : http://www.antennahouse.com/
         <variable name="Pl_Compact_Ratio">0.1</variable>
         <variable name="Pl_Compact_Attr">space-before</variable>
         
-        <attribute-set name="atsPt">
-            <attribute name="font-weight">bold</attribute>
+        <attribute-set name="atsPt" use-attribute-sets="atsB">
+            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="start-indent">inherited-property-value(start-indent)</attribute>
         </attribute-set>
 
@@ -2042,9 +2052,9 @@ URL : http://www.antennahouse.com/
         </attribute-set>
 
         <!-- syntaxdiagram/title -->
-        <attribute-set name="atsSyntaxdiagramTitle" >
+        <attribute-set name="atsSyntaxdiagramTitle" use-attribute-sets="atsB">
             <attribute name="font-size">$Little_Title_Font_Size</attribute>
-            <attribute name="font-style">bold</attribute>
+            <!--attribute name="font-style">bold</attribute-->
             <attribute name="start-indent">inherited-property-value(start-indent)</attribute>
             <attribute name="space-before">1.5mm</attribute>
             <attribute name="keep-with-previous.within-page">always</attribute>
@@ -2167,8 +2177,8 @@ URL : http://www.antennahouse.com/
 
     <userinterface-elements-attribute>
         <!-- uicontrol -->
-        <attribute-set name="atsUiControl">
-            <attribute name="font-weight">bold</attribute>
+        <attribute-set name="atsUiControl" use-attribute-sets="atsB">
+            <!--attribute name="font-weight">bold</attribute-->
         </attribute-set>
 
         <!-- wintitle -->
@@ -2332,10 +2342,10 @@ URL : http://www.antennahouse.com/
          </attribute-set>
          
 		 <!-- @oid output style -->
-         <attribute-set name="atsIdLine">
+         <attribute-set name="atsIdLine" use-attribute-sets="atsBMonospace">
             <attribute name="font-family">$General_Monospace_Font</attribute>
             <attribute name="font-size">8pt</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="color">rgb(192,0,0)</attribute>
             <attribute name="text-decoration">no-line-through no-underline</attribute>
             <!--attribute name="background-color">white</attribute-->
@@ -2344,10 +2354,10 @@ URL : http://www.antennahouse.com/
          </attribute-set>
          
 	     <!-- Conref proofing attributes -->
-         <attribute-set name="atsConrefFile">
+         <attribute-set name="atsConrefFile" use-attribute-sets="atsBMonospace">
             <attribute name="font-family">$General_Monospace_Font</attribute>
             <attribute name="font-size">8pt</attribute>
-            <attribute name="font-weight">bold</attribute>
+            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="color">rgb(192,0,0)</attribute>
             <attribute name="text-decoration">no-line-through no-underline</attribute>
             <!--attribute name="background-color">white</attribute-->
