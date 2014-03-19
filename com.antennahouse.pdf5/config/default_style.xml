@@ -77,7 +77,7 @@ URL : http://www.antennahouse.com/
         <variable name="Dl_Dd_Block_Space_Before">$Para_Space_Before</variable>
         
         <!-- Base indent -->
-        <variable name="Base_Indent_Size">12mm</variable>
+        <variable name="Base_Indent_Size">0mm</variable>
 
         <!-- Glossary list page -->
         <variable name="Glossary_List_Column_Count">2</variable>
@@ -1195,7 +1195,7 @@ URL : http://www.antennahouse.com/
 
         <!-- Header 5: Round Bullet Title -->
         <attribute-set name="atsHeader5List">
-            <attribute name="start-indent">5mm</attribute>
+            <attribute name="start-indent">0mm</attribute>
             <attribute name="provisional-distance-between-starts">7mm</attribute>
             <attribute name="provisional-label-separation">1mm</attribute>
             <attribute name="space-before">4mm</attribute>
@@ -1416,6 +1416,7 @@ URL : http://www.antennahouse.com/
         </attribute-set>
         <attribute-set name="atsUlLabel">
             <attribute name="font-family">$General_Bullet_Font</attribute>
+            <attribute name="text-align">center</attribute>
         </attribute-set>
         <attribute-set name="atsUlBody">
         </attribute-set>
@@ -1433,6 +1434,7 @@ URL : http://www.antennahouse.com/
             <attribute name="relative-align">baseline</attribute>
         </attribute-set>
         <attribute-set name="atsOlLabel">
+            <attribute name="text-align">end</attribute>
         </attribute-set>
         <attribute-set name="atsOlBody">
         </attribute-set>
