@@ -68,6 +68,8 @@ E-mail : info@antennahouse.com
         <xsl:variable name="destElement" select="if (string($destElementId) and exists($topicElement)) then key('elementById',$destElementId,$topicElement)[1] else ()" as="element()?"/>
         <xsl:variable name="topicRefHref" select="if (string($destElementId)) then substring-before($href, '/') else $href" as="xs:string"/>
         <xsl:variable name="topicRef" select="ahf:getTopicRef($topicElement)" as="element()?"/>
+        <xsl:variable name="localTopic" select="$prmXref/ancestor::*[contains(@class,' topic/topic ')][last()]" as="element()"/>
+        <xsl:variable name="localTopicId" select="string($localTopic/@id)" as="xs:string"/>
         
         <!-- NOTE: Temporary $hasXrefTitle is false.
                    This is because DITA-OT 1.4.3 or 1.5 M19 generates automatically non proper title. 
@@ -102,8 +104,10 @@ E-mail : info@antennahouse.com
                                 </xsl:otherwise>
                             </xsl:choose>
                         </xsl:variable>
-                        <!-- generate fo:basic-link considering element class -->
-                        <xsl:copy-of select="ahf:genXrefToLocalElementFoObject($topicRef,$prmNeedId,$prmXref,$destElement,$destElementId,$xrefTitle)"/>
+                        <!-- generate fo:basic-link considering element class
+                             Select topicref by topic/@id. 2014-03-25 t.makita
+                         -->
+                        <xsl:copy-of select="ahf:genXrefToLocalElementFoObject(if ($topicId eq $localTopicId) then $prmTopicRef else $topicRef,$prmNeedId,$prmXref,$destElement,$destElementId,$xrefTitle)"/>
                     </xsl:when>
                     <xsl:otherwise>
                         <!-- link to topic -->
