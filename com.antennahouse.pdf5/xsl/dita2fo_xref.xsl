@@ -103,7 +103,7 @@ E-mail : info@antennahouse.com
                             </xsl:choose>
                         </xsl:variable>
                         <!-- generate fo:basic-link considering element class -->
-                        <xsl:copy-of select="ahf:genXrefToLocalElementFoObject($prmTopicRef,$prmNeedId,$prmXref,$destElement,$destElementId,$xrefTitle)"/>
+                        <xsl:copy-of select="ahf:genXrefToLocalElementFoObject($topicRef,$prmNeedId,$prmXref,$destElement,$destElementId,$xrefTitle)"/>
                     </xsl:when>
                     <xsl:otherwise>
                         <!-- link to topic -->

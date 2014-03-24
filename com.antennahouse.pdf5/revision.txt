@@ -12,6 +12,7 @@ V2.1.3 release
   List label for ol: text-align="end"
   List lable for ul: text-align="center"
 - Change Japanese paper size to A4.
+- Fix the xref bug.
 
 Jan, 2014
 V2.1.2 release
