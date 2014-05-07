@@ -276,6 +276,7 @@ E-mail : info@antennahouse.com
             <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,true())"/>
             <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
             <xsl:copy-of select="ahf:getAttributeSet('atsSpanAll')"/>
+            <xsl:copy-of select="ahf:getFoProperty(.)"/>
             
             <!-- title -->
             <xsl:call-template name="genBackmatterTitle">
@@ -452,6 +453,7 @@ E-mail : info@antennahouse.com
             <xsl:copy-of select="ahf:getAttributeSet('atsBaseGlossaryList')"/>
             <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,true())"/>
             <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
+            <xsl:copy-of select="ahf:getFoProperty(.)"/>
             
             <fo:block>
                 <xsl:copy-of select="ahf:getAttributeSet('atsGlossEntry')"/>
@@ -514,6 +516,7 @@ E-mail : info@antennahouse.com
         <fo:wrapper>
             <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,true())"/>
             <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
+            <xsl:copy-of select="ahf:getFoProperty(.)"/>
             
             <!-- glossgroup or glossentry -->
             <xsl:apply-templates select="*[contains(@class, ' glossgroup/glossgroup ')] |  *[contains(@class, ' glossentry/glossentry ')]" mode="#current">
@@ -537,6 +540,7 @@ E-mail : info@antennahouse.com
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsGlossTerm')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:copy-of select="ahf:getFoProperty(.)"/>
             <xsl:call-template name="processIndextermInMetadata">
                 <xsl:with-param name="prmTopicRef"      select="$prmTopicRef"/>
                 <xsl:with-param name="prmTopicContent" select="ancestor::*[contains(@class,' topic/topic ')][1]"/>
@@ -561,6 +565,7 @@ E-mail : info@antennahouse.com
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsGlossDef')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:copy-of select="ahf:getFoProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>

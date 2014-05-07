@@ -54,6 +54,7 @@ E-mail : info@antennahouse.com
             <xsl:if test="not(preceding-sibling::*[contains(@class,' topic/li ')])">
                 <xsl:attribute name="{$liSpacingAttr}" select="'0mm'"/>
             </xsl:if>
+            <xsl:copy-of select="ahf:getFoProperty(.)"/>
             <fo:list-item-label> 
                 <fo:block/>
             </fo:list-item-label>
@@ -83,6 +84,7 @@ E-mail : info@antennahouse.com
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsCmd')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:copy-of select="ahf:getFoProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -103,6 +105,7 @@ E-mail : info@antennahouse.com
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsInfo')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:copy-of select="ahf:getFoProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -123,6 +126,7 @@ E-mail : info@antennahouse.com
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsStepxmp')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:copy-of select="ahf:getFoProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -145,73 +149,77 @@ E-mail : info@antennahouse.com
         <xsl:if test="@expanse='page' or @expanse='column'">
             <xsl:text disable-output-escaping="yes">&lt;fo:block start-indent="0mm" end-indent="0mm"&gt;</xsl:text>
         </xsl:if>
-        <fo:table>
-            <xsl:copy-of select="ahf:getAttributeSet('atsChoiceTable')"/>
-            <xsl:copy-of select="ahf:getDisplayAtts(.,'atsChoiceTable')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:if test="@relcolwidth">
-                <xsl:copy-of select="ahf:getAttributeSet('atsChoiceTableFixed')"/>
-                <xsl:call-template name="processRelColWidth">
-                    <xsl:with-param name="prmRelColWidth" select="string(@relcolwidth)"/>
-                    <xsl:with-param name="prmTable" select="$choiceTable"/>
-                </xsl:call-template>
-            </xsl:if>
-            <xsl:choose>
-                <xsl:when test="*[contains(@class, ' task/chhead ')]">
-                    <xsl:apply-templates select="*[contains(@class, ' task/chhead ')]">
+        <fo:table-and-caption>
+            <xsl:copy-of select="ahf:getFoProperty(.)[name() eq 'text-align']"/>
+            <fo:table>
+                <xsl:copy-of select="ahf:getAttributeSet('atsChoiceTable')"/>
+                <xsl:copy-of select="ahf:getDisplayAtts(.,'atsChoiceTable')"/>
+                <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+                <xsl:copy-of select="ahf:getFoProperty(.)[name() ne 'text-align']"/>
+                <xsl:if test="@relcolwidth">
+                    <xsl:copy-of select="ahf:getAttributeSet('atsChoiceTableFixed')"/>
+                    <xsl:call-template name="processRelColWidth">
+                        <xsl:with-param name="prmRelColWidth" select="string(@relcolwidth)"/>
+                        <xsl:with-param name="prmTable" select="$choiceTable"/>
+                    </xsl:call-template>
+                </xsl:if>
+                <xsl:choose>
+                    <xsl:when test="*[contains(@class, ' task/chhead ')]">
+                        <xsl:apply-templates select="*[contains(@class, ' task/chhead ')]">
+                            <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
+                            <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
+                            <xsl:with-param name="prmKeyCol"   select="$keyCol"/>
+                        </xsl:apply-templates>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <fo:table-header>
+                            <xsl:copy-of select="ahf:getAttributeSet('atsChhead')"/>
+                            <fo:table-row>
+                                <xsl:copy-of select="ahf:getAttributeSet('atsChheadRow')"/>
+                                <fo:table-cell>
+                                    <xsl:copy-of select="ahf:getAttributeSet('atsChoptionhd')"/>
+                                    <xsl:choose>
+                                        <xsl:when test="$keyCol = 1">
+                                            <xsl:copy-of select="ahf:getAttributeSet('atsChKeyCol')"/>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <xsl:copy-of select="ahf:getAttributeSet('atsChNoKeyCol')"/>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                    <fo:block>
+                                        <xsl:value-of select="$cChoptionhd"/>
+                                    </fo:block>
+                                </fo:table-cell>
+                                <fo:table-cell>
+                                    <xsl:copy-of select="ahf:getAttributeSet('atsChdeschd')"/>
+                                    <xsl:choose>
+                                        <xsl:when test="$keyCol = 2">
+                                            <xsl:copy-of select="ahf:getAttributeSet('atsChKeyCol')"/>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <xsl:copy-of select="ahf:getAttributeSet('atsChNoKeyCol')"/>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                    <fo:block>
+                                        <xsl:value-of select="$cChdeschd"/>
+                                    </fo:block>
+                                </fo:table-cell>
+                            </fo:table-row>
+                        </fo:table-header>
+                    </xsl:otherwise>
+                </xsl:choose>
+                
+                <fo:table-body>
+                    <xsl:copy-of select="ahf:getAttributeSet('atsChbody')"/>
+                    <xsl:apply-templates select="*[contains(@class, ' task/chrow ')]">
                         <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                         <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
                         <xsl:with-param name="prmKeyCol"   select="$keyCol"/>
                     </xsl:apply-templates>
-                </xsl:when>
-                <xsl:otherwise>
-                    <fo:table-header>
-                        <xsl:copy-of select="ahf:getAttributeSet('atsChhead')"/>
-                        <fo:table-row>
-                            <xsl:copy-of select="ahf:getAttributeSet('atsChheadRow')"/>
-                            <fo:table-cell>
-                                <xsl:copy-of select="ahf:getAttributeSet('atsChoptionhd')"/>
-                                <xsl:choose>
-                                    <xsl:when test="$keyCol = 1">
-                                        <xsl:copy-of select="ahf:getAttributeSet('atsChKeyCol')"/>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <xsl:copy-of select="ahf:getAttributeSet('atsChNoKeyCol')"/>
-                                    </xsl:otherwise>
-                                </xsl:choose>
-                                <fo:block>
-                                    <xsl:value-of select="$cChoptionhd"/>
-                                </fo:block>
-                            </fo:table-cell>
-                            <fo:table-cell>
-                                <xsl:copy-of select="ahf:getAttributeSet('atsChdeschd')"/>
-                                <xsl:choose>
-                                    <xsl:when test="$keyCol = 2">
-                                        <xsl:copy-of select="ahf:getAttributeSet('atsChKeyCol')"/>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <xsl:copy-of select="ahf:getAttributeSet('atsChNoKeyCol')"/>
-                                    </xsl:otherwise>
-                                </xsl:choose>
-                                <fo:block>
-                                    <xsl:value-of select="$cChdeschd"/>
-                                </fo:block>
-                            </fo:table-cell>
-                        </fo:table-row>
-                    </fo:table-header>
-                </xsl:otherwise>
-            </xsl:choose>
-    
-            <fo:table-body>
-                <xsl:copy-of select="ahf:getAttributeSet('atsChbody')"/>
-                <xsl:apply-templates select="*[contains(@class, ' task/chrow ')]">
-                    <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                    <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-                    <xsl:with-param name="prmKeyCol"   select="$keyCol"/>
-                </xsl:apply-templates>
-            </fo:table-body>
-    
-        </fo:table>
+                </fo:table-body>
+                
+            </fo:table>
+        </fo:table-and-caption>
         <xsl:if test="@expanse='page' or @expanse='column'">
             <xsl:text disable-output-escaping="yes">&lt;/fo:block&gt;</xsl:text>
         </xsl:if>
@@ -225,6 +233,7 @@ E-mail : info@antennahouse.com
         <fo:table-header>
             <xsl:copy-of select="ahf:getAttributeSet('atsChhead')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:copy-of select="ahf:getFoProperty(.)"/>
             <fo:table-row>
                 <xsl:copy-of select="ahf:getAttributeSet('atsChheadRow')"/>
                 <xsl:apply-templates>
@@ -252,6 +261,7 @@ E-mail : info@antennahouse.com
                     <xsl:copy-of select="ahf:getAttributeSet('atsChNoKeyCol')"/>
                 </xsl:otherwise>
             </xsl:choose>
+            <xsl:copy-of select="ahf:getFoProperty(.)"/>
             <fo:block>
                 <xsl:apply-templates>
                     <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
@@ -277,6 +287,7 @@ E-mail : info@antennahouse.com
                     <xsl:copy-of select="ahf:getAttributeSet('atsChNoKeyCol')"/>
                 </xsl:otherwise>
             </xsl:choose>
+            <xsl:copy-of select="ahf:getFoProperty(.)"/>
             <fo:block>
                 <xsl:apply-templates>
                     <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
@@ -294,6 +305,7 @@ E-mail : info@antennahouse.com
         <fo:table-row>
             <xsl:copy-of select="ahf:getAttributeSet('atsChrow')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:copy-of select="ahf:getFoProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -318,6 +330,7 @@ E-mail : info@antennahouse.com
                     <xsl:copy-of select="ahf:getAttributeSet('atsChNoKeyCol')"/>
                 </xsl:otherwise>
             </xsl:choose>
+            <xsl:copy-of select="ahf:getFoProperty(.)"/>
             <fo:block>
                 <xsl:apply-templates>
                     <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
@@ -343,6 +356,7 @@ E-mail : info@antennahouse.com
                     <xsl:copy-of select="ahf:getAttributeSet('atsChNoKeyCol')"/>
                 </xsl:otherwise>
             </xsl:choose>
+            <xsl:copy-of select="ahf:getFoProperty(.)"/>
             <fo:block>
                 <xsl:apply-templates>
                     <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
@@ -365,6 +379,7 @@ E-mail : info@antennahouse.com
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsStepresult')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:copy-of select="ahf:getFoProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -385,6 +400,7 @@ E-mail : info@antennahouse.com
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsTutorialinfo')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:copy-of select="ahf:getFoProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -406,6 +422,7 @@ E-mail : info@antennahouse.com
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsResult')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:copy-of select="ahf:getFoProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -426,6 +443,7 @@ E-mail : info@antennahouse.com
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsPostreq')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:copy-of select="ahf:getFoProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>

@@ -108,6 +108,7 @@ E-mail : info@antennahouse.com
                             <xsl:if test="not($fn/@id)">
                                 <xsl:attribute name="id" select="ahf:generateId($fn,$prmTopicRef)"/>
                             </xsl:if>
+                            <xsl:copy-of select="ahf:getFoProperty($fn)"/>
                             <xsl:apply-templates>
                                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                                 <xsl:with-param name="prmNeedId"   select="true()"/>
@@ -177,7 +178,7 @@ E-mail : info@antennahouse.com
     </xsl:template>
     
     <!-- 
-     function:  Process postnote
+     function:  Process footnote
      param:     prmTopicRef, prmTopicContent
      return:    footnote list blocks
      note:        
@@ -208,6 +209,7 @@ E-mail : info@antennahouse.com
                             <xsl:if test="not($fn/@id)">
                                 <xsl:attribute name="id" select="ahf:generateId($fn,$prmTopicRef)"/>
                             </xsl:if>
+                            <xsl:copy-of select="ahf:getFoProperty($fn)"/>
                             <xsl:apply-templates>
                                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                                 <xsl:with-param name="prmNeedId"   select="true()"/>

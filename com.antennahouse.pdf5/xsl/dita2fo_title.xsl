@@ -31,7 +31,7 @@ E-mail : info@antennahouse.com
         
         <xsl:choose>
             <xsl:when test="exists($prmTopicContent)">
-                <xsl:variable name="titleElement" select="$prmTopicContent/*[contains(@class, ' topic/title ')]"/>
+                <xsl:variable name="titleElement" select="$prmTopicContent/*[contains(@class, ' topic/title ')][1]"/>
                 <fo:block>
                 	<xsl:choose>
                         <xsl:when test="$prmLevel = 1">
@@ -49,6 +49,7 @@ E-mail : info@antennahouse.com
                 	</xsl:choose>
                     <xsl:copy-of select="ahf:getIdAtts($titleElement,$prmTopicRef,true())"/>
                     <xsl:copy-of select="ahf:getLocalizationAtts($titleElement)"/>
+                    <xsl:copy-of select="ahf:getFoProperty($titleElement)"/>
                     <xsl:call-template name="processIndextermInMetadata">
                         <xsl:with-param name="prmTopicRef"      select="$prmTopicRef"/>
                         <xsl:with-param name="prmTopicContent" select="$prmTopicContent"/>
@@ -167,6 +168,7 @@ E-mail : info@antennahouse.com
                     </xsl:choose>
                     <xsl:copy-of select="ahf:getIdAtts($titleElement,$prmTopicRef,true())"/>
                     <xsl:copy-of select="ahf:getLocalizationAtts($titleElement)"/>
+                    <xsl:copy-of select="ahf:getFoProperty($titleElement)"/>
                     <xsl:if test="$pAddNumberingTitlePrefix">
                         <fo:marker marker-class-name="{$cTitlePrefix}">
                             <fo:inline><xsl:value-of select="$titlePrefix"/></fo:inline>
@@ -337,7 +339,8 @@ E-mail : info@antennahouse.com
                     </xsl:choose>
                     <xsl:copy-of select="ahf:getIdAtts($titleElement,$prmTopicRef,true())"/>
                     <xsl:copy-of select="ahf:getLocalizationAtts($titleElement)"/>
-    
+                    <xsl:copy-of select="ahf:getFoProperty($titleElement)"/>
+                    
                     <xsl:choose>
                         <xsl:when test="($level eq 1) or ($level eq 2)">
                             <xsl:if test="$pAddNumberingTitlePrefix">
@@ -507,7 +510,7 @@ E-mail : info@antennahouse.com
     
         <xsl:choose>
             <xsl:when test="exists($prmTopicContent)">
-                <xsl:variable name="titleElement" select="$prmTopicContent/child::*[contains(@class, ' topic/title ')]"/>
+                <xsl:variable name="titleElement" select="$prmTopicContent/child::*[contains(@class, ' topic/title ')][1]"/>
                 <fo:list-block>
                     <xsl:copy-of select="ahf:getAttributeSet('atsHeader4List')"/>
                     <xsl:copy-of select="ahf:getIdAtts($titleElement,$prmTopicRef,true())"/>
@@ -530,6 +533,7 @@ E-mail : info@antennahouse.com
                         <fo:list-item-body start-indent="body-start()">
                             <fo:block>
                                 <xsl:copy-of select="ahf:getAttributeSet('atsHeader4Body')"/>
+                                <xsl:copy-of select="ahf:getFoProperty($titleElement)"/>
                                 <xsl:apply-templates select="$titleElement">
                                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                                 <xsl:with-param name="prmNeedId"   select="true()"/>
@@ -616,6 +620,7 @@ E-mail : info@antennahouse.com
                         <fo:list-item-body start-indent="body-start()">
                             <fo:block>
                                 <xsl:copy-of select="ahf:getAttributeSet('atsHeader5Body')"/>
+                                <xsl:copy-of select="ahf:getFoProperty($titleElement)"/>
                                 <xsl:apply-templates select="$titleElement">
                                     <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                                     <xsl:with-param name="prmNeedId"   select="true()"/>
