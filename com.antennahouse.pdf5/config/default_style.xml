@@ -156,6 +156,7 @@ URL : http://www.antennahouse.com/
         <variable name="Note_Remember">Remember</variable>
         <variable name="Note_Attention">Attention</variable>
         <variable name="Note_Caution">Caution</variable>
+        <variable name="Note_Warning">Warning</variable>
         <variable name="Note_Danger">Danger</variable>
         <variable name="Note_Other">Other</variable>
 
