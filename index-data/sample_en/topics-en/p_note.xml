@@ -114,7 +114,19 @@ information on supported values and
 processing implications.
             </note>
         </section>
-        <section>
+	    <section>
+	        <title>warning</title>
+	        <note type="warning">Defines the type of a note. For example,
+	            if the note is a tip, the word Tip is used
+	            to draw the reader’s attention to it. Note
+	            that this differs from the type attribute
+	            on many other DITA elements. See “The
+	            type attribute” on page 480 for detailed
+	            information on supported values and
+	            processing implications.
+	        </note>
+	    </section>
+	    <section>
             <title>other</title>
             <note type="other" othertype="Other">Defines the type of a note. For example,
 if the note is a tip, the word Tip is used
