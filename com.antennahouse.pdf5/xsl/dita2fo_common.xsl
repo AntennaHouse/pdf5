@@ -195,7 +195,7 @@ E-mail : info@antennahouse.com
      return:	prefix of title
      note:		none
      -->
-    <xsl:template name="genTitlePrefix">
+    <xsl:template name="genTitlePrefixObsolute">
         <xsl:param name="prmTopicRef" required="yes" as="element()"/>
     
         <!-- Who is my ancestor? -->

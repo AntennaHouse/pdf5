@@ -707,5 +707,166 @@ E-mail : info@antennahouse.com
         </fo:marker>
     </xsl:template>
 
+    <!-- 
+     function:	Generate prefix of title
+     param:		prmTopicRef
+     return:	prefix of title 
+     note:		none
+     -->
+    <xsl:template name="genTitlePrefix" as="xs:string">
+        <xsl:param name="prmTopicRef" required="yes" as="element()"/>
+        
+        <xsl:variable name="prefixPart" as="xs:string">
+            <xsl:choose>
+                <xsl:when test="$isBookMap">
+                    <xsl:choose>
+                        <xsl:when test="$prmTopicRef/ancestor::*[contains(@class, ' bookmap/frontmatter ')]">
+                            <xsl:sequence select="''"/>
+                        </xsl:when>
+                        <xsl:when test="$prmTopicRef/self::*[contains(@class, ' bookmap/part ')]">
+                            <xsl:sequence select="$cPartTitlePrefix"/>
+                        </xsl:when>
+                        <xsl:when test="$prmTopicRef/self::*[contains(@class, ' bookmap/chapter ')]">
+                            <xsl:sequence select="$cChapterTitlePrefix"/>
+                        </xsl:when>
+                        <xsl:when test="$prmTopicRef/self::*[contains(@class, ' bookmap/appendix ')]">
+                            <xsl:sequence select="$cAppendixTitle"/>
+                        </xsl:when>
+                        <xsl:when test="$prmTopicRef/ancestor::*[contains(@class, ' bookmap/backmatter ')]">
+                            <xsl:sequence select="''"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <!-- May be appendice -->
+                            <xsl:sequence select="''"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:when>
+                <xsl:otherwise>
+                    <!-- map -->
+                    <xsl:sequence select="''"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        
+        <xsl:variable name="suffixPart" as="xs:string">
+            <xsl:choose>
+                <xsl:when test="$isBookMap">
+                    <xsl:choose>
+                        <xsl:when test="$prmTopicRef/ancestor::*[contains(@class, ' bookmap/frontmatter ')]">
+                            <xsl:sequence select="''"/>
+                        </xsl:when>
+                        <xsl:when test="$prmTopicRef/self::*[contains(@class, ' bookmap/part ')]">
+                            <xsl:sequence select="$cPartTitleSuffix"/>
+                        </xsl:when>
+                        <xsl:when test="$prmTopicRef/self::*[contains(@class, ' bookmap/chapter ')]">
+                            <xsl:sequence select="$cChapterTitleSuffix"/>
+                        </xsl:when>
+                        <xsl:when test="$prmTopicRef/self::*[contains(@class, ' bookmap/appendix ')]">
+                            <xsl:sequence select="''"/>
+                        </xsl:when>
+                        <xsl:when test="$prmTopicRef/ancestor::*[contains(@class, ' bookmap/backmatter ')]">
+                            <xsl:sequence select="''"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <!-- May be appendice -->
+                            <xsl:sequence select="''"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:when>
+                <xsl:otherwise>
+                    <!-- map -->
+                    <xsl:value-of select="''"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        
+        <xsl:variable name="numberPart" as="xs:string">
+            <xsl:choose>
+                <xsl:when test="$isBookMap">
+                    <xsl:choose>
+                        <xsl:when test="$prmTopicRef/ancestor::*[contains(@class, ' bookmap/frontmatter ')]">
+                            <xsl:sequence select="''"/>
+                        </xsl:when>
+                        <xsl:when test="$prmTopicRef/ancestor-or-self::*[contains(@class, ' bookmap/part ')]">
+                            <xsl:sequence select="ahf:genLevelTitlePrefix($prmTopicRef)"/>
+                        </xsl:when>
+                        <xsl:when test="$prmTopicRef/ancestor-or-self::*[contains(@class, ' bookmap/chapter ')]">
+                            <xsl:sequence select="ahf:genLevelTitlePrefix($prmTopicRef)"/>
+                        </xsl:when>
+                        <xsl:when test="$prmTopicRef/ancestor-or-self::*[contains(@class, ' bookmap/appendix ')]">
+                            <xsl:sequence select="ahf:genLevelTitlePrefix($prmTopicRef)"/>
+                        </xsl:when>
+                        <xsl:when test="$prmTopicRef/ancestor::*[contains(@class, ' bookmap/backmatter ')]">
+                            <xsl:value-of select="''"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <!-- May be appendice -->
+                            <xsl:value-of select="''"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:when>
+                <xsl:otherwise>
+                    <!-- map -->
+                    <xsl:sequence select="ahf:genLevelTitlePrefix($prmTopicRef)"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        
+        <xsl:variable name="result" select="concat($prefixPart,$numberPart,$suffixPart)"/>
+        <xsl:sequence select="$result"/>
+    </xsl:template>
+
+    <!-- 
+     function:	Generate level of topicref
+     param:		prmTopicRef
+     return:	xs:string 
+     note:		none
+     -->
+    <xsl:function name="ahf:genLevelTitlePrefix" as="xs:string">
+        <xsl:param name="prmTopicRef" as="element()"/>
+        <xsl:variable name="ancestorOrSelfTopicRef" as="element()*" select="$prmTopicRef/ancestor-or-self::*[contains(@class,' map/topicref ')][not(contains(@class,' bookmap/appendices '))]"/>
+        <xsl:variable name="levelString" as="xs:string*" select="ahf:getSibilingTopicrefCount($ancestorOrSelfTopicRef)"/>
+        <xsl:sequence select="string-join($levelString,'')"/>
+    </xsl:function>
+
+    <!-- 
+     function:	Get preceding-sibling topicref count
+     param:		prmTopicRef
+     return:	xs:string* 
+     note:		1. topicref/@toc="no" is not counted.
+                2. All topicrefs must be @toc="yes".
+     -->
+    <xsl:function name="ahf:getSibilingTopicrefCount" as="xs:string*">
+        <xsl:param name="prmTopicRefs" as="element()*"/>
+        <xsl:choose>
+            <xsl:when test="exists($prmTopicRefs[1]) and empty($prmTopicRefs[ahf:isTocNo(.)])">
+                <xsl:variable name="topicRef" as="element()" select="$prmTopicRefs[1]"/>
+                <xsl:variable name="precedingCount" as="xs:integer">
+                    <xsl:choose>
+                        <xsl:when test="$topicRef[contains(@class, ' bookmap/part ')]">
+                            <xsl:sequence select="count($topicRef/preceding-sibling::*[contains(@class, ' map/topicref ')][contains(@class, ' bookmap/part ')][ahf:isToc(.)])"/>
+                        </xsl:when>
+                        <xsl:when test="$topicRef[contains(@class, ' bookmap/chapter ')]">
+                            <xsl:sequence select="count($topicRef/preceding-sibling::*[contains(@class, ' map/topicref ')][contains(@class, ' bookmap/chapter ')][ahf:isToc(.)])"/>
+                        </xsl:when>
+                        <xsl:when test="$topicRef[contains(@class, ' bookmap/appendix ')]">
+                            <xsl:sequence select="count($topicRef/preceding-sibling::*[contains(@class, ' map/topicref ')][contains(@class, ' bookmap/appendix ')][ahf:isToc(.)])"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:sequence select="count($topicRef/preceding-sibling::*[contains(@class, ' map/topicref ')][ahf:isToc(.)])"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:variable>
+                <xsl:sequence select="string($precedingCount + 1)"/>
+                <xsl:if test="exists($prmTopicRefs[2])">
+                    <xsl:sequence select="$cTitlePrefixSeparator"/>
+                </xsl:if>
+                <xsl:sequence select="ahf:getSibilingTopicrefCount($prmTopicRefs[position() gt 1])"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:sequence select="''"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:function>
 
 </xsl:stylesheet>
