@@ -378,7 +378,7 @@ E-mail : info@antennahouse.com
         <xsl:variable name="topicRefId" select="ahf:getIdAtts($topicRef,$topicRef,true())" as="attribute()*"/>
         <xsl:variable name="hasNavtitle" as="xs:boolean">
             <xsl:choose>
-                <xsl:when test="$topicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]">
+                <xsl:when test="$topicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
                     <xsl:sequence select="true()"/>
                 </xsl:when>
                 <xsl:when test="$topicRef/@navtitle">
@@ -450,7 +450,6 @@ E-mail : info@antennahouse.com
                     <fo:bookmark-title>
                         <xsl:call-template name="genTitle">
                             <xsl:with-param name="prmTopicRef" select="$topicRef"/>
-                            <xsl:with-param name="prmLinkContent" select="$linkContent"/>
                             <xsl:with-param name="prmDefaultTitle" select="$prmDefaultTitle"/>
                         </xsl:call-template>
                     </fo:bookmark-title>
@@ -467,57 +466,35 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	Generate title of bookmark
-     param:		prmTopicRef, prmLinkContent
+     param:		prmTopicRef, prmDefaultTitle
      return:	title string
-     note:		prmLinkContent is not valid if $prmTopicRef does not have @href attribute.
+     note:		
      -->
-    <xsl:template name="genTitle">
+    <xsl:template name="genTitle" as="text()*">
         <xsl:param name="prmTopicRef" required="yes" as="element()"/>
-        <xsl:param name="prmLinkContent" required="yes" as="element()?"/>
         <xsl:param name="prmDefaultTitle" as="xs:string" required="no" select="''"/>
         
-        <xsl:variable name="href" select="string($prmTopicRef/@href)"/>
         <!-- Who is my ancestor? -->
         <xsl:choose>
             <xsl:when test="$isBookMap">
                 <xsl:choose>
                     <xsl:when test="$prmTopicRef/ancestor-or-self::*[contains(@class, ' bookmap/frontmatter ')]">
                         <!-- frontmatter -->
-                        <xsl:variable name="frontmatterTitle">
-                            <xsl:choose>
-                                <xsl:when test="string($href)">
-                                    <xsl:apply-templates select="$prmLinkContent/child::*[contains(@class, ' topic/title ')]" mode="TEXT_ONLY"/>
-                                </xsl:when>
-                                <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]">
-                                    <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]" mode="TEXT_ONLY"/>
-                                </xsl:when>
-                                <xsl:when test="$prmTopicRef/@navtitle">
-                                    <xsl:value-of select="$prmTopicRef/@navtitle"/>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:value-of select="$prmDefaultTitle"/>
-                                </xsl:otherwise>
-                            </xsl:choose>
+                        <xsl:variable name="frontmatterTitle" as="text()*">
+                            <xsl:call-template name="genBookmarkTitle">
+                                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
+                                <xsl:with-param name="prmDefaultTitle" select="$prmDefaultTitle"/>
+                            </xsl:call-template>
                         </xsl:variable>
                         <xsl:value-of select="normalize-space($frontmatterTitle)"/>
                     </xsl:when>
                     <xsl:when test="$prmTopicRef/ancestor-or-self::*[contains(@class, ' bookmap/backmatter ')]">
                         <!-- backmatter -->
-                        <xsl:variable name="backmatterTitle">
-                            <xsl:choose>
-                                <xsl:when test="string($href)">
-                                    <xsl:apply-templates select="$prmLinkContent/child::*[contains(@class, ' topic/title ')]" mode="TEXT_ONLY"/>
-                                </xsl:when>
-                                <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]">
-                                    <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]" mode="TEXT_ONLY"/>
-                                </xsl:when>
-                                <xsl:when test="$prmTopicRef/@navtitle">
-                                    <xsl:value-of select="$prmTopicRef/@navtitle"/>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:value-of select="$prmDefaultTitle"/>
-                                </xsl:otherwise>
-                            </xsl:choose>
+                        <xsl:variable name="backmatterTitle" as="text()*">
+                            <xsl:call-template name="genBookmarkTitle">
+                                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
+                                <xsl:with-param name="prmDefaultTitle" select="$prmDefaultTitle"/>
+                            </xsl:call-template>
                         </xsl:variable>
                         <xsl:value-of select="normalize-space($backmatterTitle)"/>
                     </xsl:when>
@@ -525,43 +502,27 @@ E-mail : info@antennahouse.com
                         <!-- part -->
                         <xsl:call-template name="genPartDescendantTitle">
                             <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                            <xsl:with-param name="prmLinkContent" select="$prmLinkContent"/>
-                            <xsl:with-param name="prmStart" select="true()"/>
                         </xsl:call-template>
                     </xsl:when>
                     <xsl:when test="$prmTopicRef/ancestor-or-self::*[contains(@class, ' bookmap/chapter ')]">
                         <!-- chapter -->
                         <xsl:call-template name="genChapterDescendantTitle">
                             <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                            <xsl:with-param name="prmLinkContent" select="$prmLinkContent"/>
-                            <xsl:with-param name="prmStart" select="true()"/>
                         </xsl:call-template>
                     </xsl:when>
                     <xsl:when test="$prmTopicRef/ancestor-or-self::*[contains(@class, ' bookmap/appendix ')]">
                         <!-- appendix -->
                         <xsl:call-template name="genAppendixDescendantTitle">
                             <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                            <xsl:with-param name="prmLinkContent" select="$prmLinkContent"/>
-                            <xsl:with-param name="prmStart" select="true()"/>
                         </xsl:call-template>
                     </xsl:when>
                     <xsl:when test="$prmTopicRef[contains(@class, ' bookmap/appendices ')]">
                         <!-- appendices -->
-                        <xsl:variable name="appendiceTitle">
-                            <xsl:choose>
-                                <xsl:when test="string($href)">
-                                    <xsl:apply-templates select="$prmLinkContent/child::*[contains(@class, ' topic/title ')]" mode="TEXT_ONLY"/>
-                                </xsl:when>
-                                <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]">
-                                    <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]" mode="TEXT_ONLY"/>
-                                </xsl:when>
-                                <xsl:when test="$prmTopicRef/@navtitle">
-                                    <xsl:value-of select="$prmTopicRef/@navtitle"/>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:value-of select="$prmDefaultTitle"/>
-                                </xsl:otherwise>
-                            </xsl:choose>
+                        <xsl:variable name="appendiceTitle" as="text()*">
+                            <xsl:call-template name="genBookmarkTitle">
+                                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
+                                <xsl:with-param name="prmDefaultTitle" select="$prmDefaultTitle"/>
+                            </xsl:call-template>
                         </xsl:variable>
                         <xsl:value-of select="normalize-space($appendiceTitle)"/>
                     </xsl:when>
@@ -570,8 +531,6 @@ E-mail : info@antennahouse.com
             <xsl:otherwise>
                 <xsl:call-template name="genMapDescendantTitle">
                     <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                    <xsl:with-param name="prmLinkContent" select="$prmLinkContent"/>
-                    <xsl:with-param name="prmStart" select="true()"/>
                 </xsl:call-template>
             </xsl:otherwise>
         </xsl:choose>
@@ -579,397 +538,108 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	Generate title of topic descendant of part
-     param:		prmTopicRef, prmLinkContent, prmStart
+     param:		prmTopicRef
      return:	title string
      note:		none
      -->
-    <xsl:template name="genPartDescendantTitle">
+    <xsl:template name="genPartDescendantTitle" as="text()*">
         <xsl:param name="prmTopicRef" required="yes" as="element()"/>
-        <xsl:param name="prmLinkContent" required="yes" as="element()?"/>
-        <xsl:param name="prmStart" required="yes" as="xs:boolean"/>
-        
-        <xsl:variable name="href" select="string($prmTopicRef/@href)"/>
-        <xsl:variable name="title">
-            <xsl:choose>
-                <xsl:when test="$prmStart">
-                    <xsl:variable name="titleResult">
-                        <xsl:choose>
-                            <xsl:when test="string($href)">
-                                <xsl:apply-templates select="$prmLinkContent/child::*[contains(@class, ' topic/title ')]" mode="TEXT_ONLY"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:value-of select="$prmTopicRef/@navtitle"/>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </xsl:variable>
-                    <xsl:value-of select="concat(' ', normalize-space($titleResult))"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="''"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
-        
-        <xsl:variable name="isPart" select="boolean(contains($prmTopicRef/@class, ' bookmap/part '))"/>
-        
-        <xsl:variable name="upperTopicCount" select="count($prmTopicRef/ancestor-or-self::*[contains(@class, ' map/topicref ')])"/>
-        
-        <!--xsl:message>isPart=<xsl:value-of select="$isPart"/></xsl:message-->
-        <!--xsl:message>upperTopicCount=<xsl:value-of select="$upperTopicCount"/></xsl:message-->
-        
-        
-        <xsl:variable name="currentNumber">
-            <xsl:choose>
-                <xsl:when test="$isPart">
-                    <!-- this is part -->
-                    <xsl:value-of select="count($prmTopicRef/preceding-sibling::*[contains(@class, ' bookmap/part ')]) + 1"/>
-                    <!--xsl:message>Partno: <xsl:value-of select="$partNumber"/></xsl:message-->
-                    <!--xsl:call-template name="partNumberToAlpha">
-                        <xsl:with-param name="prmPartNumber" select="$partNumber"/>
-                    </xsl:call-template-->
-                </xsl:when>
-                <xsl:otherwise>
-                    <!--xsl:value-of select="count($prmTopicRef/preceding-sibling::*[contains(@class, ' map/topicref ')][not(@toc='no')]) + 1"/-->
-                    <xsl:value-of select="count($prmTopicRef/preceding-sibling::*[contains(@class, ' map/topicref ')][not(ahf:isTocNo(.))]) + 1"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
-        
-        <xsl:variable name="upperNumber">
-            <xsl:choose>
-                <xsl:when test="not($prmTopicRef/ancestor::*[contains(@class, ' map/topicref ')])">
-                    <xsl:value-of select="''"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:variable name="ancestorLinkSrc" select="$prmTopicRef/ancestor::*[contains(@class, ' map/topicref ')][1]"/>
-                    <xsl:call-template name="genPartDescendantTitle">
-                        <xsl:with-param name="prmTopicRef" select="$ancestorLinkSrc"/>
-                        <xsl:with-param name="prmLinkContent" select="()"/>
-                        <xsl:with-param name="prmStart" select="false()"/>
-                    </xsl:call-template>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
-        
-        <xsl:choose>
-            <xsl:when test="not($pAddNumberingTitlePrefix)">
-                <xsl:value-of select="$title"/>
-            </xsl:when>
-            <xsl:when test="$isPart">
-                <xsl:choose>
-                    <xsl:when test="$prmStart and $pAddPartToTitle">
-                        <xsl:choose>
-                            <xsl:when test="not(string(normalize-space($cPartTitleSuffix)))">
-                                <!-- Suffix is none -->
-                                <xsl:value-of select="concat($cPartTitlePrefix,
-                                                             $currentNumber,
-                                                             $cTitlePrefixSeparator,
-                                                             $cPartTitleSuffix, 
-                                                             ' ',
-                                                             $title)"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <!-- Suffix is character -->
-                                <xsl:value-of select="concat($cPartTitlePrefix,
-                                                             $currentNumber,
-                                                             $cPartTitleSuffix, 
-                                                             ' ',
-                                                             $title)"/>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:value-of select="concat($currentNumber,$cTitlePrefixSeparator, $title)"/>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </xsl:when>
-            <xsl:when test="$upperTopicCount=2">
-                <xsl:value-of select="concat($upperNumber, $currentNumber, $title)"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select="concat($upperNumber, $cTitlePrefixSeparator, $currentNumber, $title)"/>
-            </xsl:otherwise>
-        </xsl:choose>
+        <xsl:call-template name="genChapterDescendantTitle">
+            <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
+        </xsl:call-template>
     </xsl:template>
-    
     
     <!-- 
      function:	Generate title of topic descendant of chapter
-     param:		prmTopicRef, prmLinkContent, prmStart
+     param:		prmTopicRef
      return:	title string
      note:		none
      -->
-    <xsl:template name="genChapterDescendantTitle">
+    <xsl:template name="genChapterDescendantTitle" as="text()*">
         <xsl:param name="prmTopicRef" required="yes" as="element()"/>
-        <xsl:param name="prmLinkContent" required="yes" as="element()?"/>
-        <xsl:param name="prmStart" required="yes" as="xs:boolean"/>
         
-        <xsl:variable name="href" select="string($prmTopicRef/@href)"/>
-        <xsl:variable name="title">
+        <!-- get topic from @href -->
+        <xsl:variable name="id" select="substring-after($prmTopicRef/@href, '#')" as="xs:string"/>
+        <xsl:variable name="topicContent" select="if ($prmTopicRef/@href) then key('topicById', $id)[1] else ()" as="element()?"/>
+        
+        <!-- Title prefix -->
+        <xsl:variable name="titlePrefix" as="xs:string">
+            <xsl:call-template name="genTitlePrefix">
+                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
+            </xsl:call-template>
+        </xsl:variable>
+
+        <!-- Title body -->
+        <xsl:variable name="title" as="text()*">
             <xsl:choose>
-                <xsl:when test="$prmStart">
-                    <xsl:variable name="titleResult">
-                        <xsl:choose>
-                            <xsl:when test="string($href)">
-                                <xsl:apply-templates select="$prmLinkContent/child::*[contains(@class, ' topic/title ')]" mode="TEXT_ONLY"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:value-of select="$prmTopicRef/@navtitle"/>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </xsl:variable>
-                    <xsl:value-of select="concat(' ', normalize-space($titleResult))"/>
+                <xsl:when test="exists($topicContent)">
+                    <xsl:apply-templates select="$topicContent/child::*[contains(@class, ' topic/title ')]" mode="TEXT_ONLY"/>
+                </xsl:when>
+                <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
+                    <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]" mode="TEXT_ONLY"/>
+                </xsl:when>
+                <xsl:when test="$prmTopicRef/@navtitle">
+                    <xsl:value-of select="$prmTopicRef/@navtitle"/>        
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:value-of select="''"/>
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        
-        <xsl:variable name="isChapter" select="boolean(contains($prmTopicRef/@class, ' bookmap/chapter '))"/>
-        
-        <xsl:variable name="upperTopicCount" select="count($prmTopicRef/ancestor-or-self::*[contains(@class, ' map/topicref ')])"/>
-        
-        <xsl:variable name="currentNumber">
-            <xsl:choose>
-                <xsl:when test="$isChapter">
-                    <xsl:value-of select="count($prmTopicRef/preceding-sibling::*[contains(@class, ' bookmap/chapter ')]) + 1"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <!--xsl:value-of select="count($prmTopicRef/preceding-sibling::*[contains(@class, ' map/topicref ')][not(@toc='no')]) + 1"/-->
-                    <xsl:value-of select="count($prmTopicRef/preceding-sibling::*[contains(@class, ' map/topicref ')][not(ahf:isTocNo(.))]) + 1"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
-        
-        <xsl:variable name="upperNumber">
-            <xsl:choose>
-                <xsl:when test="not($prmTopicRef/ancestor::*[contains(@class, ' map/topicref ')])">
-                    <xsl:value-of select="''"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:variable name="ancestorLinkSrc" select="$prmTopicRef/ancestor::*[contains(@class, ' map/topicref ')][1]"/>
-                    <xsl:call-template name="genChapterDescendantTitle">
-                        <xsl:with-param name="prmTopicRef" select="$ancestorLinkSrc"/>
-                        <xsl:with-param name="prmLinkContent" select="()"/>
-                        <xsl:with-param name="prmStart" select="false()"/>
-                    </xsl:call-template>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
-        
-        <xsl:choose>
-            <xsl:when test="not($pAddNumberingTitlePrefix)">
-                <xsl:value-of select="$title"/>
-            </xsl:when>
-            <xsl:when test="$isChapter">
-                <xsl:choose>
-                    <xsl:when test="$prmStart and $pAddPartToTitle">
-                        <xsl:choose>
-                            <xsl:when test="not(string(normalize-space($cChapterTitleSuffix)))">
-                                <!-- Suffix is only space -->
-                                <xsl:value-of select="concat($cChapterTitlePrefix,
-                                                             $currentNumber,
-                                                             $cTitlePrefixSeparator,
-                                                             $cChapterTitleSuffix, 
-                                                             $title)"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <!-- Suffix is character -->
-                                <xsl:value-of select="concat($cChapterTitlePrefix,
-                                                             $currentNumber,
-                                                             $cChapterTitleSuffix, 
-                                                             $title)"/>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:value-of select="concat($currentNumber, $cTitlePrefixSeparator, $title)"/>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </xsl:when>
-            <xsl:when test="$upperTopicCount=2">
-                <xsl:value-of select="concat($upperNumber, $currentNumber, $title)"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select="concat($upperNumber, $cTitlePrefixSeparator, $currentNumber, $title)"/>
-            </xsl:otherwise>
-        </xsl:choose>
+
+        <!-- Generate title -->
+        <xsl:if test="$pAddNumberingTitlePrefix">
+            <xsl:value-of select="$titlePrefix"/>
+            <xsl:text> </xsl:text>
+        </xsl:if>
+        <xsl:copy-of select="$title"/>
     </xsl:template>
-    
     
     <!-- 
      function:	Generate title of appendix ( and their descendant topic)
-     param:		prmTopicRef, prmLinkContent, prmStart
-     return:	title string
+     param:		prmTopicRef
+     return:	title text nodes
      note:		none
      -->
-    <xsl:template name="genAppendixDescendantTitle">
+    <xsl:template name="genAppendixDescendantTitle" as="text()*">
         <xsl:param name="prmTopicRef" required="yes" as="element()"/>
-        <xsl:param name="prmLinkContent" required="yes" as="element()?"/>
-        <xsl:param name="prmStart" required="yes" as="xs:boolean"/>
-        
-        <xsl:variable name="href" select="string($prmTopicRef/@href)"/>
-        <xsl:variable name="titlePrefix">
-            <xsl:choose>
-                <xsl:when test="$prmStart">
-                    <xsl:value-of select="$cAppendixTitle"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="''"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
-    
-        <xsl:variable name="titleSuffix">
-            <xsl:choose>
-                <xsl:when test="$prmStart">
-                    <xsl:variable name="titleResult">
-                        <xsl:choose>
-                            <xsl:when test="string($href)">
-                                <xsl:apply-templates select="$prmLinkContent/child::*[contains(@class, ' topic/title ')]" mode="TEXT_ONLY"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:value-of select="$prmTopicRef/@navtitle"/>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </xsl:variable>
-                    <xsl:value-of select="concat(' ', normalize-space($titleResult))"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="''"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
-        
-        <xsl:variable name="isAppendix" select="boolean(contains($prmTopicRef/@class, ' bookmap/appendix '))"/>
-        
-        <xsl:variable name="upperTopicCount" select="count($prmTopicRef/ancestor-or-self::*[contains(@class, ' map/topicref ')][. &gt;&gt; $prmTopicRef/ancestor::*[contains(@class,' bookmap/appendix ')]]) + 1"/>
-    
-        <xsl:variable name="currentNumber">
-            <xsl:choose>
-                <xsl:when test="$isAppendix">
-                    <xsl:value-of select="count($prmTopicRef/preceding-sibling::*[contains(@class, ' bookmap/appendix ')]) + 1"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <!--xsl:value-of select="count($prmTopicRef/preceding-sibling::*[contains(@class, ' map/topicref ')][not(@toc='no')]) + 1"/-->
-                    <xsl:value-of select="count($prmTopicRef/preceding-sibling::*[contains(@class, ' map/topicref ')][not(ahf:isTocNo(.))]) + 1"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
-        
-        <xsl:variable name="upperNumber">
-            <xsl:choose>
-                <xsl:when test="not($prmTopicRef/ancestor::*[contains(@class, ' map/topicref ')])">
-                    <xsl:value-of select="''"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:variable name="ancestorLinkSrc" select="$prmTopicRef/ancestor::*[contains(@class, ' map/topicref ')][1]"/>
-                    <xsl:call-template name="genAppendixDescendantTitle">
-                        <xsl:with-param name="prmTopicRef" select="$ancestorLinkSrc"/>
-                        <xsl:with-param name="prmLinkContent" select="()"/>
-                        <xsl:with-param name="prmStart" select="false()"/>
-                    </xsl:call-template>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
-        
-        <xsl:choose>
-            <xsl:when test="not($pAddNumberingTitlePrefix)">
-                <xsl:value-of select="$titleSuffix"/>
-            </xsl:when>
-            <xsl:when test="$isAppendix">
-                <xsl:value-of select="concat($titlePrefix, $currentNumber, $cTitlePrefixSeparator, $titleSuffix)"/>
-            </xsl:when>
-            <xsl:when test="$upperTopicCount=2">
-                <xsl:value-of select="concat($titlePrefix, $upperNumber, $currentNumber, $titleSuffix)"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select="concat($titlePrefix, $upperNumber, $cTitlePrefixSeparator, $currentNumber, $titleSuffix)"/>
-            </xsl:otherwise>
-        </xsl:choose>
+        <xsl:call-template name="genChapterDescendantTitle">
+            <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
+        </xsl:call-template>
     </xsl:template>
-    
     
     <!-- 
      function:	Generate title of topic descendant of map
-     param:		prmTopicRef, prmLinkContent,prmStart
+     param:		prmTopicRef
      return:	title string
      note:		none
      -->
-    <xsl:template name="genMapDescendantTitle">
+    <xsl:template name="genMapDescendantTitle" as="text()*">
         <xsl:param name="prmTopicRef" required="yes" as="element()"/>
-        <xsl:param name="prmLinkContent" required="yes" as="element()?"/>
-        <xsl:param name="prmStart" required="yes" as="xs:boolean"/>
         
-        <xsl:variable name="href" select="string($prmTopicRef/@href)"/>
-        <xsl:variable name="title">
-            <xsl:choose>
-                <xsl:when test="$prmStart">
-                    <xsl:variable name="titleResult">
-                        <xsl:choose>
-                            <xsl:when test="string($href)">
-                                <xsl:apply-templates select="$prmLinkContent/child::*[contains(@class, ' topic/title ')]" mode="TEXT_ONLY"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:value-of select="$prmTopicRef/@navtitle"/>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </xsl:variable>
-                    <xsl:value-of select="concat(' ', normalize-space($titleResult))"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="''"/>
-                </xsl:otherwise>
-            </xsl:choose>
+        <!-- get topic from @href -->
+        <xsl:variable name="id" select="substring-after($prmTopicRef/@href, '#')" as="xs:string"/>
+        <xsl:variable name="topicContent" select="if ($prmTopicRef/@href) then key('topicById', $id)[1] else ()" as="element()?"/>
+
+        <xsl:variable name="title" as="text()*">
+            <xsl:call-template name="genBookmarkTitle">
+                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
+                <xsl:with-param name="prmDefaultTitle" select="''"/>
+            </xsl:call-template>
         </xsl:variable>
-        
-        <xsl:variable name="isRoot" select="boolean($prmTopicRef/parent::*[contains(@class, ' map/map ')])"/>
-        
-        <xsl:variable name="upperTopicCount" select="count($prmTopicRef/ancestor-or-self::*[contains(@class, ' map/topicref ')])"/>
-        
-        <xsl:variable name="currentNumber">
-            <xsl:choose>
-                <xsl:when test="$isRoot">
-                    <xsl:value-of select="count($prmTopicRef/preceding-sibling::*[contains(@class, ' map/topicref ')]) + 1"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <!--xsl:value-of select="count($prmTopicRef/preceding-sibling::*[contains(@class, ' map/topicref ')][not(@toc='no')]) + 1"/-->
-                    <xsl:value-of select="count($prmTopicRef/preceding-sibling::*[contains(@class, ' map/topicref ')][not(ahf:isTocNo(.))]) + 1"/>
-                </xsl:otherwise>
-            </xsl:choose>
+
+        <xsl:variable name="titlePrefix" as="xs:string">
+            <xsl:call-template name="genTitlePrefix">
+                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
+            </xsl:call-template>
         </xsl:variable>
-        
-        <xsl:variable name="upperNumber">
-            <xsl:choose>
-                <xsl:when test="not($prmTopicRef/ancestor::*[contains(@class, ' map/topicref ')])">
-                    <xsl:value-of select="''"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:variable name="ancestorTopicRef" select="$prmTopicRef/ancestor::*[contains(@class, ' map/topicref ')][1]"/>
-                    <xsl:call-template name="genMapDescendantTitle">
-                        <xsl:with-param name="prmTopicRef" select="$ancestorTopicRef"/>
-                        <xsl:with-param name="prmLinkContent" select="()"/>
-                        <xsl:with-param name="prmStart" select="false()"/>
-                    </xsl:call-template>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
-        
-        <xsl:choose>
-            <xsl:when test="not($pAddNumberingTitlePrefix)">
-                <xsl:value-of select="$title"/>
-            </xsl:when>
-            <xsl:when test="$isRoot">
-                <xsl:value-of select="concat($currentNumber, $cTitlePrefixSeparator, $title)"/>
-            </xsl:when>
-            <xsl:when test="$upperTopicCount=2">
-                <xsl:value-of select="concat($upperNumber, $currentNumber, $title)"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select="concat($upperNumber, $cTitlePrefixSeparator, $currentNumber, $title)"/>
-            </xsl:otherwise>
-        </xsl:choose>
+
+        <!-- Generate title -->
+        <xsl:if test="$pAddNumberingTitlePrefix">
+            <xsl:value-of select="$titlePrefix"/>
+            <xsl:text> </xsl:text>
+        </xsl:if>
+        <xsl:copy-of select="$title"/>
     </xsl:template>
     
     <!-- 
@@ -1123,7 +793,7 @@ E-mail : info@antennahouse.com
      return:	Text nodes
      note:		
     -->
-    <xsl:template name="genBookmarkTitle" as="node()*">
+    <xsl:template name="genBookmarkTitle" as="text()*">
         <xsl:param name="prmTopicRef" as="element()" required="yes"/>
         <xsl:param name="prmDefaultTitle" as="xs:string" required="yes"/>
     

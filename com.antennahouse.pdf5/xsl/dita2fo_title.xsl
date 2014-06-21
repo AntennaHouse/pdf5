@@ -82,8 +82,8 @@ E-mail : info@antennahouse.com
                         <xsl:with-param name="prmTopicContent"  select="$prmTopicContent"/>
                     </xsl:call-template>
                     <xsl:choose>
-                        <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]">
-                            <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]">
+                        <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
+                            <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
                                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                                 <xsl:with-param name="prmNeedId"   select="true()"/>
                             </xsl:apply-templates>
@@ -254,8 +254,8 @@ E-mail : info@antennahouse.com
                         <xsl:text> </xsl:text>
                     </xsl:if>
                     <xsl:choose>
-                        <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]">
-                            <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]">
+                        <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
+                            <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
                                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                                 <xsl:with-param name="prmNeedId"   select="true()"/>
                             </xsl:apply-templates>
@@ -420,8 +420,8 @@ E-mail : info@antennahouse.com
                         <xsl:text> </xsl:text>
                     </xsl:if>
                     <xsl:choose>
-                        <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]">
-                            <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]">
+                        <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
+                            <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
                                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                                 <xsl:with-param name="prmNeedId"   select="true()"/>
                             </xsl:apply-templates>
@@ -458,8 +458,8 @@ E-mail : info@antennahouse.com
             <xsl:copy-of select="ahf:getLocalizationAtts($prmTopicRef)"/>
             <fo:marker marker-class-name="{$cTitleBody}">
                 <xsl:choose>
-                    <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]">
-                        <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]" mode="GET_CONTENTS">
+                    <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
+                        <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]" mode="GET_CONTENTS">
                             <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                             <xsl:with-param name="prmNeedId"   select="false()"/>
                         </xsl:apply-templates>
@@ -477,8 +477,8 @@ E-mail : info@antennahouse.com
                 <xsl:with-param name="prmTopicContent" select="$prmTopicContent"/>
             </xsl:call-template>
             <xsl:choose>
-                <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]">
-                    <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]">
+                <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
+                    <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
                         <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                         <xsl:with-param name="prmNeedId"   select="true()"/>
                     </xsl:apply-templates>
@@ -563,8 +563,8 @@ E-mail : info@antennahouse.com
                             <fo:block>
                                 <xsl:copy-of select="ahf:getAttributeSet('atsHeader4Body')"/>
                                 <xsl:choose>
-                                    <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]">
-                                        <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]">
+                                    <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
+                                        <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
                                             <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                                             <xsl:with-param name="prmNeedId"   select="true()"/>
                                         </xsl:apply-templates>
@@ -649,8 +649,8 @@ E-mail : info@antennahouse.com
                             <fo:block>
                                 <xsl:copy-of select="ahf:getAttributeSet('atsHeader5Body')"/>
                                 <xsl:choose>
-                                    <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]">
-                                        <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' map/navtitle ')]">
+                                    <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
+                                        <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
                                             <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                                             <xsl:with-param name="prmNeedId"   select="true()"/>
                                         </xsl:apply-templates>
