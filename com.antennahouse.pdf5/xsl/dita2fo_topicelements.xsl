@@ -40,6 +40,10 @@ E-mail : info@antennahouse.com
     <xsl:template match="*[contains(@class, ' topic/navtitle ')]">
         <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
         <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
+        <xsl:apply-templates>
+            <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
+            <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
+        </xsl:apply-templates>
     </xsl:template>
     
     <!-- 

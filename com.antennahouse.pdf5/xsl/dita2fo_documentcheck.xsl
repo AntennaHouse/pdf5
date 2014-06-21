@@ -82,13 +82,14 @@ E-mail : info@antennahouse.com
      function:	bookmap structure check (2)
      param:		
      return:	xs:boolean
-     note:		
+     note:		Removed toc="no" restriction for part and chapter.
+                2014-06-21 t.makita
      -->
     <xsl:function name="ahf:checkBookmap2" as="xs:boolean">
         <xsl:choose>
             <xsl:when test="$isPartExist">
-                <xsl:choose>
-                    <!--xsl:when test="$map/*[contains(@class, ' bookmap/part ')][@toc='no']"-->
+                <!--xsl:choose>
+                    <!-\-xsl:when test="$map/*[contains(@class, ' bookmap/part ')][@toc='no']"-\->
                     <xsl:when test="$map/*[contains(@class, ' bookmap/part ')][ahf:isTocNo(.)]">
                         <xsl:for-each select="$map/*[contains(@class, ' bookmap/part ')][@toc='no']">
                             <xsl:call-template name="warningContinue">
@@ -101,11 +102,12 @@ E-mail : info@antennahouse.com
                     <xsl:otherwise>
                         <xsl:sequence select="false()"/>
                     </xsl:otherwise>
-                </xsl:choose>
+                </xsl:choose-->
+                <xsl:sequence select="false()"/>
             </xsl:when>
             <xsl:when test="$isChapterExist">
-                <xsl:choose>
-                    <!--xsl:when test="$map/*[contains(@class, ' bookmap/chapter ')][@toc='no']"-->
+                <!--xsl:choose>
+                    <!-\-xsl:when test="$map/*[contains(@class, ' bookmap/chapter ')][@toc='no']"-\->
                     <xsl:when test="$map/*[contains(@class, ' bookmap/chapter ')][ahf:isTocNo(.)]">
                         <xsl:for-each select="$map/*[contains(@class, ' bookmap/chapter ')][@toc='no']">
                             <xsl:call-template name="warningContinue">
@@ -118,7 +120,8 @@ E-mail : info@antennahouse.com
                     <xsl:otherwise>
                         <xsl:sequence select="false()"/>
                     </xsl:otherwise>
-                </xsl:choose>
+                </xsl:choose-->
+                <xsl:sequence select="false()"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:sequence select="false()"/>
@@ -136,7 +139,7 @@ E-mail : info@antennahouse.com
         <xsl:choose>
             <xsl:when test="$isBookMap">
                 <xsl:choose>
-                    <!-- Make them as obsolute
+                    <!-- Make them as obsolete
                     <xsl:when test="count($map//*[contains(@class, ' bookmap/figurelist ')][not(@href)]) &gt; 1">
                         <xsl:call-template name="warningContinue">
                             <xsl:with-param name="prmMes"
