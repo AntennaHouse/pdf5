@@ -60,14 +60,14 @@ E-mail : info@antennahouse.com
     			    <xsl:when test="namespace-uri($childElem)='http://www.w3.org/1998/Math/MathML'">
     			    	<!-- Content is MathML -->
     			        <fo:instream-foreign-object content-type="content-type:application/mathml+xml">
-    			            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+    			            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
     			            <xsl:copy-of select="$childElem"/>
     			        </fo:instream-foreign-object>
     			    </xsl:when>
     			    <xsl:when test="namespace-uri($childElem)='http://www.w3.org/2000/svg'">
     			    	<!-- Content is SVG -->
     			        <fo:instream-foreign-object content-type="content-type:image/svg+xml">
-    			            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+    			            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
     			            <xsl:copy-of select="$childElem"/>
     			        </fo:instream-foreign-object>
     			    </xsl:when>
@@ -89,7 +89,7 @@ E-mail : info@antennahouse.com
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsItemGroup')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -121,7 +121,7 @@ E-mail : info@antennahouse.com
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsState')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:value-of select="@name"/>
             <xsl:text>=</xsl:text>
             <xsl:value-of select="@value"/>
@@ -143,7 +143,7 @@ E-mail : info@antennahouse.com
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsBoolean')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:value-of select="@state"/>
         </fo:inline>
     </xsl:template>

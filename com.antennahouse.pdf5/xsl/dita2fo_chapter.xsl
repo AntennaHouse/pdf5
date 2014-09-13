@@ -225,16 +225,22 @@ E-mail : info@antennahouse.com
      param:		prmTopicRef, prmTitleMode
      return:	topic contents
      note:		Changed to output post-note per topic/body. 2011-07-28 t.makita
+                Apply style and fo attribute in $prmTopicRef if topic is top level.
+                2014-09-13 t.makita
      -->
     <xsl:template match="*[contains(@class, ' topic/topic ')]" mode="PROCESS_MAIN_CONTENT">
         <xsl:param name="prmTopicRef"    required="yes" as="element()"/>
         <xsl:param name="prmTitleMode"   required="yes" as="xs:integer"/>
         
+        <xsl:variable name="isTopLevelTopic" as="xs:boolean" select="empty(ancestor::*[contains(@class,' topic/topic ')])"/>
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsBase')"/>
             <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,true())"/>
             <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:if test="$isTopLevelTopic">
+                <xsl:copy-of select="ahf:getFoStyleAndProperty($prmTopicRef)"/>
+            </xsl:if>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             
             <xsl:choose>
                 <xsl:when test="$prmTitleMode=$cRoundBulletTitleMode">

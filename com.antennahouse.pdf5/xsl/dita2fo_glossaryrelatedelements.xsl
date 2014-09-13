@@ -50,7 +50,7 @@ E-mail : info@antennahouse.com
                 <fo:basic-link internal-destination="{$topicOid}">
                     <xsl:copy-of select="ahf:getAttributeSet('atsXref')"/>
                     <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-                    <xsl:copy-of select="ahf:getFoProperty(.)"/>
+                    <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                     <xsl:apply-templates select="$topicElement/*[contains(@class, ' topic/title ')]">
                         <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                         <xsl:with-param name="prmNeedId"   select="false()"/>
@@ -68,7 +68,7 @@ E-mail : info@antennahouse.com
                         <fo:basic-link internal-destination="{$topicOid}">
                             <xsl:copy-of select="ahf:getAttributeSet('atsXref')"/>
                             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-                            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+                            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                             <xsl:apply-templates select="$glossSurfaceFormElem[1]/node()">
                                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                                 <xsl:with-param name="prmNeedId"   select="false()"/>
@@ -79,7 +79,7 @@ E-mail : info@antennahouse.com
                         <fo:basic-link internal-destination="{$topicOid}">
                             <xsl:copy-of select="ahf:getAttributeSet('atsXref')"/>
                             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-                            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+                            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                             <xsl:apply-templates select="$topicElement/*[contains(@class, ' glossentry/glossterm  ')]">
                                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                                 <xsl:with-param name="prmNeedId"   select="false()"/>
@@ -119,7 +119,7 @@ E-mail : info@antennahouse.com
                 <fo:basic-link internal-destination="{$topicOid}">
                     <xsl:copy-of select="ahf:getAttributeSet('atsXref')"/>
                     <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-                    <xsl:copy-of select="ahf:getFoProperty(.)"/>
+                    <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                     <xsl:apply-templates select="$glossAltElem/node()">
                         <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                         <xsl:with-param name="prmNeedId"   select="false()"/>

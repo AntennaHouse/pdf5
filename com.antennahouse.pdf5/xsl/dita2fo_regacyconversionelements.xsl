@@ -36,7 +36,7 @@ E-mail : info@antennahouse.com
                 <xsl:copy-of select="ahf:getAttributeSet('atsRequiredCleanup')"/>
                 <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,$prmNeedId)"/>
                 <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
-                <xsl:copy-of select="ahf:getFoProperty(.)"/>
+                <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                 <fo:block>
                     <xsl:copy-of select="ahf:getAttributeSet('atsRequiredCleanupTitle')"/>
                     <xsl:value-of select="$requiredCleanupTitlePrefix"/>

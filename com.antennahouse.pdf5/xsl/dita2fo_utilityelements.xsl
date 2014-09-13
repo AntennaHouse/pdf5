@@ -37,7 +37,7 @@ E-mail : info@antennahouse.com
             <xsl:copy-of select="ahf:getAttributeSet('atsImageMap')"/>
             <xsl:copy-of select="ahf:getDisplayAtts(.,'atsImageMap')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -58,7 +58,7 @@ E-mail : info@antennahouse.com
     
         <fo:wrapper>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -78,7 +78,7 @@ E-mail : info@antennahouse.com
     
         <fo:wrapper>
             <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <!-- ignore contents -->
         </fo:wrapper>
     </xsl:template>
@@ -95,7 +95,7 @@ E-mail : info@antennahouse.com
     
         <fo:wrapper>
             <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <!-- ignore contents -->
         </fo:wrapper>
     </xsl:template>
@@ -111,7 +111,7 @@ E-mail : info@antennahouse.com
         <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
         <fo:wrapper>
             <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <!-- ignore xref -->
         </fo:wrapper>
     </xsl:template>

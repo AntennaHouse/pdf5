@@ -78,283 +78,6 @@ URL : http://www.antennahouse.co.jp/
     </xsl:function>
     
     <!-- 
-      ======================================================================================
-      FO style defninition file (default_style.xml, [lang-code]_style.xml) related template.
-      ======================================================================================
-    -->
-    
-    <!-- 
-     function:	Get attribute
-     param:		prmAttrSetName
-     return:	Attribute node
-     note:		Attribute-set is concatination of main style and alternate style.
-                2011-07-20 t.makita
-    -->
-    <xsl:function name="ahf:getAttributeSet" as="attribute()*">
-    	<xsl:param name="prmAttrSetName" as="xs:string"/>
-    
-    	<xsl:variable name="normalizedAtrSetName" select="normalize-space($prmAttrSetName)"/>
-    	
-        <xsl:for-each select="tokenize($normalizedAtrSetName, '[\s]+')">
-            <xsl:variable name="elementName" select="string(.)"/>
-        	<xsl:if test="not ($glStyleDefs/*[name() eq $elementName])">
-        		<xsl:call-template name="errorExit">
-        			<xsl:with-param name="prmMes">
-        				<xsl:value-of select="ahf:replace($stMes005,('%attrsetname','%file'),($elementName,$allStyleDefFile))"/>
-        			</xsl:with-param>
-        		</xsl:call-template>
-        	</xsl:if>
-        	<!-- Error occures in some cases in Saxon 9.1 -->
-    		<!--xsl:sequence select="$glStyleDefs/*[name() eq $elementName]/@*"/-->
-    		<xsl:for-each select="$glStyleDefs/*[name() eq $elementName]">
-    			<xsl:for-each select="./@*">
-    				<xsl:attribute name="{name()}" select="string(.)"/>
-    			</xsl:for-each>
-    		</xsl:for-each>
-        </xsl:for-each>
-    </xsl:function>
-    
-    <!-- 
-     function:	Get CSS style string
-     param:		prmStyleName
-     return:	CSS style string
-     note:		none
-    -->
-    <xsl:function name="ahf:getCssStyle" as="xs:string">
-    	<xsl:param name="prmAttrSetName" as="xs:string"/>
-    
-    	<xsl:if test="not($glStyleDefs/*[name() eq $prmAttrSetName])">
-    		<xsl:call-template name="errorExit">
-    			<xsl:with-param name="prmMes">
-    				<xsl:value-of select="ahf:replace($stMes025,('%style','%file'),($prmAttrSetName,$allStyleDefFile))"/>
-    			</xsl:with-param>
-    		</xsl:call-template>
-    	</xsl:if>
-    
-        <xsl:variable name="styles" select="$glStyleDefs/*[name() eq $prmAttrSetName][position() eq last()]/@*" as="attribute()*"/>
-    
-        <xsl:sequence select="ahf:attributeToCss($styles)"/>
-    
-    </xsl:function>
-    
-    <xsl:function name="ahf:attributeToCss" as="xs:string">
-        <xsl:param name="prmAttributes" as="attribute()*"/>
-    
-        <xsl:variable name="first" select="subsequence($prmAttributes,1,1)" as="attribute()*"/>
-        <xsl:variable name="restString" select="if (empty(subsequence($prmAttributes,2))) then '' else  (ahf:attributeToCss(subsequence($prmAttributes,2)))" as="xs:string"/>
-    
-        <xsl:variable name="firstString">
-            <xsl:choose>
-                <xsl:when test="empty($first)">
-                    <xsl:value-of select="''"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:variable name="name" select="name($first)"/>
-                    <xsl:variable name="value" select="string($first)"/>
-                    <xsl:value-of select="$name"/>
-                    <xsl:text>:</xsl:text>
-                    <xsl:choose>
-                        <xsl:when test="contains($value, ' ')">
-                            <xsl:text>'</xsl:text>
-                            <xsl:value-of select="$value"/>
-                            <xsl:text>';</xsl:text>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:value-of select="$value"/>
-                            <xsl:text>;</xsl:text>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
-        <xsl:sequence select="concat($firstString, $restString)"/>
-    </xsl:function>
-    
-    <!-- 
-     function:	Get attribute
-     param:		prmAttrSetName, prmAttrName
-     return:	attribute node
-     note:		none
-    -->
-    <xsl:function name="ahf:getAttribute" as="attribute()?">
-    	<xsl:param name="prmAttrSetName" as="xs:string"/>
-    	<xsl:param name="prmAttrName" as="xs:string"/>
-    
-    	<xsl:if test="not ($glStyleDefs/*[name() eq $prmAttrSetName])">
-    		<xsl:call-template name="errorExit">
-    			<xsl:with-param name="prmMes">
-    				<xsl:value-of select="ahf:replace($stMes006,('%attrsetname','%file'),($prmAttrSetName,$allStyleDefFile))"/>
-    			</xsl:with-param>
-    		</xsl:call-template>
-    	</xsl:if>
-    	<xsl:for-each select="string($glStyleDefs/*[name() eq $prmAttrSetName]/attribute::node()[name() eq $prmAttrName][position() eq last()])">
-    		<xsl:attribute name="{$prmAttrName}" select="string(.)"/>
-    	</xsl:for-each>
-    </xsl:function>
-    
-    <!-- 
-     function:	Get attribute value
-     param:		prmAttrSetName, prmAttrName
-     return:	attribute value
-     note:		none
-    -->
-    <xsl:function name="ahf:getAttributeValue" as="xs:string">
-    	<xsl:param name="prmAttrSetName" as="xs:string"/>
-    	<xsl:param name="prmAttrName" as="xs:string"/>
-    
-    	<xsl:if test="not ($glStyleDefs/*[name() eq $prmAttrSetName])">
-    		<xsl:call-template name="errorExit">
-    			<xsl:with-param name="prmMes">
-    				<xsl:value-of select="ahf:replace($stMes006,('%attrsetname','%file'),($prmAttrSetName,$allStyleDefFile))"/>
-    			</xsl:with-param>
-    		</xsl:call-template>
-    	</xsl:if>
-    	<xsl:sequence select="string($glStyleDefs/*[name() eq $prmAttrSetName][position() eq last()]/attribute::node()[name() eq $prmAttrName])"/>
-    </xsl:function>
-    
-    
-    <!-- 
-     function:	Get variable value
-     param:		prmVarName
-     return:	Variable value
-     note:		none
-    -->
-    <xsl:function name="ahf:getVarValue" as="xs:string">
-    	<xsl:param name="prmVarName" as="xs:string"/>
-        
-        <xsl:choose>
-        	<xsl:when test="not ($glVarDefs/*[name() eq $prmVarName])">
-        		<xsl:call-template name="errorExit">
-        			<xsl:with-param name="prmMes">
-                        <xsl:value-of select="ahf:replace($stMes008,('%var','%file'),($prmVarName,$allStyleDefFile))"/>
-        			</xsl:with-param>
-        		</xsl:call-template>
-        	</xsl:when>
-            <!-- Commented because $glVarDefs has multiple same entries.
-                 2011-07-20 t.makita
-             -->
-        	<!--xsl:when test="count($glVarDefs/*[name()=$prmVarName]) &gt; 1">
-        		<xsl:call-template name="errorExit">
-        			<xsl:with-param name="prmMes">
-                        <xsl:value-of select="ahf:replace($stMes020,('%var','%file'),($prmVarName,$styleDefFile))"/>
-        			</xsl:with-param>
-        		</xsl:call-template>
-        	</xsl:when>
-        	<xsl:when test="count($glAltVarDefs/*[name()=$prmVarName]) &gt; 1">
-        		<xsl:call-template name="errorExit">
-        			<xsl:with-param name="prmMes">
-                        <xsl:value-of select="ahf:replace($stMes021,('%var','%file'),($prmVarName,$altStyleDefFile))"/>
-        			</xsl:with-param>
-        		</xsl:call-template>
-        	</xsl:when>
-    		<xsl:when test="$glAltVarDefs/*[name()=$prmVarName]">
-        		<xsl:sequence select="string($glAltVarDefs/*[name()=$prmVarName][1]/text())"/>
-    		</xsl:when-->
-    		<xsl:otherwise>
-    			<xsl:sequence select="string($glVarDefs/*[name() eq $prmVarName][position() eq last()]/text())"/>
-    		</xsl:otherwise>
-    	</xsl:choose>
-    </xsl:function>
-    
-    
-    <!-- 
-     function:	Get instream object 
-     param:		prmObjName
-     return:	instream object 
-     note:		none
-    -->
-    <xsl:function name="ahf:getInstreamObject" as="element()*">
-    	<xsl:param name="prmObjName" as="xs:string"/>
-    
-    	<xsl:if test="not ($glInstreamObjects/*[name() eq $prmObjName])">
-    		<xsl:call-template name="errorExit">
-    			<xsl:with-param name="prmMes">
-    				<xsl:value-of select="ahf:replace($stMes009,('%objname','%file'),($prmObjName,$allStyleDefFile))"/>
-    			</xsl:with-param>
-    		</xsl:call-template>
-    	</xsl:if>
-    	<xsl:sequence select="$glInstreamObjects/*[name() eq $prmObjName][position() eq last()]/*"/>
-    </xsl:function>
-    
-    
-    <!-- 
-     function:	Get instream object replacing text
-     param:		prmVarName, prmSrcStr, prmDstStr
-     return:	instream object replacing text
-     note:		none
-    -->
-    <xsl:function name="ahf:getInstreamObjectTextReplace" as="element()*">
-    	<xsl:param name="prmObjName" as="xs:string"/>
-    	<xsl:param name="prmSrcStr" as="xs:string"/>
-    	<xsl:param name="prmDstStr" as="xs:string"/>
-    
-        <xsl:variable name="srcInstreamObject" select="ahf:getInstreamObject($prmObjName)"/>
-        <xsl:variable name="dstInstreamObject">
-            <xsl:apply-templates select="$srcInstreamObject" mode="INSTREAM_REPLACE_TEXT">
-            	<xsl:with-param name="prmSrcStr" select="$prmSrcStr"/>
-            	<xsl:with-param name="prmDstStr" select="$prmDstStr"/>
-            </xsl:apply-templates>
-        </xsl:variable>
-        <xsl:sequence select="$dstInstreamObject/*"/>
-    </xsl:function>
-    
-    <xsl:template match="svg:*" mode="INSTREAM_REPLACE_TEXT">
-    	<xsl:param name="prmSrcStr" as="xs:string"/>
-    	<xsl:param name="prmDstStr" as="xs:string"/>
-        <xsl:copy>
-            <xsl:copy-of select="@*"/>
-            <xsl:apply-templates mode="INSTREAM_REPLACE_TEXT">
-            	<xsl:with-param name="prmSrcStr" select="$prmSrcStr"/>
-            	<xsl:with-param name="prmDstStr" select="$prmDstStr"/>
-            </xsl:apply-templates>
-        </xsl:copy>
-    </xsl:template>
-    
-    <xsl:template match="*" mode="INSTREAM_REPLACE_TEXT">
-    	<xsl:param name="prmSrcStr" as="xs:string"/>
-    	<xsl:param name="prmDstStr" as="xs:string"/>
-        <xsl:copy>
-            <xsl:copy-of select="@*"/>
-            <xsl:apply-templates mode="INSTREAM_REPLACE_TEXT">
-            	<xsl:with-param name="prmSrcStr" select="$prmSrcStr"/>
-            	<xsl:with-param name="prmDstStr" select="$prmDstStr"/>
-            </xsl:apply-templates>
-        </xsl:copy>
-    </xsl:template>
-    
-    <xsl:template match="text()" mode="INSTREAM_REPLACE_TEXT">
-    	<xsl:param name="prmSrcStr" as="xs:string"/>
-    	<xsl:param name="prmDstStr" as="xs:string"/>
-        <xsl:choose>
-            <xsl:when test="contains(.,$prmSrcStr)">
-                <xsl:value-of select="replace(.,$prmSrcStr,$prmDstStr)"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select="."/>
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:template>
-    
-    <!-- 
-     function:	Get formatting object 
-     param:		prmObjName
-     return:	Formatting object 
-     note:		Newly added on 2011-08-18 t.makita
-    -->
-    <xsl:function name="ahf:getFormattingObject" as="element()*">
-    	<xsl:param name="prmObjName" as="xs:string"/>
-    
-    	<xsl:if test="not ($glFormattingObjects/*[name() eq $prmObjName])">
-    		<xsl:call-template name="errorExit">
-    			<xsl:with-param name="prmMes">
-    				<xsl:value-of select="ahf:replace($stMes010,('%objname','%file'),($prmObjName,$allStyleDefFile))"/>
-    			</xsl:with-param>
-    		</xsl:call-template>
-    	</xsl:if>
-    	<xsl:sequence select="$glFormattingObjects/*[name() eq $prmObjName][position() eq last()]/*"/>
-    </xsl:function>
-    
-    <!-- 
       ============================================
          String utility
       ============================================
@@ -414,7 +137,24 @@ URL : http://www.antennahouse.co.jp/
         <xsl:param name="prmStr" as="xs:string"/>
         <xsl:sequence select="translate($prmStr,'&#x005C;','/')"/>
     </xsl:function>
+
+    <!--
+     function: escapeForRegx
+     param:    prmSrcString
+     return:   Escaped xs:string
+     note:     Original code by Priscilla Walmsley.
+               http://www.xsltfunctions.com/xsl/functx_escape-for-regex.html
+    -->
+    <xsl:function name="ahf:escapeForRegxDst" as="xs:string">
+        <xsl:param name="prmSrcString" as="xs:string"/>
+        <xsl:sequence select="replace($prmSrcString,'(\\|\$)','\\$1')"/>
+    </xsl:function>
     
+    <xsl:function name="ahf:escapeForRegxSrc" as="xs:string">
+        <xsl:param name="prmSrcString" as="xs:string"/>
+        <xsl:sequence select="replace($prmSrcString,'(\.|\[|\]|\\|\||\-|\^|\$|\?|\*|\+|\{|\}|\(|\))','\\$1')"/>
+    </xsl:function>
+
     <!--
         function: Safe replace function
         param: prmStr,prmSrc,prmDst
@@ -424,7 +164,7 @@ URL : http://www.antennahouse.co.jp/
         <xsl:param name="prmStr" as="xs:string"/>
         <xsl:param name="prmSrc" as="xs:string"/>
         <xsl:param name="prmDst" as="xs:string"/>
-        <xsl:sequence select="replace($prmStr,$prmSrc,ahf:bsToSlash($prmDst))"/>
+        <xsl:sequence select="replace($prmStr,ahf:escapeForRegxSrc($prmSrc),ahf:escapeForRegxDst($prmDst))"/>
     </xsl:function>
     
     <!--

@@ -476,7 +476,7 @@ E-mail : info@antennahouse.com
             <xsl:copy-of select="ahf:getAttributeSet('atsBase')"/>
             <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,true())"/>
             <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <!-- title -->
             <xsl:choose>
                 <xsl:when test="$prmTitleMode=$cRoundBulletTitleMode">

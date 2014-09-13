@@ -36,7 +36,7 @@ E-mail : info@antennahouse.com
             <xsl:if test="$pUseOutputClassNoHyphenate and (string(@outputclass) eq 'nohyphenate')">
             	<xsl:copy-of select="ahf:getAttributeSet('atsNoHyphenate')"/>
             </xsl:if>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -134,7 +134,7 @@ E-mail : info@antennahouse.com
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsNote')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -162,7 +162,7 @@ E-mail : info@antennahouse.com
             <xsl:if test="$pUseOutputClassDeprecated and (string(@outputclass) eq 'deprecated')">
             	<xsl:copy-of select="ahf:getAttributeSet('atsDeprecated')"/>
             </xsl:if>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -183,7 +183,7 @@ E-mail : info@antennahouse.com
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsKeyword')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -212,7 +212,7 @@ E-mail : info@antennahouse.com
         <fo:list-block>
             <xsl:copy-of select="ahf:getAttributeSet('atsOl')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -247,7 +247,7 @@ E-mail : info@antennahouse.com
             <xsl:if test="not(preceding-sibling::*[contains(@class,' topic/li ')])">
                 <xsl:attribute name="{$liSpacingAttr}" select="'0mm'"/>
             </xsl:if>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <fo:list-item-label end-indent="label-end()"> 
                 <fo:block>
                     <xsl:copy-of select="ahf:getAttributeSet('atsOlLabel')"/>
@@ -325,7 +325,7 @@ E-mail : info@antennahouse.com
         <fo:list-block>
             <xsl:copy-of select="ahf:getAttributeSet('atsUl')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -350,7 +350,7 @@ E-mail : info@antennahouse.com
             <xsl:if test="not(preceding-sibling::*[contains(@class,' topic/li ')])">
                 <xsl:attribute name="{$liSpacingAttr}" select="'0mm'"/>
             </xsl:if>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <fo:list-item-label end-indent="label-end()"> 
                 <fo:block>
                     <xsl:copy-of select="ahf:getAttributeSet('atsUlLabel')"/>
@@ -383,7 +383,7 @@ E-mail : info@antennahouse.com
         <fo:list-block>
             <xsl:copy-of select="ahf:getAttributeSet('atsSl')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef"    select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"      select="$prmNeedId"/>
@@ -416,7 +416,7 @@ E-mail : info@antennahouse.com
                                    select="ahf:getPropertyRatio($compactAttrVal,$slCompactRatio)"/>
                 </xsl:when>
             </xsl:choose>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <fo:list-item-label end-indent="label-end()"> 
                 <fo:block>
                     <fo:inline/>
@@ -448,7 +448,7 @@ E-mail : info@antennahouse.com
             <xsl:when test="$pFormatDlAsBlock">
                 <fo:block>
                     <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-                    <xsl:copy-of select="ahf:getFoProperty(.)"/>
+                    <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                     <xsl:apply-templates select="*[contains(@class, ' topic/dlhead ')]">
                         <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                         <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -471,7 +471,7 @@ E-mail : info@antennahouse.com
                 <fo:table>
                     <xsl:copy-of select="ahf:getAttributeSet('atsDl')"/>
                     <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-                    <xsl:copy-of select="ahf:getFoProperty(.)"/>
+                    <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                     <xsl:apply-templates select="*[contains(@class, ' topic/dlhead ')]">
                         <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                         <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -518,7 +518,7 @@ E-mail : info@antennahouse.com
                 <fo:table-header>
                     <xsl:copy-of select="ahf:getAttributeSet('atsDlhead')"/>
                     <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-                    <xsl:copy-of select="ahf:getFoProperty(.)"/>
+                    <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                     <fo:table-row>
                         <xsl:apply-templates>
                             <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
@@ -545,7 +545,7 @@ E-mail : info@antennahouse.com
                     <xsl:attribute name="{$dlCompactAttrName}" 
                                    select="ahf:getPropertyRatio($compactAttrVal,$dlCompactRatio)"/>
                 </xsl:if>
-                <xsl:copy-of select="ahf:getFoProperty(.)"/>
+                <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                 <xsl:apply-templates>
                     <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                     <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -568,7 +568,7 @@ E-mail : info@antennahouse.com
                     <xsl:attribute name="{$dlCompactAttrName}" 
                                    select="ahf:getPropertyRatio($compactAttrVal,$dlCompactRatio)"/>
                 </xsl:if>
-                <xsl:copy-of select="ahf:getFoProperty(.)"/>
+                <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                 <xsl:apply-templates>
                     <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                     <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -586,7 +586,7 @@ E-mail : info@antennahouse.com
             <xsl:when test="$pFormatDlAsBlock">
                 <fo:block>
                     <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-                    <xsl:copy-of select="ahf:getFoProperty(.)"/>
+                    <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                     <xsl:apply-templates>
                         <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                         <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -598,7 +598,7 @@ E-mail : info@antennahouse.com
                 <fo:table-row>
                     <xsl:copy-of select="ahf:getAttributeSet('atsDlentry')"/>
                     <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-                    <xsl:copy-of select="ahf:getFoProperty(.)"/>
+                    <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                     <xsl:apply-templates>
                         <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                         <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -621,7 +621,7 @@ E-mail : info@antennahouse.com
                 <fo:block>
                     <xsl:copy-of select="ahf:getAttributeSet('atsDtBlock')"/>
                     <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-                    <xsl:copy-of select="ahf:getFoProperty(.)"/>
+                    <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                     <xsl:if test="string($compactAttrValBlock) and $prmDoCompact">
                         <xsl:attribute name="{$dlCompactAttrNameBlock}" 
                                        select="ahf:getPropertyRatio($compactAttrValBlock,$dlCompactRatioBlockDt)"/>
@@ -636,7 +636,7 @@ E-mail : info@antennahouse.com
                 <xsl:variable name="compactAttrVal" select="ahf:getAttributeValue('atsDt',$dlCompactAttrName)"/>
                 <xsl:variable name="hasDlhead" select="boolean(ancestor::*[contains(@class,' topic/dl ')]/child::*[contains(@class,' topic/dlhead ')])"/>
                 <fo:table-cell>
-                    <xsl:copy-of select="ahf:getFoProperty(.)"/>
+                    <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                     <fo:block>
                         <xsl:copy-of select="ahf:getAttributeSet('atsDt')"/>
                         <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
@@ -673,7 +673,7 @@ E-mail : info@antennahouse.com
                         <xsl:attribute name="{$dlCompactAttrNameBlock}" 
                                        select="ahf:getPropertyRatio($compactAttrValBlock,$dlCompactRatioBlockDd)"/>
                     </xsl:if>
-                    <xsl:copy-of select="ahf:getFoProperty(.)"/>
+                    <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                     <xsl:apply-templates>
                         <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                         <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -683,7 +683,7 @@ E-mail : info@antennahouse.com
             <xsl:otherwise>
                 <xsl:variable name="compactAttrVal" select="ahf:getAttributeValue('atsDd',$dlCompactAttrName)"/>
                 <fo:table-cell>
-                    <xsl:copy-of select="ahf:getFoProperty(.)"/>
+                    <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                     <fo:block>
                         <xsl:copy-of select="ahf:getAttributeSet('atsDd')"/>
                         <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
@@ -714,7 +714,7 @@ E-mail : info@antennahouse.com
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsSection')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef"    select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -736,7 +736,7 @@ E-mail : info@antennahouse.com
             <xsl:copy-of select="ahf:getAttributeSet('atsHeader5List')"/>
             <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,$prmNeedId)"/>
             <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <fo:list-item>
                 <fo:list-item-label end-indent="label-end()">
                     <fo:block>
@@ -769,7 +769,7 @@ E-mail : info@antennahouse.com
         
         <fo:wrapper>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef"    select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -791,7 +791,7 @@ E-mail : info@antennahouse.com
             <xsl:copy-of select="ahf:getAttributeSet('atsHeader5List')"/>
             <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,$prmNeedId)"/>
             <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <fo:list-item>
                 <fo:list-item-label end-indent="label-end()">
                     <fo:block>
@@ -830,7 +830,7 @@ E-mail : info@antennahouse.com
             <xsl:if test="not(@id) and child::*[contains(@class, ' topic/title ')]">
                 <xsl:attribute name="id" select="ahf:generateId(.,$prmTopicRef)"/>
             </xsl:if>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates select="*[contains(@class,' topic/desc ')]">
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -855,7 +855,7 @@ E-mail : info@antennahouse.com
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsFigDesc')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -873,7 +873,7 @@ E-mail : info@antennahouse.com
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsFigTitle')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:value-of select="$figTitlePrefix"/>
             <xsl:text>&#x00A0;</xsl:text>
             <xsl:apply-templates>
@@ -904,7 +904,7 @@ E-mail : info@antennahouse.com
                 <!-- add some spacing -->
                 <xsl:copy-of select="ahf:getAttributeSet('atsFiggroupLastSpacing')"/>
             </xsl:if>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates select="*[not(contains(@class,' topic/title '))]">
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -933,7 +933,7 @@ E-mail : info@antennahouse.com
                 <!-- add some spacing -->
                 <xsl:copy-of select="ahf:getAttributeSet('atsFiggroupLastTitleSpacing')"/>
             </xsl:if>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -985,7 +985,7 @@ E-mail : info@antennahouse.com
                     <fo:external-graphic>
                         <xsl:copy-of select="ahf:getUnivAtts($prmImage,$prmTopicRef,$prmNeedId)"/>
                         <xsl:copy-of select="ahf:getImageCommonAttr($prmImage)"/>
-                        <xsl:copy-of select="ahf:getFoProperty($prmImage)"/>
+                        <xsl:copy-of select="ahf:getFoStyleAndProperty($prmImage)"/>
                     </fo:external-graphic>
                 </fo:basic-link>
             </xsl:when>
@@ -993,7 +993,7 @@ E-mail : info@antennahouse.com
                 <fo:external-graphic>
                     <xsl:copy-of select="ahf:getUnivAtts($prmImage,$prmTopicRef,$prmNeedId)"/>
                     <xsl:copy-of select="ahf:getImageCommonAttr($prmImage)"/>
-                    <xsl:copy-of select="ahf:getFoProperty($prmImage)"/>
+                    <xsl:copy-of select="ahf:getFoStyleAndProperty($prmImage)"/>
                 </fo:external-graphic>
             </xsl:otherwise>
         </xsl:choose>
@@ -1141,7 +1141,7 @@ E-mail : info@antennahouse.com
             <xsl:copy-of select="ahf:getAttributeSet('atsPre')"/>
             <xsl:copy-of select="ahf:getDisplayAtts(.,'atsPre')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -1163,7 +1163,7 @@ E-mail : info@antennahouse.com
             <xsl:copy-of select="ahf:getAttributeSet('atsLines')"/>
             <xsl:copy-of select="ahf:getDisplayAtts(.,'atsLines')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -1187,7 +1187,7 @@ E-mail : info@antennahouse.com
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsCite')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:value-of select="$citePrefix"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
@@ -1241,7 +1241,7 @@ E-mail : info@antennahouse.com
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsLq')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -1293,7 +1293,7 @@ E-mail : info@antennahouse.com
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsQ')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:value-of select="$qPrefix"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
@@ -1335,7 +1335,7 @@ E-mail : info@antennahouse.com
                 <xsl:copy-of select="ahf:getAttributeSet('atsDraftComment')"/>
                 <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,$prmNeedId)"/>
                 <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
-                <xsl:copy-of select="ahf:getFoProperty(.)"/>
+                <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                 <fo:block>
                     <xsl:copy-of select="ahf:getAttributeSet('atsDraftCommentTitle')"/>
                     <xsl:value-of select="$draftCommentTitlePrefix"/>
@@ -1517,7 +1517,7 @@ E-mail : info@antennahouse.com
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsTerm')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -1538,7 +1538,7 @@ E-mail : info@antennahouse.com
         
         <fo:wrapper>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
@@ -1563,7 +1563,7 @@ E-mail : info@antennahouse.com
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsTm')"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:copy-of select="ahf:getFoProperty(.)"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             
             <xsl:apply-templates>
                 <xsl:with-param name="prmTopicRef"    select="$prmTopicRef"/>

@@ -49,7 +49,8 @@ E-mail : info@antennahouse.com
     <xsl:include href="dita2fo_thumbindexmap.xsl"/>
     <xsl:include href="dita2fo_common.xsl"/>
     <xsl:include href="dita2fo_util.xsl"/>
-    <xsl:include href="dita2fo_genatrset.xsl"/>
+    <xsl:include href="dita2fo_styleset.xsl"/>
+    <xsl:include href="dita2fo_styleget.xsl"/>
     <xsl:include href="dita2fo_message.xsl"/>
     <xsl:include href="dita2fo_indexterm.xsl"/>
     <xsl:include href="dita2fo_indexshell.xsl"/>

@@ -138,7 +138,7 @@ E-mail : info@antennahouse.com
                         <fo:basic-link internal-destination="{$topicOid}">
                             <xsl:copy-of select="ahf:getAttributeSet('atsXref')"/>
                             <xsl:copy-of select="ahf:getUnivAtts($prmXref,$prmTopicRef,$prmNeedId)"/>
-                            <xsl:copy-of select="ahf:getFoProperty($prmXref)"/>
+                            <xsl:copy-of select="ahf:getFoStyleAndProperty($prmXref)"/>
                             <xsl:choose>
                                 <xsl:when test="$hasXrefTitle">
                                     <xsl:apply-templates select="$prmXref/child::node()">
@@ -387,7 +387,7 @@ E-mail : info@antennahouse.com
                     <xsl:attribute name="internal-destination" select="$destId"/>
                     <xsl:copy-of select="ahf:getAttributeSet('atsXref')"/>
                     <xsl:copy-of select="ahf:getUnivAtts($prmXref,$prmTopicRef,$prmNeedId)"/>
-                    <xsl:copy-of select="ahf:getFoProperty($prmXref)"/>
+                    <xsl:copy-of select="ahf:getFoStyleAndProperty($prmXref)"/>
                     <xsl:choose>
                         <xsl:when test="exists($prmXrefTitle)">
                             <xsl:copy-of  select="$prmXrefTitle"/>
@@ -410,7 +410,7 @@ E-mail : info@antennahouse.com
                 <fo:basic-link>
                     <xsl:attribute name="internal-destination" select="$destId"/>
                     <xsl:copy-of select="ahf:getUnivAtts($prmXref,$prmTopicRef,$prmNeedId)"/>
-                    <xsl:copy-of select="ahf:getFoProperty($prmXref)"/>
+                    <xsl:copy-of select="ahf:getFoStyleAndProperty($prmXref)"/>
                     <xsl:choose>
                         <xsl:when test="exists($prmXrefTitle)">
                             <xsl:copy-of select="$prmXrefTitle"/>
@@ -431,7 +431,7 @@ E-mail : info@antennahouse.com
                     <xsl:attribute name="internal-destination" select="$destId"/>
                     <xsl:copy-of select="ahf:getAttributeSet('atsXref')"/>
                     <xsl:copy-of select="ahf:getUnivAtts($prmXref,$prmTopicRef,$prmNeedId)"/>
-                    <xsl:copy-of select="ahf:getFoProperty($prmXref)"/>
+                    <xsl:copy-of select="ahf:getFoStyleAndProperty($prmXref)"/>
                     <xsl:choose>
                         <xsl:when test="exists($prmXrefTitle)">
                             <xsl:copy-of  select="$prmXrefTitle"/>
@@ -454,7 +454,7 @@ E-mail : info@antennahouse.com
                 <fo:basic-link>
                     <xsl:attribute name="internal-destination" select="$destId"/>
                     <xsl:copy-of select="ahf:getUnivAtts($prmXref,$prmTopicRef,$prmNeedId)"/>
-                    <xsl:copy-of select="ahf:getFoProperty($prmXref)"/>
+                    <xsl:copy-of select="ahf:getFoStyleAndProperty($prmXref)"/>
                     <xsl:choose>
                         <xsl:when test="exists($prmXrefTitle)">
                             <xsl:copy-of select="ahf:getAttributeSet('atsFnPrefix')"/>
@@ -476,7 +476,7 @@ E-mail : info@antennahouse.com
                     <xsl:attribute name="internal-destination" select="$destId"/>
                     <xsl:copy-of select="ahf:getAttributeSet('atsXref')"/>
                     <xsl:copy-of select="ahf:getUnivAtts($prmXref,$prmTopicRef,$prmNeedId)"/>
-                    <xsl:copy-of select="ahf:getFoProperty($prmXref)"/>
+                    <xsl:copy-of select="ahf:getFoStyleAndProperty($prmXref)"/>
                     <xsl:choose>
                         <xsl:when test="exists($prmXrefTitle)">
                             <xsl:copy-of  select="$prmXrefTitle"/>
@@ -499,7 +499,7 @@ E-mail : info@antennahouse.com
                 <fo:basic-link>
                     <xsl:attribute name="internal-destination" select="$destId"/>
                     <xsl:copy-of select="ahf:getUnivAtts($prmXref,$prmTopicRef,$prmNeedId)"/>
-                    <xsl:copy-of select="ahf:getFoProperty($prmXref)"/>
+                    <xsl:copy-of select="ahf:getFoStyleAndProperty($prmXref)"/>
                     <xsl:choose>
                         <xsl:when test="exists($prmXrefTitle)">
                             <xsl:copy-of select="$prmXrefTitle"/>
@@ -542,7 +542,7 @@ E-mail : info@antennahouse.com
                     <xsl:if test="$isLinkToPdf">
                         <xsl:attribute name="axf:action-type" select="'gotor'"/>
                     </xsl:if>
-                    <xsl:copy-of select="ahf:getFoProperty($prmXref)"/>
+                    <xsl:copy-of select="ahf:getFoStyleAndProperty($prmXref)"/>
                     <xsl:apply-templates select="$prmXref/child::node()">
                         <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                         <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
