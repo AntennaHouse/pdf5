@@ -230,7 +230,7 @@ E-mail : info@antennahouse.com
                     <xsl:variable name="editStatus" select="string($glossEntry/@editStatus)" as="xs:string"/>
                     <xsl:variable name="topicRefId" select="string($glossEntry/@topicRefId)" as="xs:string"/>
                     <!--xsl:variable name="topicRef" select="key('topicrefByGenerateId',$topicRefId)" as="element()*"/-->
-                    <xsl:variable name="topicRef" select="$map//*[contains(@class, 'map/topicref')][generate-id(.) eq $topicRefId][1]" as="element()*"/>
+                    <xsl:variable name="topicRef" select="$map//*[contains(@class, 'map/topicref')][ahf:generateId(.,()) eq $topicRefId][1]" as="element()*"/>
                     <!--xsl:message select="'$editStatus=',$editStatus,'$topicRefId=',$topicRefId,'class=',@class"/-->
                     <xsl:choose>
                         <xsl:when test="exists($topicRef)">
@@ -367,7 +367,7 @@ E-mail : info@antennahouse.com
     
         <xsl:copy>
             <xsl:copy-of select="@*"/>
-            <xsl:attribute name="topicRefId" select="string(generate-id($prmTopicRef))"/>
+            <xsl:attribute name="topicRefId" select="ahf:generateId($prmTopicRef,())"/>
             <xsl:attribute name="sortkey">
                 <xsl:variable name="tempGlossterm" as="xs:string*">
                     <xsl:apply-templates select="*[contains(@class,' glossentry/glossterm ')]" mode="TEXT_ONLY"/>

@@ -42,7 +42,7 @@ E-mail : info@antennahouse.com
             <xsl:number select="."
                         level="any"
                         count="*[contains(@class,' abbrev-d/abbreviated-form ')][string(@keyref)=$topicRefKey]"
-                        from="*[contains(@class, ' topic/topic ')][generate-id(parent::*)=$rootId]"/>
+                        from="*[contains(@class, ' topic/topic ')][parent::* is $root]"/>
         </xsl:variable>
         
         <xsl:choose>
