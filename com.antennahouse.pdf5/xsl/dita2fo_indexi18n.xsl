@@ -36,13 +36,10 @@ E-mail : info@antennahouse.com
     </xsl:variable>
     
     <xsl:variable name="indextermSorted">
-        <!-- Convert xml:lang from 'en-GB', 'en-US' to 'en'
-         -->
-        <xsl:variable name="interfaceLang" select="if (starts-with($documentLang,'en-')) then 'en' else $documentLang" as="xs:string"/>
-    	<xsl:for-each select="i18n_index_saxon9:indexSortSaxon9($interfaceLang, $indextermOrigin, string($pAssumeSortasPinyin))">
+        <xsl:for-each select="i18n_index_saxon9:indexSortSaxon9($documentLang, $indextermOrigin, string($pAssumeSortasPinyin))">
     		<xsl:copy>
     			<xsl:copy-of select="@*"/>
-    			<xsl:attribute name="id" select="generate-id(.)"/>
+    			<xsl:attribute name="id" select="ahf:generateHistoryId(.)"/>
     			<xsl:copy-of select="*"/>
     		</xsl:copy>
     	</xsl:for-each>

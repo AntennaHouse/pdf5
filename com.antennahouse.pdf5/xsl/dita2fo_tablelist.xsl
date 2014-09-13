@@ -253,11 +253,10 @@ E-mail : info@antennahouse.com
         <xsl:variable name="topicRef" select="."/>
         <xsl:variable name="id" select="substring-after(@href, '#')"/>
         <xsl:variable name="topicContent" select="if (string($id)) then key('topicById',$id)[1] else ()" as="element()?"/>
-        <xsl:variable name="topicRefCount" select="ahf:countTopicRef(.)" as="xs:integer"/>
     
         <xsl:for-each select="$topicContent/descendant::*[contains(@class, ' topic/table ')][child::*[contains(@class, ' topic/title ')]]">
             <xsl:variable name="table" select="."/>
-            <xsl:variable name="tableId" select="if (@id) then string(ahf:getIdAtts($table,$topicRef,true())) else ahf:generateIdByTrCount($table,$topicRefCount)" as="xs:string"/>
+            <xsl:variable name="tableId" select="if (@id) then string(ahf:getIdAtts($table,$topicRef,true())) else ahf:generateId($table,$topicRef)" as="xs:string"/>
             <xsl:variable name="tableTitle" as="node()*">
                 <xsl:apply-templates select="$table/*[contains(@class,' topic/title ')]" mode="MAKE_TABLE_LIST">
                     <xsl:with-param name="prmTopicRef"    select="$topicRef"/>

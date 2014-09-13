@@ -91,7 +91,7 @@ E-mail : info@antennahouse.com
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        <xsl:variable name="id" select="generate-id()"/>
+        <xsl:variable name="id" select="ahf:generateId(.,())"/>
         <xsl:variable name="class" as="xs:string">
             <xsl:choose>
                 <xsl:when test="contains(@class, ' bookmap/part ')">

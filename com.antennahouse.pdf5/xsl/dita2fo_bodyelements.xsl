@@ -1414,7 +1414,7 @@ E-mail : info@antennahouse.com
             <xsl:when test="$pDisplayFnAtEndOfTopic">
                 <xsl:variable name="topicNode" select="$prmFn/ancestor::*[contains(@class, ' topic/topic ')][position()=last()]"/>
                 <xsl:variable name="fnPreviousAmount" as="xs:integer">
-                    <xsl:variable name="topicNodeId" select="ahf:generateIdByTopicRef(string($topicNode/@id),$prmTopicRef)"/>
+                    <xsl:variable name="topicNodeId" select="ahf:generateId($topicNode,$prmTopicRef)"/>
                     <xsl:choose>
                         <xsl:when test="$isGlossEntry">
                             <xsl:sequence select="xs:integer(0)"/>
@@ -1698,7 +1698,7 @@ E-mail : info@antennahouse.com
         <xsl:variable name="topicNode" select="$prmFig/ancestor::*[contains(@class, ' topic/topic ')][position()=last()]"/>
     
         <xsl:variable name="figPreviousAmount" as="xs:integer">
-            <xsl:variable name="topicNodeId" select="ahf:generateIdByTopicRef(string($topicNode/@id),$prmTopicRef)"/>
+            <xsl:variable name="topicNodeId" select="ahf:generateId($topicNode,$prmTopicRef)"/>
             <xsl:sequence select="$figureNumberingMap/*[@id=$topicNodeId]/@count"/>
         </xsl:variable>
     

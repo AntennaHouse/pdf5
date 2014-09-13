@@ -122,10 +122,13 @@ E-mail : info@antennahouse.com
         </fo:block>
     </xsl:template>
     
+    <!-- Current context is topicref
+         2014-09-14 t.makita
+     -->
     <xsl:template name="chapterEndRight">
         <xsl:if test="$pAddThumbnailIndex">
             <xsl:call-template name="genThumbIndex">
-                <xsl:with-param name="prmId" select="generate-id()"/>
+                <xsl:with-param name="prmId" select="ahf:generateId(.,())"/>
                 <xsl:with-param name="prmClass">
                     <xsl:choose>
                         <xsl:when test="ancestor-or-self::*[contains(@class, ' bookmap/part ')]">

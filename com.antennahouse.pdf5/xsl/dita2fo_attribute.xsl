@@ -59,7 +59,7 @@ E-mail : info@antennahouse.com
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:attribute name="id">
-                            <xsl:value-of select="generate-id($prmElement)"/>
+                            <xsl:value-of select="ahf:generateId($prmElement,())"/>
                         </xsl:attribute>
                     </xsl:otherwise>
                 </xsl:choose>
@@ -434,51 +434,16 @@ E-mail : info@antennahouse.com
     
         <xsl:choose>
             <xsl:when test="$prmElement/ancestor::*[contains(@class,' map/map ')]">
-                <xsl:sequence select="generate-id($prmElement)"/>
+                <xsl:sequence select="ahf:generateHistoryId($prmElement)"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:variable name="topicRefCount" select="if (exists($prmTopicRef)) then ahf:countTopicRef($prmTopicRef) else 0" as="xs:integer"/>
-                <xsl:variable name="id1" select="generate-id($prmElement)" as="xs:string"/>
+                <xsl:variable name="id1" select="ahf:generateHistoryId($prmElement)" as="xs:string"/>
                 <xsl:variable name="id2" select="if ($topicRefCount &gt; 1) then $idSeparator else ''" as="xs:string"/>
                 <xsl:variable name="id3" select="if ($topicRefCount &gt; 1) then string($topicRefCount) else ''" as="xs:string"/>
                 <xsl:sequence select="concat($id1,$id2,$id3)"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
-    
-    <!-- 
-     function:	Generate unique id cosidering multiple topic reference
-     param:		prmElement,prmTopicRefCount
-     return:	id string
-     note:		
-     -->
-    <xsl:function name="ahf:generateIdByTrCount" as="xs:string">
-        <xsl:param name="prmElement" as="element()"/>
-        <xsl:param name="prmTopicRefCount" as="xs:integer"/>
-    
-        <xsl:variable name="id1" select="generate-id($prmElement)" as="xs:string"/>
-        <xsl:variable name="id2" select="if ($prmTopicRefCount &gt; 1) then $idSeparator else ''" as="xs:string"/>
-        <xsl:variable name="id3" select="if ($prmTopicRefCount &gt; 1) then string($prmTopicRefCount) else ''" as="xs:string"/>
-        <xsl:sequence select="concat($id1,$id2,$id3)"/>
-    </xsl:function>
-    
-    <!-- 
-     function:	Generate unique id cosidering multiple topic reference
-     param:		prmId,prmTopicRef
-     return:	id string
-     note:		
-     -->
-    <xsl:function name="ahf:generateIdByTopicRef" as="xs:string">
-        <xsl:param name="prmId" as="xs:string"/>
-        <xsl:param name="prmTopicRef" as="element()"/>
-    
-        <xsl:variable name="topicRefCount" select="ahf:countTopicRef($prmTopicRef)" as="xs:integer"/>
-    
-        <xsl:variable name="id1" select="$prmId" as="xs:string"/>
-        <xsl:variable name="id2" select="if ($topicRefCount &gt; 1) then $idSeparator else ''" as="xs:string"/>
-        <xsl:variable name="id3" select="if ($topicRefCount &gt; 1) then string($topicRefCount) else ''" as="xs:string"/>
-        <xsl:sequence select="concat($id1,$id2,$id3)"/>
-    </xsl:function>
-
 
 </xsl:stylesheet>

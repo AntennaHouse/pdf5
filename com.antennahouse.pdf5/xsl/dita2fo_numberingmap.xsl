@@ -95,7 +95,7 @@ E-mail : info@antennahouse.com
         <xsl:variable name="level" select="count(ancestor-or-self::*[contains(@class, ' map/topicref ')][(starts-with(@href,'#')) or (contains(@class, ' mapgroup-d/topichead '))])"/>
         <xsl:variable name="targetId" select="substring-after(@href, '#')"/>
         <xsl:variable name="targetTopic" select="key('topicById', $targetId)[1]"/>
-        <xsl:variable name="topicId" select="ahf:generateIdByTopicRef($targetId,.)"/>
+        <xsl:variable name="topicId" select="ahf:generateId($targetTopic,.)"/>
         <xsl:variable name="tableCount" select="count($targetTopic//*[contains(@class,' topic/table ')][child::*[contains(@class, ' topic/title ')]])"/>
         <xsl:variable name="isFrontmatter" select="string(boolean(ancestor::*[contains(@class, ' bookmap/frontmatter ')]))"/>
         <xsl:variable name="isBackmatter" select="string(boolean(ancestor::*[contains(@class, ' bookmap/backmatter ')]))"/>
@@ -266,7 +266,7 @@ E-mail : info@antennahouse.com
         <xsl:variable name="level" select="count(ancestor-or-self::*[contains(@class, ' map/topicref ')][(starts-with(@href,'#')) or (contains(@class, ' mapgroup-d/topichead '))])"/>
         <xsl:variable name="targetId" select="substring-after(@href, '#')"/>
         <xsl:variable name="targetTopic" select="key('topicById', $targetId)[1]"/>
-        <xsl:variable name="topicId" select="ahf:generateIdByTopicRef($targetId,.)"/>
+        <xsl:variable name="topicId" select="ahf:generateId($targetTopic,.)"/>
         <xsl:variable name="figureCount" select="count($targetTopic//*[contains(@class,' topic/fig ')][child::*[contains(@class, ' topic/title ')]])"/>
         <xsl:variable name="isFrontmatter" select="string(boolean(ancestor::*[contains(@class, ' bookmap/frontmatter ')]))"/>
         <xsl:variable name="isBackmatter" select="string(boolean(ancestor::*[contains(@class, ' bookmap/backmatter ')]))"/>
@@ -436,7 +436,7 @@ E-mail : info@antennahouse.com
         <xsl:variable name="level" select="count(ancestor-or-self::*[contains(@class, ' map/topicref ')][(starts-with(@href,'#')) or (contains(@class, ' mapgroup-d/topichead '))])"/>
         <xsl:variable name="targetId" select="substring-after(@href, '#')"/>
         <xsl:variable name="targetTopic" select="key('topicById', $targetId)[1]"/>
-        <xsl:variable name="topicId" select="ahf:generateIdByTopicRef($targetId,.)"/>
+        <xsl:variable name="topicId" select="ahf:generateId($targetTopic,.)"/>
         <xsl:variable name="footnoteCount" select="count($targetTopic//*[contains(@class,' topic/fn ')][not(contains(@class,' pr-d/synnote '))][not(@callout)])"/>
         <xsl:variable name="isFrontmatter" select="string(boolean(ancestor::*[contains(@class, ' bookmap/frontmatter ')]))"/>
         <xsl:variable name="isBackmatter" select="string(boolean(ancestor::*[contains(@class, ' bookmap/backmatter ')]))"/>

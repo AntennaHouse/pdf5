@@ -403,14 +403,7 @@ E-mail : info@antennahouse.com
         <xsl:param name="prmTopicContent" required="yes" as="element()?"/>
         
         <fo:block>
-            <xsl:choose>
-                <xsl:when test="$pOnlinePdf">
-                    <xsl:copy-of select="ahf:getAttributeSet('atsAppendixHead1Online')"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:copy-of select="ahf:getAttributeSet('atsAppendixHead1')"/>
-                </xsl:otherwise>
-            </xsl:choose>
+            <xsl:copy-of select="ahf:getAttributeSet('atsAppendixHead1')"/>
             <xsl:copy-of select="ahf:getIdAtts($prmTopicRef,$prmTopicRef,true())"/>
             <xsl:copy-of select="ahf:getLocalizationAtts($prmTopicRef)"/>
             <fo:marker marker-class-name="{$cTitleBody}">

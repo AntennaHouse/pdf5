@@ -44,16 +44,6 @@ E-mail : info@antennahouse.com
     
     <!-- Indexterm nodeset sorted result -->
     <xsl:variable name="indextermSorted">
-        <!--xsl:for-each select="$indextermOrigin/index-data">
-            <xsl:sort lang="{$documentLang}"/>
-            <xsl:element name="{name()}">
-                <xsl:attribute name="id">
-                    <xsl:value-of select="generate-id()"/>
-                </xsl:attribute>
-                <xsl:copy-of select="@*"/>
-                <xsl:copy-of select="text()|*"/>
-            </xsl:element>
-        </xsl:for-each-->
     	<xsl:choose>
     	<xsl:when test="count($indextermOrigin/*) gt 0">
             <xsl:variable name="tempSortResult">
@@ -65,7 +55,7 @@ E-mail : info@antennahouse.com
                 <xsl:for-each select="$tempSortResult/*">
                     <xsl:copy>
                         <xsl:copy-of select="@*"/>
-                        <xsl:attribute name="id" select="generate-id(.)"/>
+                        <xsl:attribute name="id" select="ahf:generateHistoryId(.)"/>
                         <xsl:copy-of select="*"/>
                     </xsl:copy>
                 </xsl:for-each>
