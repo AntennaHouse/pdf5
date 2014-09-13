@@ -147,20 +147,10 @@ E-mail : info@antennahouse.com
                 <fo:block>
                     <xsl:choose>
                         <xsl:when test="$level eq 1">
-                            <xsl:choose>
-                                <xsl:when test="$pOnlinePdf">
-                                    <xsl:copy-of select="ahf:getAttributeSet('atsChapterHead1Online')"/>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:copy-of select="ahf:getAttributeSet('atsChapterHead1')"/>
-                                </xsl:otherwise>
-                            </xsl:choose>
+                            <xsl:copy-of select="ahf:getAttributeSet('atsChapterHead1')"/>
                         </xsl:when>
                         <xsl:when test="$level eq 2">
                             <xsl:copy-of select="ahf:getAttributeSet('atsChapterHead2')"/>
-                            <xsl:if test="empty($prmTopicRef/preceding-sibling::*[contains(@class,' map/topicref ')]) and $pSupressFirstChildPageBreak">
-                                <xsl:copy-of select="ahf:getAttributeSet('atsCancelPageBreak')"/>
-                            </xsl:if>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:copy-of select="ahf:getAttributeSet('atsChapterHead3')"/>
@@ -209,20 +199,10 @@ E-mail : info@antennahouse.com
                 <fo:block>
                     <xsl:choose>
                         <xsl:when test="$level eq 1">
-                            <xsl:choose>
-                                <xsl:when test="$pOnlinePdf">
-                                    <xsl:copy-of select="ahf:getAttributeSet('atsChapterHead1Online')"/>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:copy-of select="ahf:getAttributeSet('atsChapterHead1')"/>
-                                </xsl:otherwise>
-                            </xsl:choose>
+                            <xsl:copy-of select="ahf:getAttributeSet('atsChapterHead1')"/>
                         </xsl:when>
                         <xsl:when test="$level eq 2">
                             <xsl:copy-of select="ahf:getAttributeSet('atsChapterHead2')"/>
-                            <xsl:if test="empty($prmTopicRef/preceding-sibling::*[contains(@class,' map/topicref ')]) and $pSupressFirstChildPageBreak">
-                                <xsl:copy-of select="ahf:getAttributeSet('atsCancelPageBreak')"/>
-                            </xsl:if>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:copy-of select="ahf:getAttributeSet('atsChapterHead3')"/>
@@ -318,20 +298,10 @@ E-mail : info@antennahouse.com
                     <xsl:copy-of select="ahf:getAttributeSet('atsAppendixHead1')"/>
                     <xsl:choose>
                         <xsl:when test="$level eq 1">
-                            <xsl:choose>
-                                <xsl:when test="$pOnlinePdf">
-                                    <xsl:copy-of select="ahf:getAttributeSet('atsAppendixHead1Online')"/>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:copy-of select="ahf:getAttributeSet('atsAppendixHead1')"/>
-                                </xsl:otherwise>
-                            </xsl:choose>
+                            <xsl:copy-of select="ahf:getAttributeSet('atsAppendixHead1')"/>
                         </xsl:when>
                         <xsl:when test="$level eq 2">
                             <xsl:copy-of select="ahf:getAttributeSet('atsAppendixHead2')"/>
-                            <xsl:if test="empty($prmTopicRef/preceding-sibling::*[contains(@class,' map/topicref ')]) and $pSupressFirstChildPageBreak">
-                                <xsl:copy-of select="ahf:getAttributeSet('atsCancelPageBreak')"/>
-                            </xsl:if>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:copy-of select="ahf:getAttributeSet('atsAppendixHead3')"/>
@@ -376,20 +346,10 @@ E-mail : info@antennahouse.com
                 <fo:block>
                     <xsl:choose>
                         <xsl:when test="$level eq 1">
-                            <xsl:choose>
-                                <xsl:when test="$pOnlinePdf">
-                                    <xsl:copy-of select="ahf:getAttributeSet('atsAppendixHead1Online')"/>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:copy-of select="ahf:getAttributeSet('atsAppendixHead1')"/>
-                                </xsl:otherwise>
-                            </xsl:choose>
+                            <xsl:copy-of select="ahf:getAttributeSet('atsAppendixHead1')"/>
                         </xsl:when>
                         <xsl:when test="$level eq 2">
                             <xsl:copy-of select="ahf:getAttributeSet('atsAppendixHead2')"/>
-                            <xsl:if test="empty($prmTopicRef/preceding-sibling::*[contains(@class,' map/topicref ')]) and $pSupressFirstChildPageBreak">
-                                <xsl:copy-of select="ahf:getAttributeSet('atsCancelPageBreak')"/>
-                            </xsl:if>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:copy-of select="ahf:getAttributeSet('atsAppendixHead3')"/>

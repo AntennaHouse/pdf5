@@ -24,8 +24,8 @@ URL : http://www.antennahouse.co.jp/
         <variable name="General_Margin_Left">20mm</variable>
 
 		<!-- Fonts -->
-        <variable name="General_Serif_Font">MS Mincho</variable>
-        <variable name="General_Sans_Serif_Font">MS Gothic</variable>
+        <variable name="General_Serif_Font">Times New Roman,MS Mincho</variable>
+        <variable name="General_Sans_Serif_Font">Arial,MS Gothic</variable>
 		<variable name="General_Monospace_Font">Courier New, MS Gothic</variable>
 
         <!-- Literals -->

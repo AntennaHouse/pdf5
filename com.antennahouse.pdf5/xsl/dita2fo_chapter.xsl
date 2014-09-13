@@ -227,6 +227,8 @@ E-mail : info@antennahouse.com
      note:		Changed to output post-note per topic/body. 2011-07-28 t.makita
                 Apply style and fo attribute in $prmTopicRef if topic is top level.
                 2014-09-13 t.makita
+                Move page-break control from topic/title to topic level.
+                2014-09-13 t.makita
      -->
     <xsl:template match="*[contains(@class, ' topic/topic ')]" mode="PROCESS_MAIN_CONTENT">
         <xsl:param name="prmTopicRef"    required="yes" as="element()"/>
@@ -237,20 +239,24 @@ E-mail : info@antennahouse.com
             <xsl:copy-of select="ahf:getAttributeSet('atsBase')"/>
             <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,true())"/>
             <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
+            <xsl:call-template name="getChapterTopicBreakAttr">
+                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
+                <xsl:with-param name="prmTopicContent" select="."/>
+            </xsl:call-template>
             <xsl:if test="$isTopLevelTopic">
                 <xsl:copy-of select="ahf:getFoStyleAndProperty($prmTopicRef)"/>
             </xsl:if>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             
             <xsl:choose>
-                <xsl:when test="$prmTitleMode=$cRoundBulletTitleMode">
+                <xsl:when test="$prmTitleMode eq $cRoundBulletTitleMode">
                     <!-- Make round bullet title -->
                     <xsl:call-template name="genRoundBulletTitle">
                         <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                         <xsl:with-param name="prmTopicContent" select="."/>
                     </xsl:call-template>
                 </xsl:when>
-                <xsl:when test="$prmTitleMode=$cSquareBulletTitleMode">
+                <xsl:when test="$prmTitleMode eq $cSquareBulletTitleMode">
                     <!-- Make round bullet title -->
                     <xsl:call-template name="genSquareBulletTitle">
                         <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
@@ -315,6 +321,56 @@ E-mail : info@antennahouse.com
                 <xsl:with-param name="prmTitleMode"  select="$prmTitleMode"/>
             </xsl:apply-templates>
         </fo:block>
+    </xsl:template>
+
+    <!-- 
+     function:	Generate chapter topic break attribute
+     param:		prmTopicRef, prmTopicContent
+     return:	attribute()?
+     note:		Changed to output break attribute from topic/title to topic level.
+                2014-09-13 t.makita
+     -->
+    <xsl:template name="getChapterTopicBreakAttr" as="attribute()*">
+        <xsl:param name="prmTopicRef" as="element()" required="yes"/>
+        <xsl:param name="prmTopicContent" as="element()?" required="yes"/>
+        
+        <!-- Nesting level in the bookmap -->
+        <xsl:variable name="level" select="count($prmTopicRef/ancestor-or-self::*[contains(@class, ' map/topicref ')])"/>
+        <!-- top level topic -->
+        <xsl:variable name="isTopLevelTopic" as="xs:boolean">
+            <xsl:choose>
+                <xsl:when test="empty($prmTopicContent)">
+                    <xsl:sequence select="true()"/>
+                </xsl:when>
+                <xsl:when test="empty($prmTopicContent/ancestor::*[contains(@class,' topic/topic ')])">
+                    <xsl:sequence select="true()"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:sequence select="false()"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:choose>
+            <xsl:when test="not($isTopLevelTopic)">
+                <xsl:sequence select="()"/>
+            </xsl:when>
+            <xsl:when test="$level eq 1">
+                <xsl:choose>
+                    <xsl:when test="$pOnlinePdf">
+                        <xsl:copy-of select="ahf:getAttributeSet('atsChapterBreak1Online')"/>        
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:copy-of select="ahf:getAttributeSet('atsChapterBreak1')"/>        
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:when>
+            <xsl:when test="$level eq 2">    
+                <xsl:copy-of select="ahf:getAttributeSet('atsChapterBreak2')"/>        
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:copy-of select="ahf:getAttributeSet('atsChapterBreak3')"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
 </xsl:stylesheet>

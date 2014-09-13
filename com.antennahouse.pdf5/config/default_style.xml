@@ -1044,6 +1044,26 @@ URL : http://www.antennahouse.com/
         </attribute-set>
     </thumbindex-attribute>
     
+    <topic-break-attr>
+        <!-- Chapter -->
+        <attribute-set name="atsChapterBreak1">
+            <attribute name="break-before">odd-page</attribute>
+        </attribute-set>
+        
+        <attribute-set name="atsChapterBreak1Online" use-attribute-sets="atsChapterBreak1">
+            <attribute name="break-before">page</attribute>
+        </attribute-set>
+        
+        <attribute-set name="atsChapterBreak2">
+            <attribute name="break-before">auto</attribute>
+        </attribute-set>
+
+        <attribute-set name="atsChapterBreak3">
+            <attribute name="break-before">auto</attribute>
+        </attribute-set>
+
+    </topic-break-attr>
+    
     <title-attribute>
         <attribute-set name="atsCancelPageBreak">
             <attribute name="break-before">auto</attribute>
@@ -1063,7 +1083,6 @@ URL : http://www.antennahouse.com/
         <attribute-set name="atsFmHeader2" use-attribute-sets="atsBTitle">
             <attribute name="start-indent">0mm</attribute>
             <attribute name="font-size">20pt</attribute>
-            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="break-before">page</attribute>
             <attribute name="space-before">6mm</attribute>
@@ -1073,7 +1092,6 @@ URL : http://www.antennahouse.com/
         <attribute-set name="atsFmHeader3" use-attribute-sets="atsBTitle">
             <attribute name="start-indent">0mm</attribute>
             <attribute name="font-size">16pt</attribute>
-            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="break-before">auto</attribute>
             <attribute name="space-before">2mm</attribute>
@@ -1085,38 +1103,30 @@ URL : http://www.antennahouse.com/
         <!-- level 1 -->
         <attribute-set name="atsChapterHead1" use-attribute-sets="atsBTitle">
             <attribute name="start-indent">0mm</attribute>
-            <attribute name="break-before">odd-page</attribute>
             <attribute name="space-after">4mm</attribute>
             <attribute name="font-size">24pt</attribute>
-            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="text-align">start</attribute>
-        </attribute-set>
-
-        <attribute-set name="atsChapterHead1Online" use-attribute-sets="atsChapterHead1">
-            <attribute name="break-before">page</attribute>
+            <attribute name="keep-with-next.within-page">always</attribute>
         </attribute-set>
 
         <!-- level 2 -->
         <attribute-set name="atsChapterHead2" use-attribute-sets="atsBTitle">
             <attribute name="start-indent">0mm</attribute>
-            <attribute name="break-before">page</attribute>
             <attribute name="space-before">6mm</attribute>
             <attribute name="space-after">2mm</attribute>
             <attribute name="font-size">20pt</attribute>
-            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="text-align">start</attribute>
+            <attribute name="keep-with-next.within-page">always</attribute>
         </attribute-set>
 
         <!-- level 3 -->
         <attribute-set name="atsChapterHead3" use-attribute-sets="atsBTitle">
             <attribute name="start-indent">0mm</attribute>
-            <attribute name="break-before">auto</attribute>
             <attribute name="space-before">4mm</attribute>
             <attribute name="space-after">2mm</attribute>
             <attribute name="font-size">16pt</attribute>
-            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="text-align">start</attribute>
             <attribute name="keep-with-next.within-page">always</attribute>
@@ -1126,38 +1136,30 @@ URL : http://www.antennahouse.com/
         <!-- level 1 -->
         <attribute-set name="atsAppendixHead1" use-attribute-sets="atsBTitle">
             <attribute name="start-indent">0mm</attribute>
-            <attribute name="break-before">odd-page</attribute>
             <attribute name="space-after">4mm</attribute>
             <attribute name="font-size">24pt</attribute>
-            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="text-align">start</attribute>
-        </attribute-set>
-
-        <attribute-set name="atsAppendixHead1Online" use-attribute-sets="atsAppendixHead1">
-            <attribute name="break-before">page</attribute>
+            <attribute name="keep-with-next.within-page">always</attribute>
         </attribute-set>
 
         <!-- level 2 -->
         <attribute-set name="atsAppendixHead2" use-attribute-sets="atsBTitle">
             <attribute name="start-indent">0mm</attribute>
-            <attribute name="break-before">page</attribute>
             <attribute name="space-before">6mm</attribute>
             <attribute name="space-after">2mm</attribute>
             <attribute name="font-size">20pt</attribute>
-            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="text-align">start</attribute>
+            <attribute name="keep-with-next.within-page">always</attribute>
         </attribute-set>
 
         <!-- level 3 -->
         <attribute-set name="atsAppendixHead3" use-attribute-sets="atsBTitle">
             <attribute name="start-indent">0mm</attribute>
-            <attribute name="break-before">auto</attribute>
             <attribute name="space-before">4mm</attribute>
             <attribute name="space-after">2mm</attribute>
             <attribute name="font-size">16pt</attribute>
-            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="text-align">start</attribute>
             <attribute name="keep-with-next.within-page">always</attribute>
