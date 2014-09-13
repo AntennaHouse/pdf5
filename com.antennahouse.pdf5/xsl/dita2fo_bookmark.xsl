@@ -480,23 +480,17 @@ E-mail : info@antennahouse.com
                 <xsl:choose>
                     <xsl:when test="$prmTopicRef/ancestor-or-self::*[contains(@class, ' bookmap/frontmatter ')]">
                         <!-- frontmatter -->
-                        <xsl:variable name="frontmatterTitle" as="text()*">
-                            <xsl:call-template name="genBookmarkTitle">
-                                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                                <xsl:with-param name="prmDefaultTitle" select="$prmDefaultTitle"/>
-                            </xsl:call-template>
-                        </xsl:variable>
-                        <xsl:value-of select="normalize-space($frontmatterTitle)"/>
+                        <xsl:call-template name="genBookmarkTitle">
+                            <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
+                            <xsl:with-param name="prmDefaultTitle" select="$prmDefaultTitle"/>
+                        </xsl:call-template>
                     </xsl:when>
                     <xsl:when test="$prmTopicRef/ancestor-or-self::*[contains(@class, ' bookmap/backmatter ')]">
                         <!-- backmatter -->
-                        <xsl:variable name="backmatterTitle" as="text()*">
-                            <xsl:call-template name="genBookmarkTitle">
-                                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                                <xsl:with-param name="prmDefaultTitle" select="$prmDefaultTitle"/>
-                            </xsl:call-template>
-                        </xsl:variable>
-                        <xsl:value-of select="normalize-space($backmatterTitle)"/>
+                        <xsl:call-template name="genBookmarkTitle">
+                            <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
+                            <xsl:with-param name="prmDefaultTitle" select="$prmDefaultTitle"/>
+                        </xsl:call-template>
                     </xsl:when>
                     <xsl:when test="$prmTopicRef/ancestor-or-self::*[contains(@class, ' bookmap/part ')]">
                         <!-- part -->
@@ -518,13 +512,10 @@ E-mail : info@antennahouse.com
                     </xsl:when>
                     <xsl:when test="$prmTopicRef[contains(@class, ' bookmap/appendices ')]">
                         <!-- appendices -->
-                        <xsl:variable name="appendiceTitle" as="text()*">
-                            <xsl:call-template name="genBookmarkTitle">
-                                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                                <xsl:with-param name="prmDefaultTitle" select="$prmDefaultTitle"/>
-                            </xsl:call-template>
-                        </xsl:variable>
-                        <xsl:value-of select="normalize-space($appendiceTitle)"/>
+                        <xsl:call-template name="genBookmarkTitle">
+                            <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
+                            <xsl:with-param name="prmDefaultTitle" select="$prmDefaultTitle"/>
+                        </xsl:call-template>
                     </xsl:when>
                 </xsl:choose>
             </xsl:when>
