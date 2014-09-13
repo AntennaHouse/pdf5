@@ -1045,6 +1045,23 @@ URL : http://www.antennahouse.com/
     </thumbindex-attribute>
     
     <topic-break-attr>
+        <!-- Frontmatter -->
+        <attribute-set name="atsFrontmatterBreak1">
+            <attribute name="break-before">auto</attribute>
+        </attribute-set>
+        
+        <attribute-set name="atsFrontmatterBreak1Online" use-attribute-sets="atsFrontmatterBreak1">
+            <attribute name="break-before">auto</attribute>
+        </attribute-set>
+        
+        <attribute-set name="atsFrontmatterBreak2">
+            <attribute name="break-before">auto</attribute>
+        </attribute-set>
+        
+        <attribute-set name="atsFrontmatterBreak3">
+            <attribute name="break-before">auto</attribute>
+        </attribute-set>
+
         <!-- Chapter -->
         <attribute-set name="atsChapterBreak1">
             <attribute name="break-before">odd-page</attribute>
@@ -1073,9 +1090,7 @@ URL : http://www.antennahouse.com/
         <attribute-set name="atsFmHeader1" use-attribute-sets="atsBTitle">
             <attribute name="start-indent">0mm</attribute>
             <attribute name="font-size">24pt</attribute>
-            <!--attribute name="font-weight">bold</attribute-->
             <attribute name="font-family">$General_Title_Font</attribute>
-            <attribute name="break-before">page</attribute>
             <attribute name="space-after">4mm</attribute>
             <attribute name="span">all</attribute>
         </attribute-set>
@@ -1084,7 +1099,6 @@ URL : http://www.antennahouse.com/
             <attribute name="start-indent">0mm</attribute>
             <attribute name="font-size">20pt</attribute>
             <attribute name="font-family">$General_Title_Font</attribute>
-            <attribute name="break-before">page</attribute>
             <attribute name="space-before">6mm</attribute>
             <attribute name="space-after">2mm</attribute>
         </attribute-set>
@@ -1093,7 +1107,6 @@ URL : http://www.antennahouse.com/
             <attribute name="start-indent">0mm</attribute>
             <attribute name="font-size">16pt</attribute>
             <attribute name="font-family">$General_Title_Font</attribute>
-            <attribute name="break-before">auto</attribute>
             <attribute name="space-before">2mm</attribute>
             <attribute name="space-after">2mm</attribute>
             <attribute name="keep-with-next.within-page">always</attribute>

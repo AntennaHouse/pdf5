@@ -374,7 +374,8 @@ E-mail : info@antennahouse.com
      function:	topicref without @href templates
      param:		none
      return:	descendant topic contents
-     note:		
+     note:		Add page-break control.
+                2014-09-13 t.makita
      -->
     <xsl:template match="*[contains(@class,' map/topicref ')][not(@href)]" mode="PROCESS_FRONTMATTER">
     
@@ -387,19 +388,23 @@ E-mail : info@antennahouse.com
         
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsBase')"/>
-            <!-- Do not call ahf:getLocalizationAtts because the id is generated in the title temple -->
-            <!--xsl:copy-of select="ahf:getIdAtts($topicRef,$topicRef,true())"/-->
             <xsl:copy-of select="ahf:getLocalizationAtts($topicRef)"/>
+            <xsl:call-template name="getFrontmatterTopicBreakAttr">
+                <xsl:with-param name="prmTopicRef" select="$topicRef"/>
+                <xsl:with-param name="prmTopicContent" select="()"/>
+            </xsl:call-template>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
+            
             <!-- title -->
             <xsl:choose>
-                <xsl:when test="$titleMode=$cRoundBulletTitleMode">
+                <xsl:when test="$titleMode eq $cRoundBulletTitleMode">
                     <!-- Make round bullet title -->
                     <xsl:call-template name="genRoundBulletTitle">
                         <xsl:with-param name="prmTopicRef" select="$topicRef"/>
                         <xsl:with-param name="prmTopicContent" select="()"/>
                     </xsl:call-template>
                 </xsl:when>
-                <xsl:when test="$titleMode=$cSquareBulletTitleMode">
+                <xsl:when test="$titleMode eq $cSquareBulletTitleMode">
                     <!-- Make square bullet title -->
                     <xsl:call-template name="genSquareBulletTitle">
                         <xsl:with-param name="prmTopicRef" select="$topicRef"/>
@@ -472,21 +477,29 @@ E-mail : info@antennahouse.com
                       select="count($prmTopicRef/ancestor-or-self::*[contains(@class, ' map/topicref ')]
                                                                    [not(contains(@class, ' bookmap/frontmatter '))]
                                                                    )"/>
+        <xsl:variable name="isTopLevelTopic" as="xs:boolean" select="empty(ancestor::*[contains(@class,' topic/topic ')])"/>
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsBase')"/>
             <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,true())"/>
             <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
+            <xsl:call-template name="getFrontmatterTopicBreakAttr">
+                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
+                <xsl:with-param name="prmTopicContent" select="."/>
+            </xsl:call-template>
+            <xsl:if test="$isTopLevelTopic">
+                <xsl:copy-of select="ahf:getFoStyleAndProperty($prmTopicRef)"/>
+            </xsl:if>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <!-- title -->
             <xsl:choose>
-                <xsl:when test="$prmTitleMode=$cRoundBulletTitleMode">
+                <xsl:when test="$prmTitleMode eq $cRoundBulletTitleMode">
                     <!-- Make round bullet title -->
                     <xsl:call-template name="genRoundBulletTitle">
                         <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                         <xsl:with-param name="prmTopicContent" select="."/>
                     </xsl:call-template>
                 </xsl:when>
-                <xsl:when test="$prmTitleMode=$cSquareBulletTitleMode">
+                <xsl:when test="$prmTitleMode eq $cSquareBulletTitleMode">
                     <!-- Make square bullet title -->
                     <xsl:call-template name="genSquareBulletTitle">
                         <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
@@ -548,4 +561,57 @@ E-mail : info@antennahouse.com
         </fo:block>
     </xsl:template>
 
+    <!-- 
+     function:	Generate frontmatter topic break attribute
+     param:		prmTopicRef, prmTopicContent
+     return:	attribute()?
+     note:		Changed to output break attribute from topic/title to topic level.
+                2014-09-13 t.makita
+     -->
+    <xsl:template name="getFrontmatterTopicBreakAttr" as="attribute()*">
+        <xsl:param name="prmTopicRef" as="element()" required="yes"/>
+        <xsl:param name="prmTopicContent" as="element()?" required="yes"/>
+        
+        <!-- Nesting level in the bookmap -->
+        <xsl:variable name="level" 
+                      as="xs:integer"
+                      select="count($prmTopicRef/ancestor-or-self::*[contains(@class, ' map/topicref ')]
+                                                                      [not(contains(@class, ' bookmap/frontmatter '))])"/>
+        <!-- top level topic -->
+        <xsl:variable name="isTopLevelTopic" as="xs:boolean">
+            <xsl:choose>
+                <xsl:when test="empty($prmTopicContent)">
+                    <xsl:sequence select="true()"/>
+                </xsl:when>
+                <xsl:when test="empty($prmTopicContent/ancestor::*[contains(@class,' topic/topic ')])">
+                    <xsl:sequence select="true()"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:sequence select="false()"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:choose>
+            <xsl:when test="not($isTopLevelTopic)">
+                <xsl:sequence select="()"/>
+            </xsl:when>
+            <xsl:when test="$level eq 1">
+                <xsl:choose>
+                    <xsl:when test="$pOnlinePdf">
+                        <xsl:copy-of select="ahf:getAttributeSet('atsFrontmatterBreak1Online')"/>        
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:copy-of select="ahf:getAttributeSet('atsFrontmatterBreak1')"/>        
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:when>
+            <xsl:when test="$level eq 2">    
+                <xsl:copy-of select="ahf:getAttributeSet('atsFrontmatterBreak2')"/>        
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:copy-of select="ahf:getAttributeSet('atsFrontmatterBreak3')"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
 </xsl:stylesheet>

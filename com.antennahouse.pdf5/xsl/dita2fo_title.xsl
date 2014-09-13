@@ -39,9 +39,6 @@ E-mail : info@antennahouse.com
                         </xsl:when>
                         <xsl:when test="$prmLevel = 2">
                             <xsl:copy-of select="ahf:getAttributeSet('atsFmHeader2')"/>
-                            <xsl:if test="empty($prmTopicRef/preceding-sibling::*[contains(@class,' map/topicref ')]) and $pSupressFirstChildPageBreak">
-                                <xsl:copy-of select="ahf:getAttributeSet('atsCancelPageBreak')"/>
-                            </xsl:if>
                         </xsl:when>
                 	    <xsl:otherwise>
                 	        <xsl:copy-of select="ahf:getAttributeSet('atsFmHeader3')"/>
@@ -68,9 +65,6 @@ E-mail : info@antennahouse.com
                         </xsl:when>
                         <xsl:when test="$prmLevel = 2">
                             <xsl:copy-of select="ahf:getAttributeSet('atsFmHeader2')"/>
-                            <xsl:if test="empty($prmTopicRef/preceding-sibling::*[contains(@class,' map/topicref ')]) and $pSupressFirstChildPageBreak">
-                                <xsl:copy-of select="ahf:getAttributeSet('atsCancelPageBreak')"/>
-                            </xsl:if>
                         </xsl:when>
                 	    <xsl:otherwise>
                 	        <xsl:copy-of select="ahf:getAttributeSet('atsFmHeader3')"/>

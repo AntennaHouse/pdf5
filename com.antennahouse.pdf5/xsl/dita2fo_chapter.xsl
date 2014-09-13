@@ -157,6 +157,8 @@ E-mail : info@antennahouse.com
      return:	descendant topic contents
      note:		Add title when $PRM_ADOPT_NAVTITLE='yes'.
                 2011-07-26 t.makita
+                Add page-break control.
+                2014-09-13 t.makita
      -->
     <xsl:template match="*[contains(@class,' map/topicref ')][not(@href)]" mode="PROCESS_TOPICREF">
         <xsl:variable name="topicRef" select="." as="element()"/>
@@ -166,16 +168,21 @@ E-mail : info@antennahouse.com
     		    <fo:block>
     		        <xsl:copy-of select="ahf:getAttributeSet('atsBase')"/>
     		        <xsl:copy-of select="ahf:getLocalizationAtts($topicRef)"/>
-    
+    		        <xsl:call-template name="getChapterTopicBreakAttr">
+    		            <xsl:with-param name="prmTopicRef" select="$topicRef"/>
+    		            <xsl:with-param name="prmTopicContent" select="()"/>
+    		        </xsl:call-template>
+    		        <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
+    		        
     		        <xsl:choose>
-    		            <xsl:when test="$titleMode=$cRoundBulletTitleMode">
+    		            <xsl:when test="$titleMode eq $cRoundBulletTitleMode">
     		                <!-- Make round bullet title -->
     		                <xsl:call-template name="genRoundBulletTitle">
     		                    <xsl:with-param name="prmTopicRef" select="$topicRef"/>
     		                    <xsl:with-param name="prmTopicContent" select="()"/>
     		                </xsl:call-template>
     		            </xsl:when>
-    		            <xsl:when test="$titleMode=$cSquareBulletTitleMode">
+    		            <xsl:when test="$titleMode eq $cSquareBulletTitleMode">
     		                <!-- Make round bullet title -->
     		                <xsl:call-template name="genSquareBulletTitle">
     		                    <xsl:with-param name="prmTopicRef" select="$topicRef"/>
@@ -335,7 +342,7 @@ E-mail : info@antennahouse.com
         <xsl:param name="prmTopicContent" as="element()?" required="yes"/>
         
         <!-- Nesting level in the bookmap -->
-        <xsl:variable name="level" select="count($prmTopicRef/ancestor-or-self::*[contains(@class, ' map/topicref ')])"/>
+        <xsl:variable name="level" as="xs:integer" select="count($prmTopicRef/ancestor-or-self::*[contains(@class, ' map/topicref ')])"/>
         <!-- top level topic -->
         <xsl:variable name="isTopLevelTopic" as="xs:boolean">
             <xsl:choose>
