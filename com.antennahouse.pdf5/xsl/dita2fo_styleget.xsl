@@ -109,17 +109,8 @@ URL : http://www.antennahouse.co.jp/
                     <xsl:variable name="value" select="string($first)"/>
                     <xsl:value-of select="$name"/>
                     <xsl:text>:</xsl:text>
-                    <xsl:choose>
-                        <xsl:when test="contains($value, ' ')">
-                            <xsl:text>'</xsl:text>
-                            <xsl:value-of select="$value"/>
-                            <xsl:text>';</xsl:text>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:value-of select="$value"/>
-                            <xsl:text>;</xsl:text>
-                        </xsl:otherwise>
-                    </xsl:choose>
+                    <xsl:value-of select="$value"/>
+                    <xsl:text>;</xsl:text>
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
