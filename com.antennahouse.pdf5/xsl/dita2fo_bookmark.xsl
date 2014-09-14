@@ -335,15 +335,19 @@ E-mail : info@antennahouse.com
     </xsl:template>
     
     
-    <!-- Appendices -->
+    <!-- Appendices
+         Changed to generate no title because appendice is only a wrapper of appendix in bookmap.
+         2014-09-14 t.makita
+     -->
      <xsl:template match="*[contains(@class,' bookmap/appendices ')][ahf:isToc(.)]" mode="MAKE_BOOKMARK" priority="2" >
-         <xsl:variable name="topicRef" as="element()" select="."/>
+         <xsl:apply-templates mode="#current"/>
+         <!--xsl:variable name="topicRef" as="element()" select="."/>
          <xsl:call-template name="genBookmark">
              <xsl:with-param name="prmTopicRef" select="$topicRef"/>
              <xsl:with-param name="prmDefaultTitle" select="$cAppendicesTitle"/>
-             <xsl:with-param name="prmInternalDest" select="(ahf:getIdAtts($topicRef,$topicRef,true()))[1]"/>
+             <xsl:with-param name="prmInternalDest" select="''"/>
              <xsl:with-param name="prmProcessChild" select="true()"/>
-         </xsl:call-template>
+         </xsl:call-template-->
      </xsl:template>
     
     <!-- Ignore reltable contents -->

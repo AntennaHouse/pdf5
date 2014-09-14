@@ -60,7 +60,7 @@ E-mail : info@antennahouse.com
                 <xsl:when test="$isBookMap">
                     <xsl:apply-templates select="$map/*[contains(@class, ' bookmap/frontmatter ')]"/>
                     <xsl:apply-templates select="$map/*[contains(@class, ' bookmap/part ') or contains(@class, ' bookmap/chapter ')]"/>
-                    <xsl:apply-templates select="$map/*[contains(@class, ' bookmap/appendices ')]"/>
+                    <xsl:apply-templates select="$map/*[contains(@class, ' bookmap/appendices ')]/*[contains(@class, ' bookmap/appendix ')]"/>
                     <xsl:apply-templates select="$map/*[contains(@class, ' bookmap/appendix ')]"/>
                     <xsl:apply-templates select="$map/*[contains(@class, ' bookmap/backmatter ')]"/>
                 </xsl:when>
