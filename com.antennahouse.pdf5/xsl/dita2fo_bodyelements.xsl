@@ -893,10 +893,10 @@ E-mail : info@antennahouse.com
         <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
         <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
     
-        <xsl:variable name="isFiggroupInTable" select="boolean(ancestor::*[contains(@class,' topic/entry ')])"/>
-        <xsl:variable name="atsFiggroup" select="if ($isFiggroupInTable) then 'atsFiggroupInTable' else 'atsFiggroup'"/>
-        <xsl:variable name="figgroupId" select="generate-id()"/>
-        <xsl:variable name="isLastFiggroup" select="boolean(ancestor::*[contains(@class,' topic/fig ')][(@frame='all') or (@frame='bottom') or (@frame='topbot')]/child::*[position()=last()]/descendant-or-self::*[contains(@class, ' topic/figgroup ')][generate-id()=$figgroupId][not(child::*[contains(@class,' topic/title ')])])"/>
+        <xsl:variable name="isFiggroupInTable" as="xs:boolean" select="boolean(ancestor::*[contains(@class,' topic/entry ')])"/>
+        <xsl:variable name="atsFiggroup" as="xs:string" select="if ($isFiggroupInTable) then 'atsFiggroupInTable' else 'atsFiggroup'"/>
+        <xsl:variable name="figgroup" as="element()" select="."/>
+        <xsl:variable name="isLastFiggroup" select="boolean(ancestor::*[contains(@class,' topic/fig ')][(@frame='all') or (@frame='bottom') or (@frame='topbot')]/child::*[position() eq last()]/descendant-or-self::*[contains(@class, ' topic/figgroup ')][. is $figgroup][not(child::*[contains(@class,' topic/title ')])])"/>
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet($atsFiggroup)"/>
             <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
@@ -921,8 +921,8 @@ E-mail : info@antennahouse.com
         <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
         <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
     
-        <xsl:variable name="titleId" select="generate-id()"/>
-        <xsl:variable name="isLastFiggroupTitle" select="boolean(ancestor::*[contains(@class,' topic/fig ')][(@frame='all') or (@frame='bottom') or (@frame='topbot')]/child::*[position()=last()]/descendant::*[contains(@class, ' topic/title ')][generate-id()=$titleId])"/>
+        <xsl:variable name="title" as="element()" select="."/>
+        <xsl:variable name="isLastFiggroupTitle" select="exists(ancestor::*[contains(@class,' topic/fig ')][(@frame='all') or (@frame='bottom') or (@frame='topbot')]/child::*[position()=last()]/descendant::*[contains(@class, ' topic/title ')][. is $title])"/>
         
         <xsl:variable name="isFiggroupInTable" select="boolean(ancestor::*[contains(@class,' topic/entry ')])"/>
         <xsl:variable name="atsFiggroupTitle" select="if ($isFiggroupInTable) then 'atsFiggroupTitleInTable' else 'atsFiggroupTitle'"/>
@@ -1412,15 +1412,15 @@ E-mail : info@antennahouse.com
                 <xsl:sequence select="string($prmFn/@callout)"/>
             </xsl:when>
             <xsl:when test="$pDisplayFnAtEndOfTopic">
-                <xsl:variable name="topicNode" select="$prmFn/ancestor::*[contains(@class, ' topic/topic ')][position()=last()]"/>
+                <xsl:variable name="topic" select="$prmFn/ancestor::*[contains(@class, ' topic/topic ')][position()=last()]"/>
                 <xsl:variable name="fnPreviousAmount" as="xs:integer">
-                    <xsl:variable name="topicNodeId" select="ahf:generateId($topicNode,$prmTopicRef)"/>
+                    <xsl:variable name="topicId" select="ahf:generateId($topic,$prmTopicRef)"/>
                     <xsl:choose>
                         <xsl:when test="$isGlossEntry">
                             <xsl:sequence select="xs:integer(0)"/>
                         </xsl:when>
-                        <xsl:when test="exists($footnoteNumberingMap/*[@id=$topicNodeId]/@count)">
-                            <xsl:sequence select="xs:integer($footnoteNumberingMap/*[@id=$topicNodeId]/@count)"/>        
+                        <xsl:when test="exists($footnoteNumberingMap/*[string(@id) eq $topicId]/@count)">
+                            <xsl:sequence select="xs:integer($footnoteNumberingMap/*[string(@id) eq $topicId]/@count)"/>        
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:sequence select="xs:integer(0)"/>
@@ -1428,23 +1428,15 @@ E-mail : info@antennahouse.com
                     </xsl:choose>
                 </xsl:variable>
                 <xsl:variable name="fnCurrentAmount" as="xs:integer">
-                    <xsl:variable name="fnCurrentNumberString">
-                        <xsl:choose>
-                            <xsl:when test="$isGlossEntry">
-                                <xsl:number select="$prmFn"
-                                    level="any"
-                                    count="*[contains(@class,' topic/fn ')][not(contains(@class,' pr-d/synnote '))][not(@callout)]"
-                                    from="*[contains(@class, ' topic/topic ')]"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:number select="$prmFn"
-                                    level="any"
-                                    count="*[contains(@class,' topic/fn ')][not(contains(@class,' pr-d/synnote '))][not(@callout)]"
-                                    from="*[contains(@class, ' topic/topic ')][generate-id(parent::*)=$rootId]"/>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </xsl:variable>
-                    <xsl:sequence select="xs:integer($fnCurrentNumberString)"/>
+                    <xsl:variable name="parentTopic" select="$prmFn/ancestor::*[contains(@class, ' topic/topic ')][1]"/>
+                    <xsl:choose>
+                        <xsl:when test="$isGlossEntry">
+                            <xsl:sequence select="count($parentTopic//*[contains(@class,' topic/fn ')][not(contains(@class,' pr-d/synnote '))][not(@callout)][. &lt;&lt; $prmFn]|$prmFn)"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:sequence select="count($topic//*[contains(@class,' topic/fn ')][not(contains(@class,' pr-d/synnote '))][not(@callout)][. &lt;&lt; $prmFn]|$prmFn)"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </xsl:variable>
                 <xsl:variable name="fnNumber" select="$fnPreviousAmount + $fnCurrentAmount" as="xs:integer"/>
                 <xsl:sequence select="concat($cFootnoteTagPrefix,string($fnNumber),$cFootnoteTagSuffix)"/>
@@ -1695,18 +1687,15 @@ E-mail : info@antennahouse.com
             </xsl:choose>
         </xsl:variable>
     
-        <xsl:variable name="topicNode" select="$prmFig/ancestor::*[contains(@class, ' topic/topic ')][position()=last()]"/>
+        <xsl:variable name="topic" as="element()" select="$prmFig/ancestor::*[contains(@class, ' topic/topic ')][position()=last()]"/>
     
         <xsl:variable name="figPreviousAmount" as="xs:integer">
-            <xsl:variable name="topicNodeId" select="ahf:generateId($topicNode,$prmTopicRef)"/>
-            <xsl:sequence select="$figureNumberingMap/*[@id=$topicNodeId]/@count"/>
+            <xsl:variable name="topicId" as="xs:string" select="ahf:generateId($topic,$prmTopicRef)"/>
+            <xsl:sequence select="$figureNumberingMap/*[string(@id) eq $topicId]/@count"/>
         </xsl:variable>
     
         <xsl:variable name="figCurrentAmount" as="xs:integer">
-            <xsl:number select="$prmFig"
-                        level="any"
-                        count="*[contains(@class,' topic/fig ')]"
-                        from="*[contains(@class, ' topic/topic ')][generate-id(parent::*)=$rootId]"/>
+            <xsl:sequence select="count($topic//*[contains(@class,' topic/fig ')][. &lt;&lt; $prmFig]|$prmFig)"/>
         </xsl:variable>
         <xsl:variable name="figNumber" select="$figPreviousAmount + $figCurrentAmount" as="xs:integer"/>
     

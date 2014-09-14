@@ -206,7 +206,6 @@ E-mail : info@antennahouse.com
          ***************************************-->
     <!-- Top level element -->
     <xsl:variable name="root" select="/*[1]" as="element()"/>
-    <xsl:variable name="rootId" select="generate-id($root)" as="xs:string"/>
     <xsl:variable name="map" select="$root/*[contains(@class,' map/map ')][1]" as="element()"/>
     <xsl:variable name="lastTopicRef" as="element()">
         <xsl:choose>
@@ -303,15 +302,6 @@ E-mail : info@antennahouse.com
     <xsl:key name="topicrefByKey" match="/*/*[contains(@class,' map/map ')]
                                           //*[contains(@class, ' map/topicref ')]" 
                                   use="tokenize(@keys, '[\s]+')"/>
-                                  <!--use="@keys"/> -->
-    
-    <!-- topicref by generate-id()
-         Added 2011-10-12 t.makita
-         THIS KEY DOES NOT WORK!!!
-     -->
-    <!--xsl:key name="topicrefByGenerateId" match="/*/*[contains(@class,' map/map ')]
-                                                //*[contains(@class, ' map/topicref ')]" 
-                                         use="generate-id(.)"/-->
     
     <!-- *************************************** 
             Document variables
