@@ -148,7 +148,7 @@ E-mail : info@antennahouse.com
         	<fo:region-before region-name="rgnChapterBeforeLeft">
                 <xsl:copy-of select="ahf:getAttributeSet('atsChapterRegionBefore')"/>
             </fo:region-before>
-        	<fo:region-end>
+            <fo:region-end region-name="rgnChapterEndLeft">
                 <xsl:copy-of select="ahf:getAttributeSet('atsChapterRegionEnd')"/>
             </fo:region-end>
         	<fo:region-after region-name="rgnChapterAfterLeft">

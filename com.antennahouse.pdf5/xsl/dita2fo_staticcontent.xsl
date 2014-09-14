@@ -146,6 +146,14 @@ E-mail : info@antennahouse.com
         </xsl:if>
     </xsl:template>
     
+    <!-- Genrate thumbnail if this is online PDF.
+         2014-09-14 t.makita
+     -->
+    <xsl:template name="chapterEndLeft">
+        <xsl:if test="$pOnlinePdf and $pAddThumbnailIndex">
+            <xsl:call-template name="chapterEndRight"/>
+        </xsl:if>
+    </xsl:template>
     
     <!-- 
      function:	index static content template

@@ -100,6 +100,9 @@ E-mail : info@antennahouse.com
             <fo:static-content flow-name="rgnChapterEndRight">
                 <xsl:call-template name="chapterEndRight"/>
             </fo:static-content>
+            <fo:static-content flow-name="rgnChapterEndLeft">
+                <xsl:call-template name="chapterEndLeft"/>
+            </fo:static-content>
             <fo:static-content flow-name="rgnChapterBlankBody">
                 <xsl:call-template name="makeBlankBlock"/>
             </fo:static-content>
