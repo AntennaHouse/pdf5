@@ -212,7 +212,14 @@ E-mail : info@antennahouse.com
             </xsl:call-template>
         </xsl:if>
     </xsl:template>
+
+    <xsl:template name="indexEndLeft">
+        <xsl:if test="$pOnlinePdf and $pAddThumbnailIndex">
+            <xsl:call-template name="indexEndRight"/>
+        </xsl:if>
+    </xsl:template>
     
+
     
     <!-- 
      function:	backmatter static content template

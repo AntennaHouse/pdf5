@@ -329,6 +329,9 @@ E-mail : info@antennahouse.com
                 <fo:static-content flow-name="rgnIndexEndRight">
                     <xsl:call-template name="indexEndRight"/>
                 </fo:static-content>
+                <fo:static-content flow-name="rgnIndexEndLeft">
+                    <xsl:call-template name="indexEndLeft"/>
+                </fo:static-content>
                 <fo:static-content flow-name="rgnIndexBlankBody">
                     <xsl:call-template name="makeBlankBlock"/>
                 </fo:static-content>

@@ -417,7 +417,7 @@ E-mail : info@antennahouse.com
         <!--xsl:message>[topicref] $addBookmark="<xsl:value-of select="$addBookmark"/>"</xsl:message-->
         
         <xsl:choose>
-            <xsl:when test="$addBookmark">
+            <xsl:when test="not($addBookmark)">
                 <!-- Ignore this element and descendant. -->
             </xsl:when>
             <xsl:when test="exists($linkContent) or $hasNavtitle or string($prmDefaultTitle)">
