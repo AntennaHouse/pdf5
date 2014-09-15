@@ -120,7 +120,11 @@ E-mail : info@antennahouse.com
         </xsl:variable>
         <xsl:choose>
             <xsl:when test="$class eq $cClassPart">
-                <xsl:variable name="label" select="count(preceding-sibling::*[contains(@class,' bookmap/part ')]) + 1"/>
+                <xsl:variable name="label" as="xs:string">
+                    <xsl:variable name="partCount" as="xs:integer" select="count(preceding-sibling::*[contains(@class,' bookmap/part ')]|.)"/>
+                    <xsl:variable name="partCountFormat" as="xs:string" select="ahf:getVarValue('Part_Count_Format')"/>
+                    <xsl:number format="{$partCountFormat}" value="$partCount"/>
+                </xsl:variable>
                 <xsl:element name="chaptermap">
                     <xsl:attribute name="id" select="$id"/>
                     <xsl:attribute name="class" select="$class"/>
@@ -129,9 +133,10 @@ E-mail : info@antennahouse.com
                 </xsl:element>
             </xsl:when>
             <xsl:when test="$class eq $cClassChapter">
-                <xsl:variable name="label">
-                    <xsl:variable name="chapterLabel" select="count(preceding-sibling::*[contains(@class,' map/topicref ')][not(contains(@class,' bookmap/frontmatter '))]) + 1"/>
-                    <xsl:value-of select="$chapterLabel"/>
+                <xsl:variable name="label" as="xs:string">
+                    <xsl:variable name="chapterCount" as="xs:integer" select="count(preceding-sibling::*[contains(@class,' map/topicref ')][not(contains(@class,' bookmap/frontmatter '))]|.)"/>
+                    <xsl:variable name="chapterCountFormat" as="xs:string" select="ahf:getVarValue('Chapter_Count_Format')"/>
+                    <xsl:number format="{$chapterCountFormat}" value="$chapterCount"/>
                 </xsl:variable>
                 <xsl:element name="chaptermap">
                     <xsl:attribute name="id" select="$id"/>
@@ -141,13 +146,15 @@ E-mail : info@antennahouse.com
                 </xsl:element>
             </xsl:when>
             <xsl:when test="$class eq $cClassAppendix">
-                <!-- Make label for each appendix
-                     2011-08-02 t.makita
-                 -->
+                <xsl:variable name="label" as="xs:string">
+                    <xsl:variable name="appendixCount" as="xs:integer" select="count(preceding-sibling::*[contains(@class,' bookmap/appendix ')]|.)"/>
+                    <xsl:variable name="appendixCountFormat" as="xs:string" select="ahf:getVarValue('Appendix_Count_Format')"/>
+                    <xsl:number format="{$appendixCountFormat}" value="$appendixCount"/>
+                </xsl:variable>
                 <xsl:element name="chaptermap">
                     <xsl:attribute name="id" select="$id"/>
                     <xsl:attribute name="class" select="$class"/>
-                    <xsl:attribute name="label" select="$cAppendixThumbnailLabel"/>
+                    <xsl:attribute name="label" select="$label"/>
                     <xsl:attribute name="title" select="$title"/>
                 </xsl:element>
             </xsl:when>
