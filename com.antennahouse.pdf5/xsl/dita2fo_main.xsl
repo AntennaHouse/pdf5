@@ -27,7 +27,10 @@ E-mail : info@antennahouse.com
      function:	root matching template
      param:		none
      return:	fo:root
-     note:		none
+     note:		Remove processing appendice element beause it is only a wrapper element for appendix in bookmap.
+                If appendice contains topicmeta/keywords/indexterm it results "Unresolved index-key value" error in formatting phase.
+                This is limatation of this stylesheet.
+                2014-09-15 t.makita
      -->
         <!--xsl:call-template name="stlyeDump"/-->
         <!--xsl:call-template name="dumpIndexterm"/-->

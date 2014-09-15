@@ -394,36 +394,22 @@ E-mail : info@antennahouse.com
             </xsl:choose>
         </xsl:variable>
     
-        <xsl:variable name="nestedTopicCount">
-            <xsl:choose>
-                <!-- Frontmatter -->
-                <xsl:when test="ancestor-or-self::*[contains(@class, ' bookmap/frontmatter ')]">
-                    <xsl:value-of select="count(ancestor-or-self::*[contains(@class, ' map/topicref ')]
-                                                                   [not(contains(@class, ' bookmap/frontmatter '))]
-                                                                   )"/>
-                </xsl:when>
-                <!-- backmatter -->
-                <xsl:when test="ancestor-or-self::*[contains(@class, ' bookmap/backmatter ')]">
-                    <xsl:value-of select="count(ancestor-or-self::*[contains(@class, ' map/topicref ')]
-                                                                   [not(contains(@class, ' bookmap/backmatter '))]
-                                                                   )"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="count(ancestor-or-self::*[contains(@class, ' map/topicref ')]
-                                                                   [not(contains(@class, ' mapgroup-d/topicgroup '))]
-                                                                   )"/>
-                </xsl:otherwise>
-            </xsl:choose>
+        <xsl:variable name="nestedTopicCount" as="xs:integer">
+            <xsl:sequence select="count(ancestor-or-self::*[contains(@class, ' map/topicref ')]
+                                                           [not(contains(@class, ' bookmap/frontmatter '))]
+                                                           [not(contains(@class, ' bookmap/backmatter '))]
+                                                           [not(contains(@class, ' bookmap/appendices '))]
+                                                           )"/>
         </xsl:variable>
     
-        <xsl:variable name="addBookmark">
+        <xsl:variable name="addBookmark" as="xs:boolean">
             <xsl:choose>
                 <xsl:when test="$nestedTopicCount &gt; $cBookmarkNestMax">
                     <!-- Max nesting level = 4 --> 
-                    <xsl:value-of select="$false"/>
+                    <xsl:sequence select="false()"/>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:value-of select="$true"/>
+                    <xsl:sequence select="true()"/>
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
@@ -431,7 +417,7 @@ E-mail : info@antennahouse.com
         <!--xsl:message>[topicref] $addBookmark="<xsl:value-of select="$addBookmark"/>"</xsl:message-->
         
         <xsl:choose>
-            <xsl:when test="$addBookmark = $false">
+            <xsl:when test="$addBookmark">
                 <!-- Ignore this element and descendant. -->
             </xsl:when>
             <xsl:when test="exists($linkContent) or $hasNavtitle or string($prmDefaultTitle)">

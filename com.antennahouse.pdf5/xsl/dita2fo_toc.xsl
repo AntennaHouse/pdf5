@@ -346,11 +346,15 @@ E-mail : info@antennahouse.com
         <xsl:next-match/>
     </xsl:template>
     
-    <!-- Appendice -->
+    <!-- Appendice
+         Changed not to generate toc title because appendice is only a wrapper of appendix in bookmap.
+         2014-09-15 t.makita
+      -->
     <xsl:template match="*[contains(@class,' bookmap/appendices ')]" mode="MAKE_TOC" priority="2" >
-        <xsl:next-match>
+        <!--xsl:next-match>
             <xsl:with-param name="prmDefaultTitle" select="$cAppendicesTitle"/>
-        </xsl:next-match>
+        </xsl:next-match-->
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
     <!-- Ignore reltable contents -->
@@ -384,25 +388,12 @@ E-mail : info@antennahouse.com
         <xsl:variable name="topicRefId" select="ahf:getIdAtts($topicref,$topicref,true())" as="attribute()*"/>
         <xsl:variable name="navtitle" select="normalize-space(@navtitle)"/>
         <xsl:variable name="nestedTopicCount" as="xs:integer">
-            <xsl:choose>
-                <!-- frontmatter -->
-                <xsl:when test="ancestor::*[contains(@class, ' bookmap/frontmatter ')]">
-                    <xsl:sequence select="count(ancestor-or-self::*[contains(@class, ' map/topicref ')]
-                                                                   [not(contains(@class, ' bookmap/frontmatter '))]
-                                                                   [not(contains(@class, ' bookmap/booklists '))]
-                                                                   )"/>
-                </xsl:when>
-                <!-- backmatter -->
-                <xsl:when test="ancestor::*[contains(@class, ' bookmap/backmatter ')]">
-                    <xsl:sequence select="count(ancestor-or-self::*[contains(@class, ' map/topicref ')]
-                                                                   [not(contains(@class, ' bookmap/backmatter '))]
-                                                                   [not(contains(@class, ' bookmap/booklists '))]
-                                                                   )"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:sequence select="count(ancestor-or-self::*[contains(@class, ' map/topicref ')])"/>
-                </xsl:otherwise>
-            </xsl:choose>
+            <xsl:sequence select="count(ancestor-or-self::*[contains(@class, ' map/topicref ')]
+                                                           [not(contains(@class, ' bookmap/frontmatter '))]
+                                                           [not(contains(@class, ' bookmap/backmatter '))]
+                                                           [not(contains(@class, ' bookmap/booklists '))]
+                                                           [not(contains(@class, ' bookmap/appendices '))]
+                                                           )"/>
         </xsl:variable>
     
         <xsl:variable name="addToc" as="xs:boolean">
