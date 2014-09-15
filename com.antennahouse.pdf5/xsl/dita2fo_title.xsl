@@ -793,23 +793,29 @@ E-mail : info@antennahouse.com
         <xsl:choose>
             <xsl:when test="exists($prmTopicRefs[1]) and empty($prmTopicRefs[ahf:isTocNo(.)])">
                 <xsl:variable name="topicRef" as="element()" select="$prmTopicRefs[1]"/>
-                <xsl:variable name="precedingCount" as="xs:integer">
+                <xsl:variable name="precedingCountStr" as="xs:string">
                     <xsl:choose>
                         <xsl:when test="$topicRef[contains(@class, ' bookmap/part ')]">
-                            <xsl:sequence select="count($topicRef/preceding-sibling::*[contains(@class, ' map/topicref ')][contains(@class, ' bookmap/part ')][ahf:isToc(.)])"/>
+                            <xsl:variable name="partCount" as="xs:integer" select="count($topicRef/preceding-sibling::*[contains(@class, ' map/topicref ')][contains(@class, ' bookmap/part ')][ahf:isToc(.)]|$topicRef)"/>
+                            <xsl:variable name="partCountFormat" as="xs:string" select="ahf:getVarValue('Part_Count_Format')"/>
+                            <xsl:number format="{$partCountFormat}" value="$partCount"/>
                         </xsl:when>
-                        <xsl:when test="$topicRef[contains(@class, ' bookmap/chapter ')]">
-                            <xsl:sequence select="count($topicRef/preceding-sibling::*[contains(@class, ' map/topicref ')][contains(@class, ' bookmap/chapter ')][ahf:isToc(.)])"/>
+                        <xsl:when test="$topicRef[contains(@class, ' bookmap/chapter ')][empty(parent::*[contains(@class, ' bookmap/part ')])]">
+                            <xsl:variable name="chapterCount" as="xs:integer" select="count($topicRef/preceding-sibling::*[contains(@class, ' map/topicref ')][contains(@class, ' bookmap/chapter ')][ahf:isToc(.)]|$topicRef)"/>
+                            <xsl:variable name="chapterCountFormat" as="xs:string" select="ahf:getVarValue('Chapter_Count_Format')"/>
+                            <xsl:number format="{$chapterCountFormat}" value="$chapterCount"/>
                         </xsl:when>
                         <xsl:when test="$topicRef[contains(@class, ' bookmap/appendix ')]">
-                            <xsl:sequence select="count($topicRef/preceding-sibling::*[contains(@class, ' map/topicref ')][contains(@class, ' bookmap/appendix ')][ahf:isToc(.)])"/>
+                            <xsl:variable name="appendixCount" select="count($topicRef/preceding-sibling::*[contains(@class, ' map/topicref ')][contains(@class, ' bookmap/appendix ')][ahf:isToc(.)]|$topicRef)"/>
+                            <xsl:variable name="appendixCountFormat" as="xs:string" select="ahf:getVarValue('Appendix_Count_Format')"/>
+                            <xsl:number format="{$appendixCountFormat}" value="$appendixCount"/>
                         </xsl:when>
                         <xsl:otherwise>
-                            <xsl:sequence select="count($topicRef/preceding-sibling::*[contains(@class, ' map/topicref ')][ahf:isToc(.)])"/>
+                            <xsl:sequence select="string(count($topicRef/preceding-sibling::*[contains(@class, ' map/topicref ')][ahf:isToc(.)]|$topicRef))"/>
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:variable>
-                <xsl:sequence select="string($precedingCount + 1)"/>
+                <xsl:sequence select="$precedingCountStr"/>
                 <xsl:if test="exists($prmTopicRefs[2])">
                     <xsl:sequence select="$cTitlePrefixSeparator"/>
                 </xsl:if>

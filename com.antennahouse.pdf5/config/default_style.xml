@@ -1082,6 +1082,10 @@ URL : http://www.antennahouse.com/
     </topic-break-attr>
     
     <title-attribute>
+        <variable name="Part_Count_Format">1</variable>
+        <variable name="Chapter_Count_Format">1</variable>
+        <variable name="Appendix_Count_Format">A</variable>
+        
         <attribute-set name="atsCancelPageBreak">
             <attribute name="break-before">auto</attribute>
         </attribute-set>
