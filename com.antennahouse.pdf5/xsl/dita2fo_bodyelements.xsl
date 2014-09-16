@@ -1668,7 +1668,9 @@ E-mail : info@antennahouse.com
         <xsl:variable name="titlePrefix" as="xs:string">
             <xsl:choose>
                 <xsl:when test="$pAddNumberingTitlePrefix">
-                    <xsl:variable name="tempTitlePrefix" select="ahf:genNumberingPrefix($prmTopicRef,$cFigureGroupingLevelMax)"/>
+                    <xsl:variable name="titlePrefixPart" select="ahf:genLevelTitlePrefixByCount($prmTopicRef,$cFigureGroupingLevelMax)"/>
+                    <xsl:sequence select="concat($titlePrefixPart,$cTitleSeparator)"/>
+                    <!--xsl:variable name="tempTitlePrefix" select="ahf:genNumberingPrefix($prmTopicRef,$cFigureGroupingLevelMax)"/>
                     <xsl:choose>
                         <xsl:when test="not(string($tempTitlePrefix))">
                             <xsl:sequence select="''"/>
@@ -1679,7 +1681,7 @@ E-mail : info@antennahouse.com
                         <xsl:otherwise>
                             <xsl:sequence select="concat($tempTitlePrefix, $cTitleSeparator)"/>
                         </xsl:otherwise>
-                    </xsl:choose>
+                    </xsl:choose-->
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:sequence select="''"/>

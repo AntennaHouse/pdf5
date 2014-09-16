@@ -782,6 +782,22 @@ E-mail : info@antennahouse.com
     </xsl:function>
 
     <!-- 
+     function:	Generate level of topicref
+     param:		prmTopicRef,prmCutLimit
+     return:	xs:string 
+     note:		Ancestor or self of $prmTopicref will be cut by $prmCutLevel level.
+                This function is used for table & fig numbering title prefix.
+                2014-09-16 t.makita
+     -->
+    <xsl:function name="ahf:genLevelTitlePrefixByCount" as="xs:string">
+        <xsl:param name="prmTopicRef" as="element()"/>
+        <xsl:param name="prmCutLimit" as="xs:integer"/>
+        <xsl:variable name="ancestorOrSelfTopicRef" as="element()*" select="($prmTopicRef/ancestor-or-self::*[contains(@class,' map/topicref ')][not(contains(@class,' bookmap/appendices '))])[position() le $prmCutLimit]"/>
+        <xsl:variable name="levelString" as="xs:string*" select="ahf:getSibilingTopicrefCount($ancestorOrSelfTopicRef)"/>
+        <xsl:sequence select="string-join($levelString,'')"/>
+    </xsl:function>
+
+    <!-- 
      function:	Get preceding-sibling topicref count
      param:		prmTopicRef
      return:	xs:string* 
