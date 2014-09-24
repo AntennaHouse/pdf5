@@ -106,6 +106,12 @@ URL : http://www.antennahouse.co.jp/
 
         <!-- Collation URI for Saxon 9 -->
         <variable name="cCollationURI">http://saxon.sf.net/collation?lang=ja;</variable>
+     
+        <!-- Check mark -->
+        <variable name="cCheckYes">○</variable>
+        <variable name="cCheckNo">×</variable>
+        <variable name="cCheckDc">－</variable>
+     
  </variables>
  <attribute-sets>
     <basic>

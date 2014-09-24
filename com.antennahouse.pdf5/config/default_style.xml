@@ -267,6 +267,11 @@ URL : http://www.antennahouse.com/
         <!-- Plug-in relative path test -->
         <variable name="cNoteIcon">%plug-in-path%common-graphic/note.png</variable>
      
+        <!-- Check mark -->
+        <variable name="cCheckYes">&#x2713;</variable>
+        <variable name="cCheckNo">&#x2717;</variable>
+        <variable name="cCheckDc">-</variable>
+     
  </variables>
  
  <attribute-sets>
