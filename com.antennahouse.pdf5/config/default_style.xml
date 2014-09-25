@@ -1101,6 +1101,7 @@ URL : http://www.antennahouse.com/
             <attribute name="font-size">24pt</attribute>
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="space-after">4mm</attribute>
+            <attribute name="keep-with-next.within-page">always</attribute>
         </attribute-set>
 
         <attribute-set name="atsFmHeader2" use-attribute-sets="atsBTitle">
@@ -1109,6 +1110,7 @@ URL : http://www.antennahouse.com/
             <attribute name="font-family">$General_Title_Font</attribute>
             <attribute name="space-before">6mm</attribute>
             <attribute name="space-after">2mm</attribute>
+            <attribute name="keep-with-next.within-page">always</attribute>
         </attribute-set>
 
         <attribute-set name="atsFmHeader3" use-attribute-sets="atsBTitle">
