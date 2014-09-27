@@ -122,7 +122,12 @@ E-mail : info@antennahouse.com
                 <!-- end! -->
             </xsl:when>
             <xsl:when test="$prmGetIndextermKey">
-                <!-- end! -->
+                <!-- Changed to get text as indexterm key to handle the following pattern:
+                     <indexterm>&lt;data&gt;<index-sort-as>data</index-sort-as></indexterm>
+                     <indexterm>&lt;data&gt;<index-sort-as>&lt;data&gt;</index-sort-as></indexterm>
+                     2014-09-26 t.makita
+                 -->
+                <xsl:apply-templates mode="#current"/>
             </xsl:when>
             <xsl:when test="$prmGetIndexSeeText">
                 <!-- index-sort-as in not allowed in index-see, index-see-also -->
@@ -252,6 +257,39 @@ E-mail : info@antennahouse.com
         </xsl:choose>
     </xsl:template> 
     
+    <!-- 
+         Function: Generate indexterm key considering index-sort-as
+         Param:    prmIndexterm
+         Return:   xs:string 
+         Note:     
+      -->
+    <xsl:template name="getIndextermKey" as="xs:string">
+        <xsl:param name="prmIndexterm" as="element()" required="yes"/>
+        <xsl:variable name="indextermKeyWoSortAs" as="xs:string">
+            <xsl:variable name="tempIndextermKeyWoSortAs" as="xs:string*">
+                <xsl:apply-templates select="$prmIndexterm/node() except $prmIndexterm/*[contains(@class,' indexing-d/index-sort-as ')]" mode="TEXT_ONLY">
+                    <xsl:with-param name="prmGetIndextermKey" tunnel="yes" select="true()"/>
+                </xsl:apply-templates>
+            </xsl:variable>
+            <xsl:sequence select="normalize-space(string-join($tempIndextermKeyWoSortAs,''))"/>
+        </xsl:variable>
+        <xsl:variable name="indextermKeySortAs" as="xs:string">
+            <xsl:variable name="tempIndextermKeySortAs" as="xs:string*">
+                <xsl:apply-templates select="$prmIndexterm/*[contains(@class,' indexing-d/index-sort-as ')]" mode="TEXT_ONLY">
+                    <xsl:with-param name="prmGetIndextermKey" tunnel="yes" select="true()"/>
+                </xsl:apply-templates>
+            </xsl:variable>
+            <xsl:sequence select="normalize-space(string-join($tempIndextermKeySortAs,''))"/>
+        </xsl:variable>
+        <xsl:choose>
+            <xsl:when test="($indextermKeyWoSortAs ne $indextermKeySortAs) and string($indextermKeySortAs)">
+                <xsl:sequence select="concat($indextermKeyWoSortAs,$indextermKeySortAs)"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:sequence select="$indextermKeyWoSortAs"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
     
     
     
@@ -277,14 +315,16 @@ E-mail : info@antennahouse.com
             <xsl:call-template name="warningContinue">
                 <xsl:with-param name="prmMes" select="$stMes601"/>
             </xsl:call-template>
-    		<debug:index-debug>
-    			<index-input>
-        			<xsl:copy-of select="$indextermOrigin"/>
-    	      	</index-input>
-    		    <index-output>
-    		        <xsl:copy-of select="$indextermSorted"/>
-    		    </index-output>
-    		</debug:index-debug>
+            <xsl:result-document href="indexInput.xml" encoding="UTF-8" byte-order-mark="no" indent="yes">
+                <index-input>
+                    <xsl:copy-of select="$indextermOrigin"/>
+                </index-input>
+            </xsl:result-document>
+            <xsl:result-document href="indexOutput.xml" encoding="UTF-8" byte-order-mark="no" indent="yes">
+                <index-output>
+                    <xsl:copy-of select="$indextermSorted"/>
+                </index-output>
+            </xsl:result-document>
             <xsl:call-template name="warningContinue">
                 <xsl:with-param name="prmMes" select="$stMes602"/>
             </xsl:call-template>

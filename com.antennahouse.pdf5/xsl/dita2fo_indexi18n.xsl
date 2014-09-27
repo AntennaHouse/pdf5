@@ -119,16 +119,16 @@ E-mail : info@antennahouse.com
             <xsl:value-of select="normalize-space(string-join($tempIndextermText,''))"/>
         </xsl:variable>
     
-        <!-- Key of this indexterm -->
+        <!-- Key of this indexterm
+             Add the following case:
+             <indexterm>data<index-sort-as>data</index-sort-as></indexterm>
+             2014-09-27 t.makita
+          -->
         <xsl:variable name="indextermKey" as="xs:string">
-            <xsl:variable name="tempIndextermKey" as="xs:string*">
-                <xsl:apply-templates mode="TEXT_ONLY">
-                    <xsl:with-param name="prmGetIndextermKey" tunnel="yes" select="true()"/>
-                </xsl:apply-templates>
-            </xsl:variable>
-            <xsl:value-of select="string-join($tempIndextermKey,'')"/>
+            <xsl:call-template name="getIndextermKey">
+                <xsl:with-param name="prmIndexterm" select="."/>
+            </xsl:call-template>
         </xsl:variable>
-    
         
         <!-- FO of this indexterm -->
         <xsl:variable name="indextermFO" as="node()*">
@@ -165,7 +165,10 @@ E-mail : info@antennahouse.com
             </xsl:choose>
         </xsl:variable>
         
-        <!-- Current indexterm element -->
+        <!-- Current indexterm element
+             Added @indexkey attribute.
+             2014-09-27 t.makita
+          -->
         <xsl:variable name="currentIndextermElement" as="element()*">
             <xsl:copy-of select="$prmIndextermElem"/>
             <xsl:element name="indexterm">
@@ -174,6 +177,7 @@ E-mail : info@antennahouse.com
                         <xsl:value-of select="$indexSortasText"/>
                     </xsl:attribute>
                 </xsl:if>
+                <xsl:attribute name="indexkey" select="$currentFoIndexKey"/>
                 <xsl:element name="indextermfo">
                     <xsl:copy-of select="$indextermFO"/>
                 </xsl:element>

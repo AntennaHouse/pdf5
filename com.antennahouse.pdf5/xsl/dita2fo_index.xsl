@@ -148,14 +148,15 @@ E-mail : info@antennahouse.com
             <xsl:value-of select="normalize-space(string-join($tempIndextermText,''))"/>
         </xsl:variable>
     
-        <!-- Key of this indexterm -->
+        <!-- Key of this indexterm
+             Add the following case:
+             <indexterm>data<index-sort-as>data</index-sort-as></indexterm>
+             2014-09-27 t.makita
+          -->
         <xsl:variable name="indextermKey" as="xs:string">
-            <xsl:variable name="tempIndextermKey" as="xs:string*">
-                <xsl:apply-templates mode="TEXT_ONLY">
-                    <xsl:with-param name="prmGetIndextermKey" tunnel="yes" select="true()"/>
-                </xsl:apply-templates>
-            </xsl:variable>
-            <xsl:value-of select="string-join($tempIndextermKey,'')"/>
+            <xsl:call-template name="getIndextermKey">
+                <xsl:with-param name="prmIndexterm" select="."/>
+            </xsl:call-template>
         </xsl:variable>
     
         <!-- FO of this indexterm -->
@@ -477,12 +478,12 @@ E-mail : info@antennahouse.com
         
         <!-- index-see reference key -->
         <xsl:variable name="indexSeeKey" as="xs:string">
-            <xsl:variable name="tempIndexSeeKey">
+            <xsl:variable name="tempIndexSeeKey" as="xs:string*">
                 <xsl:apply-templates select="." mode="TEXT_ONLY">
                     <xsl:with-param name="prmGetIndexSeeKey" tunnel="yes" select="true()"/>
                 </xsl:apply-templates>
             </xsl:variable>
-            <xsl:value-of select="normalize-space($tempIndexSeeKey)"/>
+            <xsl:value-of select="normalize-space(string-join($tempIndexSeeKey,''))"/>
         </xsl:variable>
         
         <!-- Nested indexterm count -->

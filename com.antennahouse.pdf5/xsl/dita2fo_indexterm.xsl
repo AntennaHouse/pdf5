@@ -122,15 +122,13 @@ E-mail : info@antennahouse.com
         </xsl:variable>
     
         <!-- Key of this indexterm
-             TEXT_ONLY template is coded in dita2fo_indexcommon.xsl
+             Changed to generate same key with index page.
+             2014-09-27 t.makita
          -->
         <xsl:variable name="indextermKey" as="xs:string">
-            <xsl:variable name="tempIndextermKey" as="xs:string*">
-                <xsl:apply-templates mode="TEXT_ONLY">
-                    <xsl:with-param name="prmGetIndextermKey" tunnel="yes" select="true()"/>
-                </xsl:apply-templates>
-            </xsl:variable>
-            <xsl:value-of select="string-join($tempIndextermKey,'')"/>
+            <xsl:call-template name="getIndextermKey">
+                <xsl:with-param name="prmIndexterm" select="."/>
+            </xsl:call-template>
         </xsl:variable>
         
         <!-- Current indexterm key -->
