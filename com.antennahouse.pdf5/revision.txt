@@ -5,6 +5,25 @@
       Copyright (C) 2009-2014 Antenna House, Inc. All rights reserved.
              Antenna House is a trademark of Antenna House, Inc.
 _______________________________________________________________________________
+Sep, 2014
+V2.1.4
+- Fixed the duplicated id error in index page.
+- Fixed frontmatter title keep condition bug.
+- Fixed the chapter title spacing bug in toc.
+- Added character domain processing. (Available only when elements are defined in specialized schme or DTD)
+- Changed appendix numbering format from 1,2,3... to A,B,C... .
+- Removed appendice from TOC.
+- Changed appendice processing not to generate fo:page-sequence.
+- Generate thumbnail index on every page in online PDF.
+- Replaced generate-id() function by ahf:generateId().
+- Fixed the bookmark generation bug.
+- Fixed the CSS style generation bug.
+- Change the topic level page-break control from title to topic element.
+- Added @fo attribute processing. (Available only when attribute is defined in specialized schme or DTD)
+- Remove toc="no" retstricton from part and chapter.
+- Remove redundant "." from part, chaper title.
+- Added note/@type="warning" processing.
+
 Mar, 2014
 V2.1.3 release
 - Decrease start-indent value.
