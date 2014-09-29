@@ -137,16 +137,11 @@
             <topicref href="topics-en/p_complecated_index_example.xml" type="topic"/>
         </chapter>
     
-        <chapter navtitle="Dir attribute example">
+        <!--chapter navtitle="Dir attribute example">
             <topicref href="topics-en/p_dir_attribute.xml" type="topic"/>
-        </chapter>
+        </chapter-->
     
         <appendices>
-            <topicmeta>
-                <keywords>
-                    <indexterm start="XSLT_Testing_In_Appendices_Topicmeta">XSLT testing in appendices &lt;topicmeta&gt;</indexterm>
-                </keywords>
-            </topicmeta>
         	<appendix href="topics-en/r_xslt.xml" type="reference">
 	            <topicmeta>
 	                <keywords>
@@ -154,6 +149,12 @@
 	                </keywords>
 	            </topicmeta>
         	</appendix>
+            <appendix navtitle="Dir attribute example (level 1)">
+                <topichead navtitle="Dir attribute example (level 2)">
+                    <topicref href="topics-en/p_dir_attribute.xml" type="topic"/>
+                </topichead>
+            </appendix>
+            <!--appendix href="topics-en/p_fo_property_test.xml"/-->
         </appendices>
 		
         <backmatter>

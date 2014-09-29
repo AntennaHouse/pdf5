@@ -3,7 +3,7 @@
 <map id = "map_26F29B320CC448C6BDEE032B001C3627" xml:lang="en">
 	<title>Glossary map</title>
     <!--topicref href="p_glossary_introduction.xml" type="topic"-->
-    <topicref>
+    <topicref navtitle="Glossary map">
 	    <topicref href="gloss_XSLT.xml" type="glossentry"/>
 	    <topicref href="gloss_XSLFO.xml" type="glossentry"/>
         <topicref href="gloss_XMLandHTML.xml" type="glossgroup"/>

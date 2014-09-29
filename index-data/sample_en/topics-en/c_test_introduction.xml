@@ -128,7 +128,12 @@
         <indexterm>Goldfish
             <indexterm>feeding</indexterm>
         </indexterm>
+        
+        <indexterm>data<index-sort-as>data</index-sort-as></indexterm>
+        <indexterm>data</indexterm>
         <indexterm>&lt;data&gt;<index-sort-as>data</index-sort-as></indexterm>
+        <indexterm>&lt;data&gt;<index-sort-as>&lt;data&gt;</index-sort-as></indexterm>
+        <indexterm>Test data<index-see>data</index-see></indexterm>
         
         <!-- DITA supports deepely nested indexterm -->
         <!--indexterm><keyword>indexterm1</keyword>
