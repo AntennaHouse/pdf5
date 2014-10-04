@@ -15,6 +15,10 @@
          note:		Style is authored in $prmElem/@fo-style
                     XSL-FO attribute is authored in $prmElem/@fo in CSS notation.
                     2014-09-13 t.makita
+                    Changed attributename:
+                    fo⇒fo:prop
+                    fo-style⇒fo:style
+                    2014-10-04 t.makita
     -->
     <xsl:function name="ahf:getFoStyleAndProperty" as="attribute()*">
         <xsl:param name="prmElem" as="element()"/>
@@ -32,8 +36,8 @@
     <xsl:function name="ahf:getFoStyle">
         <xsl:param name="prmElem" as="element()"/>
         <xsl:choose>
-            <xsl:when test="exists($prmElem/@fo-style)">
-                <xsl:sequence select="ahf:getAttributeSet(string($prmElem/@fo-style))"/>
+            <xsl:when test="exists($prmElem/@fo:style)">
+                <xsl:sequence select="ahf:getAttributeSet(string($prmElem/@fo:style))"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:sequence select="()"/>
@@ -52,8 +56,8 @@
         <xsl:param name="prmElem" as="element()"/>
         
         <xsl:choose>
-            <xsl:when test="exists($prmElem/@fo)">
-                <xsl:variable name="foAttr" as="xs:string" select="normalize-space(string($prmElem/@fo))"/>
+            <xsl:when test="exists($prmElem/@fo:prop)">
+                <xsl:variable name="foAttr" as="xs:string" select="normalize-space(string($prmElem/@fo:prop))"/>
                 <xsl:for-each select="tokenize($foAttr, ';')">
                     <xsl:variable name="propDesc" select="normalize-space(string(.))"/>
                     <xsl:choose>
