@@ -19,7 +19,7 @@ V2.1.4
 - Fixed the bookmark generation bug.
 - Fixed the CSS style generation bug.
 - Change the topic level page-break control from title to topic element.
-- Added @fo attribute processing. (Available only when attribute is defined in specialized schme or DTD)
+- Added @fo:prop attribute processing. (Available only when attribute is defined in specialized schme or DTD)
 - Remove toc="no" retstricton from part and chapter.
 - Remove redundant "." from part, chaper title.
 - Added note/@type="warning" processing.
