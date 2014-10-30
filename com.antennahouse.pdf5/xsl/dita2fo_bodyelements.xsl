@@ -1205,6 +1205,10 @@ E-mail : info@antennahouse.com
                 Treate @scope="peer" as external considering DITA-OT standard processing.
                 If <longdescref> exists, its attributes precede the attributes of <lq>.
                 (2011-10-27 t.makita)
+                Change lq/@href processing. Remove fo:basic-link generation temporary. 
+                - If it is started by "#", it is a usual id. (DITA-OT 1.8.5 or later)
+                - Otherwise it is a raw href. (Until DITA-OT 1.8.4)
+                2014-10-29 t.makita
      -->
     <xsl:template match="*[contains(@class, ' topic/lq ')]">
         <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
@@ -1249,7 +1253,7 @@ E-mail : info@antennahouse.com
             <xsl:if test="@reftitle">
                 <fo:block>
                     <xsl:copy-of select="ahf:getAttributeSet('atsLqRefTitle')"/>
-                    <xsl:choose>
+                    <!--xsl:choose>
                         <xsl:when test="string($href)">
                             <fo:basic-link>
                                 <xsl:copy-of select="ahf:makeBasicLinkDestination($href,$prmScope,.)"/>
@@ -1259,7 +1263,8 @@ E-mail : info@antennahouse.com
                         <xsl:otherwise>
                             <xsl:value-of select="@reftitle"/>
                         </xsl:otherwise>
-                    </xsl:choose>
+                    </xsl:choose-->
+                    <xsl:value-of select="@reftitle"/>
                 </fo:block>
             </xsl:if>
         </fo:block>
