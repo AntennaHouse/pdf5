@@ -207,16 +207,38 @@ E-mail : info@antennahouse.com
     <!-- Top level element -->
     <xsl:variable name="root" select="/*[1]" as="element()"/>
     <xsl:variable name="map" select="$root/*[contains(@class,' map/map ')][1]" as="element()"/>
+    <xsl:variable name="indexList" as="element()?" select="$map//*[contains(@class,' bookmap/indexlist ')][empty(@href)][1]"/>
+    <xsl:variable name="glossaryList" as="element()?" select="$map//*[contains(@class,' bookmap/glossarylist ')][empty(@href)][child::*[contains(@class, ' glossentry/glossentry ')]][$pSortGlossEntry][1]"/>
+    <!-- $lastTopicRef is used to generate fo:index-range-begin,fo:index-range-end, @index-key from topicref/topicmeta/keywords/indexterm
+         Fixed the bug that $lastTopicRef is assigned to backmatter.
+         2014-11-10 t.makita
+      -->
     <xsl:variable name="lastTopicRef" as="element()">
         <xsl:choose>
+            <xsl:when test="exists($indexList)">
+                <xsl:variable name="frontmatter" as="element()?" select="$map/*[contains(@class,' bookmap/frontmatter ')][1]"/>
+                <xsl:variable name="backmatter" as="element()?" select="$map/*[contains(@class,' bookmap/backmatter ')][1]"/>
+                <xsl:choose>
+                    <xsl:when test="exists($glossaryList)">
+                        <xsl:sequence select="($map/descendant::*[contains(@class,' map/topicref ')][. &lt;&lt; $indexList/parent::*][not(ancestor::*[. is $glossaryList])][not(. is $frontmatter)][not(. is $backmatter)])[position() eq last()]"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:sequence select="($map/descendant::*[contains(@class,' map/topicref ')][. &lt;&lt; $indexList/parent::*][not(. is $frontmatter)][not(. is $backmatter)])[position() eq last()]"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:sequence select="($map/descendant::*[contains(@class,' map/topicref ')])[position() eq last()]"/>
+            </xsl:otherwise>
+            <!--
             <xsl:when test="$map//*[contains(@class,' bookmap/indexlist ')][empty(@href)] or ($map//*[contains(@class,' bookmap/glossarylist ')][empty(@href)][child::*[contains(@class, ' glossentry/glossentry ')]] and $pSortGlossEntry)">
-                <!-- XSL-FO processor does not refer to the index-key defined after <indexlist>.
+                <!-\- XSL-FO processor does not refer to the index-key defined after <indexlist>.
                      So we must choose <topicref> before <indexlist>.
                      Also topicref under the <glossarylist> is not appropriate because they will be sorted before processing.
                      If <glossarylist> exists, we must choose <topicref> before <glossarylist>.
                      This code is written under the assumption that <indexlist> and <glossarylist> are written in <backmatter>
                      2011-12-22 t.makita
-                 -->
+                 -\->
                 <xsl:variable name="indexList" as="element()*" select="$map//*[contains(@class,' bookmap/indexlist ')][empty(@href)][1]"/>
                 <xsl:variable name="glossaryList" as="element()*" select="$map//*[contains(@class,' bookmap/glossarylist ')][empty(@href)][child::*[contains(@class, ' glossentry/glossentry ')]][1]"/>
                 <xsl:variable name="exceptElement" as="element()" select="($glossaryList | $indexList)[1]"/>
@@ -225,6 +247,7 @@ E-mail : info@antennahouse.com
             <xsl:otherwise>
                 <xsl:sequence select="$map/descendant::*[contains(@class,' map/topicref ')][position()=last()]"/>
             </xsl:otherwise>
+            -->
         </xsl:choose>
     </xsl:variable>
     
