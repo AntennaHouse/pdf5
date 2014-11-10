@@ -255,6 +255,7 @@
             <arg line='"PRM_OUTPUT_START_MESSAGE=${output.start.message}"'/>
             <arg line='"PRM_USE_I18N_INDEX_LIB=${use.i18n.index.lib}"'/>
             <arg line='"PRM_MAP_DIR_URL=${user.input.dir.url}"'/>
+            <arg line='"PRM_OT_VERSION=${otversion}"'/>
             <sysproperty key="com.innodata.i18n.home" value="${i18n.home}"/>
             <sysproperty key="use.i18n.index.lib" value="${use.i18n.index.lib}"/>
         </java>

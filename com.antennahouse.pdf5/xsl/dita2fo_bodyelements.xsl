@@ -1209,6 +1209,9 @@ E-mail : info@antennahouse.com
                 - If it is started by "#", it is a usual id. (DITA-OT 1.8.5 or later)
                 - Otherwise it is a raw href. (Until DITA-OT 1.8.4)
                 2014-10-29 t.makita
+                Fix the fo:basic-link generation by getting the DITA-OT version.
+                As DITA-OT doesn't maintain longdescref/@href, it is no longer used.
+                2014-11-10 t.makita
      -->
     <xsl:template match="*[contains(@class, ' topic/lq ')]">
         <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
@@ -1241,6 +1244,17 @@ E-mail : info@antennahouse.com
             </xsl:choose>
         </xsl:variable>
         
+        <xsl:variable name="isOt185OrLater" as="xs:boolean">
+            <xsl:variable name="compResult" as="xs:integer?" select="ahf:compareOtVersion($pOtVersion,'1.8.5')"/>
+            <xsl:choose>
+                <xsl:when test="empty($compResult)">
+                    <xsl:sequence select="true()"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:sequence select="not($compResult eq -1)"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
         
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsLq')"/>
@@ -1253,18 +1267,41 @@ E-mail : info@antennahouse.com
             <xsl:if test="@reftitle">
                 <fo:block>
                     <xsl:copy-of select="ahf:getAttributeSet('atsLqRefTitle')"/>
-                    <!--xsl:choose>
-                        <xsl:when test="string($href)">
-                            <fo:basic-link>
-                                <xsl:copy-of select="ahf:makeBasicLinkDestination($href,$prmScope,.)"/>
-                                <xsl:value-of select="@reftitle"/>
-                            </fo:basic-link>
+                    <xsl:choose>
+                        <xsl:when test="$isOt185OrLater">
+                            <xsl:variable name="destAttr" as="attribute()*">
+                                <xsl:call-template name="getDestinationAttr">
+                                    <xsl:with-param name="prmHref" select="string(@href)"/>
+                                    <xsl:with-param name="prmElem" select="."/>
+                                    <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
+                                </xsl:call-template>
+                            </xsl:variable>
+                            <xsl:choose>
+                                <xsl:when test="exists($destAttr)">
+                                    <fo:basic-link>
+                                        <xsl:copy-of select="$destAttr"/>
+                                        <xsl:value-of select="@reftitle"/>
+                                    </fo:basic-link>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:value-of select="@reftitle"/>
+                                </xsl:otherwise>
+                            </xsl:choose>
                         </xsl:when>
                         <xsl:otherwise>
-                            <xsl:value-of select="@reftitle"/>
+                            <xsl:choose>
+                                <xsl:when test="string($href)">
+                                    <fo:basic-link>
+                                        <xsl:copy-of select="ahf:makeBasicLinkDestination($href,$prmScope,.)"/>
+                                        <xsl:value-of select="@reftitle"/>
+                                    </fo:basic-link>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:value-of select="@reftitle"/>
+                                </xsl:otherwise>
+                            </xsl:choose>
                         </xsl:otherwise>
-                    </xsl:choose-->
-                    <xsl:value-of select="@reftitle"/>
+                    </xsl:choose>
                 </fo:block>
             </xsl:if>
         </fo:block>

@@ -148,5 +148,11 @@ E-mail : info@antennahouse.com
      -->
     <xsl:param name="PRM_MAP_DIR_URL" as="xs:string" required="yes"/>
     <xsl:variable name="pMapDirUrl" as="xs:string" select="$PRM_MAP_DIR_URL"/>
-    
+
+    <!-- DITA-OT version
+         2014-11-02 t.makita
+     -->
+    <xsl:param name="PRM_OT_VERSION" as="xs:string" required="yes"/>
+    <xsl:variable name="pOtVersion" as="xs:string" select="$PRM_OT_VERSION"/>
+
 </xsl:stylesheet>
