@@ -118,7 +118,7 @@ E-mail : info@antennahouse.com
                             </xsl:call-template>
                         </xsl:if>
                         <!-- get topic's oid -->
-                        <xsl:variable name="topicOidAtr" select="ahf:getIdAtts($topicElement,$topicRef,true())" as="attribute()*"/>
+                        <xsl:variable name="topicOidAtr" select="ahf:getIdAtts($topicElement,if ($topicId eq $localTopicId) then $prmTopicRef else $topicRef,true())" as="attribute()*"/>
                         <xsl:variable name="topicOid" select="string($topicOidAtr[1])"/>
                         <!-- title -->
                         <xsl:variable name="xrefTitle" as="node()*">
@@ -128,7 +128,7 @@ E-mail : info@antennahouse.com
                                 </xsl:when>
                                 <xsl:otherwise>
                                     <xsl:call-template name="getXrefTitle">
-                                        <xsl:with-param name="prmTopicRef" select="$topicRef"/>
+                                        <xsl:with-param name="prmTopicRef" select="if ($topicId eq $localTopicId) then $prmTopicRef else $topicRef"/>
                                         <xsl:with-param name="prmDestElement" select="$topicElement"/>
                                     </xsl:call-template>
                                 </xsl:otherwise>
