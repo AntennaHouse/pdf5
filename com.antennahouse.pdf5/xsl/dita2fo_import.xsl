@@ -15,6 +15,7 @@ E-mail : info@antennahouse.com
 
 
     <xsl:include href="dita2fo_main.xsl"/>
+    <xsl:include href="dita2fo_constants.xsl"/>
     <xsl:include href="dita2fo_global.xsl"/>
     <xsl:include href="dita2fo_param.xsl"/>
     <xsl:include href="dita2fo_documentcheck.xsl"/>
@@ -49,6 +50,7 @@ E-mail : info@antennahouse.com
     <xsl:include href="dita2fo_thumbindexmap.xsl"/>
     <xsl:include href="dita2fo_common.xsl"/>
     <xsl:include href="dita2fo_util.xsl"/>
+    <xsl:include href="dita2fo_dita_util.xsl"/>
     <xsl:include href="dita2fo_styleset.xsl"/>
     <xsl:include href="dita2fo_styleget.xsl"/>
     <xsl:include href="dita2fo_message.xsl"/>

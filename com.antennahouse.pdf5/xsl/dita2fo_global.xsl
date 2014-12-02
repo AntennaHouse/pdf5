@@ -19,30 +19,7 @@ E-mail : info@antennahouse.com
             Constants
          ***************************************-->
     
-    <!-- External Parameter yes/no value -->
-    <xsl:variable name="cYes" select="'yes'" as="xs:string"/>
-    <xsl:variable name="cNo" select="'no'" as="xs:string"/>
-    
-    <!-- Inner flag/attribute value: true/false -->
-    <xsl:variable name="true" select="'true'" as="xs:string"/>
-    <xsl:variable name="false" select="'false'" as="xs:string"/>
-    
-    <xsl:variable name="NaN" select="'NaN'" as="xs:string"/>
-    <xsl:variable name="lf" select="'&#x0A;'" as="xs:string"/>
-    <xsl:variable name="doubleApos" as="xs:string">
-    	<xsl:text>''</xsl:text>
-    </xsl:variable>
-    
     <xsl:variable name="idSeparator" select="'_'" as="xs:string"/>
-    
-    <!-- units -->
-    <xsl:variable name="cUnitPc" select="'pc'" as="xs:string"/>
-    <xsl:variable name="cUnitPt" select="'pt'" as="xs:string"/>
-    <xsl:variable name="cUnitPx" select="'px'" as="xs:string"/>
-    <xsl:variable name="cUnitIn" select="'in'" as="xs:string"/>
-    <xsl:variable name="cUnitCm" select="'cm'" as="xs:string"/>
-    <xsl:variable name="cUnitMm" select="'mm'" as="xs:string"/>
-    <xsl:variable name="cUnitEm" select="'em'" as="xs:string"/>
     
     <!-- Title generation mode
      -->

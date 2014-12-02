@@ -12,8 +12,16 @@ E-mail : info@antennahouse.com
 <xsl:stylesheet version="2.0" 
  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+ xmlns:ahf="http://www.antennahouse.com/names/XSLT/Functions/Document"
+ exclude-result-prefixes="xs ahf"
 >
     <xsl:output method="xml" encoding="UTF-8"/>
+    
+    <!--xsl:include href="dita2fo_param.xsl"/-->
+    <xsl:include href="dita2fo_constants.xsl"/>
+    <xsl:include href="dita2fo_flag_ditaval.xsl"/>
+    <xsl:include href="dita2fo_message.xsl"/>
+    <xsl:include href="dita2fo_util.xsl"/>
     
     <!-- map or bookmap -->
     <xsl:variable name="map" as="element()" select="/*[1]/*[contains(@class,' map/map ')][1]"/>
@@ -52,8 +60,12 @@ E-mail : info@antennahouse.com
      note:		
      -->
     <xsl:template match="*">
+        <xsl:param name="prmDitaValFlagStyle" tunnel="yes" required="no" select="''"/>
         <xsl:copy>
             <xsl:copy-of select="@*"/>
+            <xsl:if test="string($prmDitaValFlagStyle)">
+                <xsl:copy-of select="ahf:getMergedDitaValFlagStyleAttr(.,$prmDitaValFlagStyle)"/>
+            </xsl:if>
             <xsl:apply-templates/>
         </xsl:copy>
     </xsl:template>
@@ -100,6 +112,7 @@ E-mail : info@antennahouse.com
      note:		if @id is pointed from the topicref that has print="no", ignore it.
      -->
     <xsl:template match="*[contains(@class,' topic/topic ')]">
+        <xsl:param name="prmDitaValFlagStyle" tunnel="yes" required="no" select="''"/>
         <xsl:variable name="id" as="xs:string" select="concat('#',string(@id))"/>
         <xsl:choose>
             <xsl:when test="exists(index-of($noPrintHrefs,$id)) and empty(index-of($normalHrefs,$id))">
@@ -108,6 +121,9 @@ E-mail : info@antennahouse.com
             <xsl:otherwise>
                 <xsl:copy>
                     <xsl:copy-of select="@*"/>
+                    <xsl:if test="string($prmDitaValFlagStyle)">
+                        <xsl:copy-of select="ahf:getMergedDitaValFlagStyleAttr(.,$prmDitaValFlagStyle)"/>
+                    </xsl:if>
                     <xsl:apply-templates/>
                 </xsl:copy>
             </xsl:otherwise>
@@ -121,6 +137,7 @@ E-mail : info@antennahouse.com
      note:		if link@href points to the topicref that has print="no", ignore it.
      -->
     <xsl:template match="*[contains(@class,' topic/link ')]">
+        <xsl:param name="prmDitaValFlagStyle" tunnel="yes" required="no" select="''"/>
         <xsl:variable name="href" as="xs:string" select="string(@href)"/>
         <xsl:choose>
             <xsl:when test="exists(index-of($noPrintHrefs,$href)) and empty(index-of($normalHrefs,$href))">
@@ -129,6 +146,9 @@ E-mail : info@antennahouse.com
             <xsl:otherwise>
                 <xsl:copy>
                     <xsl:copy-of select="@*"/>
+                    <xsl:if test="string($prmDitaValFlagStyle)">
+                        <xsl:copy-of select="ahf:getMergedDitaValFlagStyleAttr(.,$prmDitaValFlagStyle)"/>
+                    </xsl:if>
                     <xsl:apply-templates/>
                 </xsl:copy>
             </xsl:otherwise>
@@ -142,23 +162,19 @@ E-mail : info@antennahouse.com
      note:		if xref@href points to the topic that has print="no", ignore it.
      -->
     <xsl:template match="*[contains(@class,' topic/xref ')][string(@format) eq 'dita']">
+        <xsl:param name="prmDitaValFlagStyle" tunnel="yes" required="no" select="''"/>
         <xsl:variable name="href" as="xs:string" select="string(@href)"/>
         <xsl:variable name="topicHref" as="xs:string" select="if  (contains($href,'/')) then substring-before($href,'/') else $href"/>
-        <xsl:choose>
-            <xsl:when test="exists(index-of($noPrintHrefs,$topicHref)) and empty(index-of($normalHrefs,$topicHref))" >
-                <xsl:message select="'[convmerged 1004W] Warning! Xref refers to removed topic. href=',string(@href)"/>
-                <xsl:copy>
-                    <xsl:copy-of select="@*"/>
-                    <xsl:apply-templates/>
-                </xsl:copy>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:copy>
-                    <xsl:copy-of select="@*"/>
-                    <xsl:apply-templates/>
-                </xsl:copy>
-            </xsl:otherwise>
-        </xsl:choose>
+        <xsl:if test="exists(index-of($noPrintHrefs,$topicHref)) and empty(index-of($normalHrefs,$topicHref))" >
+            <xsl:message select="'[convmerged 1004W] Warning! Xref refers to removed topic. href=',string(@href)"/>
+        </xsl:if>
+        <xsl:copy>
+            <xsl:copy-of select="@*"/>
+            <xsl:if test="string($prmDitaValFlagStyle)">
+                <xsl:copy-of select="ahf:getMergedDitaValFlagStyleAttr(.,$prmDitaValFlagStyle)"/>
+            </xsl:if>
+            <xsl:apply-templates/>
+        </xsl:copy>
     </xsl:template>
     
 

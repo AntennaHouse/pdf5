@@ -188,63 +188,6 @@ URL : http://www.antennahouse.co.jp/
         </xsl:choose>
     </xsl:function>
     
-    
-    <!-- 
-      ============================================
-         toc utility
-      ============================================
-    -->
-    <!--
-    function: isToc Utility
-    param: prmElement
-    note: Return boolena that parameter should add toc or not.
-    -->
-    <xsl:function name="ahf:isToc" as="xs:boolean">
-        <xsl:param name="prmValue" as ="element()"/>
-        
-        <xsl:sequence select="not(ahf:isTocNo($prmValue))"/>
-        <!--xsl:choose>
-            <xsl:when  test="$prmValue/@toc='yes'">
-                <xsl:sequence select="true()"/>
-            </xsl:when>
-            <xsl:when  test="$prmValue/@toc='no'">
-                <xsl:sequence select="false()"/>
-            </xsl:when>
-            <xsl:when  test="not($prmValue/@toc)">
-                <xsl:sequence select="true()"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:sequence select="true()"/>
-            </xsl:otherwise>
-        </xsl:choose-->
-    </xsl:function>
-    
-    <!-- 
-     function:	Check @toc="no" 
-     param:		prmTopicRef
-     return:	xs:boolean
-     note:		
-     -->
-    <xsl:function name="ahf:isTocNo" as="xs:boolean">
-        <xsl:param name="prmTopicRef" as="element()"/>
-        <xsl:choose>
-            <xsl:when test="$pApplyTocAttr">
-                <xsl:choose>
-                    <xsl:when test="$prmTopicRef/@toc='no'">
-                        <xsl:sequence select="true()"/>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:sequence select="false()"/>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:sequence select="false()"/>
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:function>
-    
-    
     <!-- 
       ============================================
          Other functions
@@ -385,7 +328,32 @@ URL : http://www.antennahouse.co.jp/
         
     </xsl:function>
     
-    
+    <!-- 
+        function:	Return true() if $prmStr contains one of the given $prmDstStrSeq[N].
+        param:	    prmStr, prmDstStrSeq
+        return:	    xs:boolean
+        note:		
+    -->
+    <xsl:function name="ahf:seqContains" as="xs:boolean">
+        <xsl:param name="prmStr" as="xs:string"/>
+        <xsl:param name="prmDstStrSeq" as="xs:string*"/>
+        <xsl:choose>
+            <xsl:when test="count($prmDstStrSeq) ge 1">
+                <xsl:variable name="dstStr" as="xs:string" select="$prmDstStrSeq[1]"/>
+                <xsl:choose>
+                    <xsl:when test="contains($prmStr,$dstStr)">
+                        <xsl:sequence select="true()"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:sequence select="ahf:seqContains($prmStr,$prmDstStrSeq[position() gt 1])"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:sequence select="false()"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:function>
     
     <!-- end of stylesheet -->
 </xsl:stylesheet>
