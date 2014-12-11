@@ -123,6 +123,8 @@ URL : http://www.antennahouse.co.jp/
      return:	attribute node
      note:		Change error processing not to stop when $prmAttrSetName is not found.
                 2014-09-13 t.makita
+                Fix: Return correct attribute when there are multiple attribute-sets with same names.
+                2014-12-11 t.makita
     -->
     <xsl:function name="ahf:getAttribute" as="attribute()?">
     	<xsl:param name="prmAttrSetName" as="xs:string"/>
@@ -138,8 +140,8 @@ URL : http://www.antennahouse.co.jp/
                 <xsl:sequence select="()"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:for-each select="string($glStyleDefs/*[name() eq $prmAttrSetName]/attribute::node()[name() eq $prmAttrName][position() eq last()])">
-                    <xsl:attribute name="{$prmAttrName}" select="string(.)"/>
+                <xsl:for-each select="string(($glStyleDefs/*[name() eq $prmAttrSetName]/attribute::node()[name() eq $prmAttrName])[position() eq last()])">
+                    <xsl:attribute name="{$prmAttrName}" select="."/>
                 </xsl:for-each>
             </xsl:otherwise>
         </xsl:choose>
@@ -151,6 +153,8 @@ URL : http://www.antennahouse.co.jp/
      return:	attribute value
      note:		Change error processing not to stop when $prmAttrSetName is not found.
                 2014-09-13 t.makita
+                Fix: Return correct attribute value when there are multiple attribute-sets with same names.
+                2014-12-11 t.makita
     -->
     <xsl:function name="ahf:getAttributeValue" as="xs:string">
     	<xsl:param name="prmAttrSetName" as="xs:string"/>
@@ -166,7 +170,7 @@ URL : http://www.antennahouse.co.jp/
                 <xsl:sequence select="''"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:sequence select="string($glStyleDefs/*[name() eq $prmAttrSetName][position() eq last()]/attribute::node()[name() eq $prmAttrName])"/>
+                <xsl:sequence select="string(($glStyleDefs/*[name() eq $prmAttrSetName]/attribute::node()[name() eq $prmAttrName])[position() eq last()])"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
