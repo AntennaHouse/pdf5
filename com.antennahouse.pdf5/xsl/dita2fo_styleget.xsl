@@ -68,6 +68,26 @@ URL : http://www.antennahouse.co.jp/
     </xsl:function>
     
     <!-- 
+     function:	Get attribute-set replacing its value
+     param:		prmAttrSetName, prmSrc, prmDst
+     return:	Attribute node
+     note:		Return attribute()* replacing $prmSrc by $prmDst
+                20114-12-11 t.makita
+    -->
+    <xsl:function name="ahf:getAttributeSetReplacing" as="attribute()*">
+        <xsl:param name="prmAttrSetName" as="xs:string"/>
+        <xsl:param name="prmSrc" as="xs:string+"/>
+        <xsl:param name="prmDst" as="xs:string+"/>
+        <xsl:variable name="attrs" as="attribute()*" select="ahf:getAttributeSet($prmAttrSetName)"/>
+        <xsl:for-each select="$attrs">
+            <xsl:variable name="att" as="attribute()" select="."/>
+            <xsl:attribute name="{name($att)}">
+                <xsl:value-of select="ahf:replace(string($att),$prmSrc,$prmDst)"/>
+            </xsl:attribute>
+        </xsl:for-each>
+    </xsl:function>
+    
+    <!-- 
      function:	Get CSS style string
      param:		prmStyleName
      return:	CSS style string

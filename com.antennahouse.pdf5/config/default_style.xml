@@ -941,6 +941,8 @@ URL : http://www.antennahouse.com/
             <attribute name="axf:text-align-first">justify</attribute>
             <attribute name="text-align">justify</attribute>
             <attribute name="text-align-last">justify</attribute>
+            <attribute name="text-indent">(%indent-size) * -1</attribute>
+            <attribute name="start-indent">(%indent-size) * %level</attribute>
         </attribute-set>
 
         <!-- Index leader1 -->

@@ -813,8 +813,7 @@ E-mail : info@antennahouse.com
                 	</xsl:choose>
                 </xsl:variable>
                 <fo:block>
-                    <xsl:copy-of select="ahf:getAttributeSet('atsIndexLineOnly')"/>
-                    <xsl:copy-of select="ahf:setIndent($prmStartLevel)"/>
+                    <xsl:copy-of select="ahf:getAttributeSetReplacing('atsIndexLineOnly',('%indent-size','%level'),($cStartIndent,string($prmStartLevel)))"/>
                     <xsl:if test="string($currentLevelIndexkeyId)">
     	                <xsl:attribute name="id" select="$currentLevelIndexkeyId"/>
     	            </xsl:if>
@@ -833,8 +832,7 @@ E-mail : info@antennahouse.com
             <xsl:when test="$prmStartLevel = $prmMaxLevel">
                 <!-- This line is title and fo:index-citation-list -->
                 <fo:block>
-                    <xsl:copy-of select="ahf:getAttributeSet('atsIndexLine')"/>
-                    <xsl:copy-of select="ahf:setIndent($prmStartLevel)"/>
+                    <xsl:copy-of select="ahf:getAttributeSetReplacing('atsIndexLine',('%indent-size','%level'),($cStartIndent,string($prmStartLevel)))"/>
                     <fo:inline>
                         <xsl:if test="$pMakeSeeLink">
                             <xsl:attribute name="id">
@@ -925,8 +923,7 @@ E-mail : info@antennahouse.com
         <xsl:if test="$seeAlso != $nextSeeAlso">
             <!-- Output see also block -->
             <fo:block>
-                <xsl:copy-of select="ahf:getAttributeSet('atsIndexLineSee')"/>
-                <xsl:copy-of select="ahf:setIndent($prmStartLevel)"/>
+                <xsl:copy-of select="ahf:getAttributeSetReplacing('atsIndexLineSee',('%indent-size','%level'),($cStartIndent,string($prmStartLevel)))"/>
                 <fo:inline>
                     <xsl:copy-of select="ahf:getAttributeSet('atsSeeAlsoPrefix')"/>
                     <xsl:value-of select="$cSeeAlsoPrefix"/>
@@ -1000,8 +997,7 @@ E-mail : info@antennahouse.com
             <xsl:when test="$prmStartLevel &lt; $prmMaxLevel">
                 <!-- This line is only indexterm title -->
                 <fo:block>
-                    <xsl:copy-of select="ahf:getAttributeSet('atsIndexLine')"/>
-                    <xsl:copy-of select="ahf:setIndent($prmStartLevel)"/>
+                    <xsl:copy-of select="ahf:getAttributeSetReplacing('atsIndexLine',('%indent-size','%level'),($cStartIndent,string($prmStartLevel)))"/>
                     <fo:inline><xsl:copy-of select="$indextermFO"/></fo:inline>
                 </fo:block>
                 <!-- Call recursively myself -->
@@ -1049,8 +1045,7 @@ E-mail : info@antennahouse.com
                     <xsl:when test="($prmNestedIndexterm = 0) and (not($prmMultipleSee))">
                         <!-- indexterm + see -->
                         <fo:block>
-                            <xsl:copy-of select="ahf:getAttributeSet('atsIndexLineSee')"/>
-                            <xsl:copy-of select="ahf:setIndent($prmStartLevel)"/>
+                            <xsl:copy-of select="ahf:getAttributeSetReplacing('atsIndexLineSee',('%indent-size','%level'),($cStartIndent,string($prmStartLevel)))"/>
                             <fo:inline>
                                 <xsl:copy-of select="$indextermFO"/>
                             </fo:inline>
@@ -1080,8 +1075,7 @@ E-mail : info@antennahouse.com
                         <xsl:if test="$prmStart">
                             <!-- indexterm -->
                             <fo:block>
-                                <xsl:copy-of select="ahf:getAttributeSet('atsIndexLineOnly')"/>
-                                <xsl:copy-of select="ahf:setIndent($prmStartLevel)"/>
+                                <xsl:copy-of select="ahf:getAttributeSetReplacing('atsIndexLineOnly',('%indent-size','%level'),($cStartIndent,string($prmStartLevel)))"/>
                                 <fo:inline>
                                     <xsl:value-of select="$indextermFO"/>
                                 </fo:inline>
@@ -1089,8 +1083,7 @@ E-mail : info@antennahouse.com
                         </xsl:if>
                         <!-- See entry as indented-->
                         <fo:block>
-                            <xsl:copy-of select="ahf:getAttributeSet('atsIndexLineSee')"/>
-                            <xsl:copy-of select="ahf:setIndent($prmStartLevel + 1)"/>
+                            <xsl:copy-of select="ahf:getAttributeSetReplacing('atsIndexLineSee',('%indent-size','%level'),($cStartIndent,string($prmStartLevel + 1)))"/>
                             <fo:inline>
                                 <xsl:copy-of select="ahf:getAttributeSet('atsSeePrefix')"/>
                                 <xsl:value-of select="$cSeePrefixLevel2"/>
@@ -1171,8 +1164,7 @@ E-mail : info@antennahouse.com
                     <xsl:otherwise>
                         <!-- See entry as indented-->
                         <fo:block>
-                            <xsl:copy-of select="ahf:getAttributeSet('atsIndexLineSee')"/>
-                            <xsl:copy-of select="ahf:setIndent($prmStartLevel)"/>
+                            <xsl:copy-of select="ahf:getAttributeSetReplacing('atsIndexLineSee',('%indent-size','%level'),($cStartIndent,string($prmStartLevel)))"/>
                             <fo:inline>
                                 <xsl:copy-of select="ahf:getAttributeSet('atsSeePrefix')"/>
                                 <xsl:copy-of select="$cSeePrefixLevel2"/>
@@ -1342,22 +1334,6 @@ E-mail : info@antennahouse.com
                 <xsl:sequence select="ahf:countSignificance($prmCountVal,$nextId,$prmToId,$prmCount+$countVal)"/>
             </xsl:otherwise>
         </xsl:choose>
-    </xsl:function>
-    
-    
-    <!--    function: Set indent for indexterm
-            param:    prmStartLevel
-            return:   xsl:attribute
-            note:     none
-    -->
-    <xsl:function name="ahf:setIndent" as="attribute()+">
-        <xsl:param name="prmStartLevel" as="xs:integer"/>
-        <xsl:attribute name="text-indent">
-            <xsl:value-of select="concat('(', $cStartIndent, ') * -1')"/>
-        </xsl:attribute>
-        <xsl:attribute name="start-indent">
-            <xsl:value-of select="concat('(', $cStartIndent, ') * ', string($prmStartLevel))"/>
-        </xsl:attribute>
     </xsl:function>
     
     <!--    function: Dispaly error see to console
