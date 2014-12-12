@@ -15,13 +15,6 @@ E-mail : info@antennahouse.com
  xmlns:ahf="http://www.antennahouse.com/names/XSLT/Functions/Document"
  exclude-result-prefixes="xs ahf"
 >
-    <xsl:output method="xml" encoding="UTF-8"/>
-    
-    <!--xsl:include href="dita2fo_param.xsl"/-->
-    <xsl:include href="dita2fo_constants.xsl"/>
-    <xsl:include href="dita2fo_flag_ditaval.xsl"/>
-    <xsl:include href="dita2fo_message.xsl"/>
-    <xsl:include href="dita2fo_util.xsl"/>
     
     <!-- map or bookmap -->
     <xsl:variable name="map" as="element()" select="/*[1]/*[contains(@class,' map/map ')][1]"/>

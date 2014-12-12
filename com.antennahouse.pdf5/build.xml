@@ -208,7 +208,7 @@
 
     <!-- Convert merged middle file -->
     <target name="transform.merged">
-        <property name="stylesheet" value="${xsl.dir}${file.separator}dita2fo_convmerged.xsl"/>
+        <property name="stylesheet" value="${xsl.dir}${file.separator}dita2fo_convmerged_shell.xsl"/>
         <xslt processor="trax"
           in="${inputFile}"
           out="${outputFile}" style="${stylesheet}">
