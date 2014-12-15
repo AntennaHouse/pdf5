@@ -125,8 +125,8 @@ E-mail : info@antennahouse.com
          the <fn> elements are displayed at the end of these elements.
          2012-04-04 t.makita
     -->
-    <xsl:param name="PRM_DIPLAY_FN_AT_END_OF_TOPIC" select="$cNo"/>
-    <xsl:variable name="pDisplayFnAtEndOfTopic" select="boolean($PRM_DIPLAY_FN_AT_END_OF_TOPIC=$cYes)" as="xs:boolean"/>
+    <xsl:param name="PRM_DISPLAY_FN_AT_END_OF_TOPIC" select="$cNo"/>
+    <xsl:variable name="pDisplayFnAtEndOfTopic" select="boolean($PRM_DISPLAY_FN_AT_END_OF_TOPIC=$cYes)" as="xs:boolean"/>
     
     <!-- Compatibility parameter.
          Display table/title at the end of the table.
