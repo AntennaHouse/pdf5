@@ -264,7 +264,7 @@ E-mail : info@antennahouse.com
         <xsl:sequence select="ahf:getScaleAtts($prmElement, $prmStyleName)"/>
         
         <!-- @frame -->
-        <xsl:sequence select="ahf:getFrameAtts($prmElement)"/>
+        <xsl:sequence select="ahf:getFrameAtts($prmElement, $prmStyleName)"/>
         
         <!-- @expanse -->
         <xsl:sequence select="ahf:getExpanseAtts($prmElement)"/>
@@ -305,11 +305,13 @@ E-mail : info@antennahouse.com
      function:	Process frame attribute
      param:		prmElement
      return:	attribute node
-     note:		
+     note:		Added codes to adjust start-indent and end-indent considering frame width and original padding.
+                2014-01-17 t.makita
      -->
     <xsl:function name="ahf:getFrameAtts" as="attribute()*">
         <xsl:param name="prmElement" as="element()"/>
-    
+        <xsl:param name="prmStyleName" as="xs:string"/>
+        
         <xsl:if test="$prmElement/@frame">
             <xsl:variable name="frame" select="$prmElement/@frame"/>
             
@@ -338,26 +340,83 @@ E-mail : info@antennahouse.com
                     </xsl:choose>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:choose>
-                        <xsl:when test="$frame='top'">
-                            <xsl:sequence select="ahf:getAttributeSet('atsBlockBorderTop')"/>
-                        </xsl:when>
-                        <xsl:when test="$frame='bottom'">
-                            <xsl:sequence select="ahf:getAttributeSet('atsBlockBorderBottom')"/>
-                        </xsl:when>
-                        <xsl:when test="$frame='topbot'">
-                            <xsl:sequence select="ahf:getAttributeSet('atsBlockBorderTopBottom')"/>
-                        </xsl:when>
-                        <xsl:when test="$frame='all'">
-                            <xsl:sequence select="ahf:getAttributeSet('atsBlockBorderAll')"/>
-                        </xsl:when>
-                        <xsl:when test="$frame='sides'">
-                            <xsl:sequence select="ahf:getAttributeSet('atsBlockBorderSides')"/>
-                        </xsl:when>
-                        <xsl:when test="$frame='none'">
-                            <xsl:sequence select="ahf:getAttributeSet('atsBlockBorderNone')"/>
-                        </xsl:when>
-                    </xsl:choose>
+                    <xsl:variable name="originStyle" as="attribute()*" select="ahf:getAttributeSet($prmStyleName)"/>
+                    <xsl:variable name="borderStyle" as="attribute()*">
+                        <xsl:choose>
+                            <xsl:when test="$frame='top'">
+                                <xsl:sequence select="ahf:getAttributeSet('atsBlockBorderTop')"/>
+                            </xsl:when>
+                            <xsl:when test="$frame='bottom'">
+                                <xsl:sequence select="ahf:getAttributeSet('atsBlockBorderBottom')"/>
+                            </xsl:when>
+                            <xsl:when test="$frame='topbot'">
+                                <xsl:sequence select="ahf:getAttributeSet('atsBlockBorderTopBottom')"/>
+                            </xsl:when>
+                            <xsl:when test="$frame='all'">
+                                <xsl:sequence select="ahf:getAttributeSet('atsBlockBorderAll')"/>
+                            </xsl:when>
+                            <xsl:when test="$frame='sides'">
+                                <xsl:sequence select="ahf:getAttributeSet('atsBlockBorderSides')"/>
+                            </xsl:when>
+                            <xsl:when test="$frame='none'">
+                                <xsl:sequence select="ahf:getAttributeSet('atsBlockBorderNone')"/>
+                            </xsl:when>
+                        </xsl:choose>
+                    </xsl:variable>
+                    <xsl:variable name="originStartIndent" as="attribute()?" select="$originStyle[name() eq 'start-indent']"/>
+                    <xsl:variable name="originEndIndent" as="attribute()?" select="$originStyle[name() eq 'end-indent']"/>
+                    <xsl:variable name="borderStartPadding" as="attribute()?" select="$borderStyle[name() = ('padding','padding-left','padding-start')][last()]"/>
+                    <xsl:variable name="borderEndPadding" as="attribute()?" select="$borderStyle[name() = ('padding','padding-right','padding-end')][last()]"/>
+                    <xsl:variable name="borderStartWidth" as="xs:string" select="substring-before(normalize-space(string($borderStyle[name() eq 'border-left'][last()])),' ')"/>
+                    <xsl:variable name="borderEndWidth" as="xs:string" select="substring-before(normalize-space(string($borderStyle[name() eq 'border-right'][last()])),' ')"/>
+                    <xsl:variable name="originStartPadding" as="attribute()?" select="$originStyle[name() = ('padding','padding-left','padding-start')][last()]"/>
+                    <xsl:variable name="originEndPadding" as="attribute()?" select="$originStyle[name() = ('padding','padding-right','padding-end')][last()]"/>
+                    <xsl:variable name="adjustedIndent" as="attribute()*">
+                        <!-- Adjust start-indent -->
+                        <xsl:choose>
+                            <xsl:when test="exists($originStartIndent) and exists($borderStartPadding)">
+                                <xsl:attribute name="start-indent">
+                                    <xsl:value-of select="$originStartIndent"/>
+                                    <xsl:text> + </xsl:text>
+                                    <xsl:value-of select="$borderStartWidth"/>
+                                </xsl:attribute>
+                            </xsl:when>
+                            <xsl:when test="empty($originStartIndent) and exists($borderStartPadding)">
+                                <xsl:attribute name="start-indent">
+                                    <xsl:text>inherited-property-value(start-indent) + </xsl:text>
+                                    <xsl:value-of select="$borderStartPadding"/>
+                                </xsl:attribute>
+                            </xsl:when>
+                        </xsl:choose>
+                        <!-- Adjust end-indent -->
+                        <xsl:choose>
+                            <xsl:when test="exists($originEndIndent) and exists($borderEndPadding)">
+                                <xsl:attribute name="end-indent">
+                                    <xsl:value-of select="$originEndIndent"/>
+                                    <xsl:text> + </xsl:text>
+                                    <xsl:value-of select="$borderEndWidth"/>
+                                </xsl:attribute>
+                            </xsl:when>
+                            <xsl:when test="empty($originEndIndent) and exists($borderEndPadding)">
+                                <xsl:attribute name="end-indent">
+                                    <xsl:text>inherited-property-value(start-indent) + </xsl:text>
+                                    <xsl:value-of select="$borderEndPadding"/>
+                                </xsl:attribute>
+                            </xsl:when>
+                        </xsl:choose>
+                    </xsl:variable>
+                    <xsl:variable name="adjustedPadding" as="attribute()*">
+                        <!-- Adjust padding -->
+                        <xsl:if test="$originStartPadding">
+                            <xsl:sequence select="$originStartPadding"/>
+                        </xsl:if>
+                        <xsl:if test="$originEndPadding">
+                            <xsl:sequence select="$originEndPadding"/>
+                        </xsl:if>
+                    </xsl:variable>
+                    <xsl:copy-of select="$borderStyle"/>
+                    <xsl:copy-of select="$adjustedIndent"/>
+                    <xsl:copy-of select="$adjustedPadding"/>
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:if>

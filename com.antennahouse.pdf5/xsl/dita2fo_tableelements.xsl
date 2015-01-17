@@ -166,7 +166,7 @@ E-mail : info@antennahouse.com
                     <xsl:copy-of select="ahf:getAttributeSet('atsTable')"/>
                     <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
                     <xsl:copy-of select="ahf:getScaleAtts($tgroupAttr,'atsTable')"/>
-                    <xsl:copy-of select="ahf:getFrameAtts($tgroupAttr)"/>
+                    <xsl:copy-of select="ahf:getFrameAtts($tgroupAttr,'atsTable')"/>
                     <xsl:copy-of select="ahf:getFoStyleAndProperty($tgroupAttr)[name() ne 'text-align']"/>
                     <!-- Copy fo:table-column -->
                     <xsl:apply-templates select="$colSpec" mode="COPY_COLSPEC"/>

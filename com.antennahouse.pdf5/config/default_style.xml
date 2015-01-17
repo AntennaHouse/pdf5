@@ -2033,9 +2033,12 @@ URL : http://www.antennahouse.com/
         </attribute-set>
 
         <!-- codeblock -->
+        <variable name="codeBlockPaddingSize">1mm</variable>
         <attribute-set name="atsCodeBlock" use-attribute-sets="atsPre">
             <attribute name="background-color">rgb(217,217,217)</attribute>
-            <attribute name="padding">1mm</attribute>
+            <attribute name="padding">$codeBlockPaddingSize</attribute>
+            <attribute name="start-indent">inherited-property-value(start-indent) + $codeBlockPaddingSize</attribute>
+            <attribute name="end-indent">inherited-property-value(end-indent) + $codeBlockPaddingSize</attribute>
             <attribute name="hyphenate">false</attribute>
             <attribute name="axf:word-break">break-all</attribute>
             <attribute name="axf:word-wrap">break-word</attribute>
@@ -2289,7 +2292,10 @@ URL : http://www.antennahouse.com/
             <attribute name="border-right">$Table_Outer_Border_Width hidden black</attribute>
         </attribute-set>
 
-        <!-- frame for other block -->
+        <!-- frame for other block
+             NOTE: border-? attribute must be used for adjusting indent property calculation in ahf:getFrameAtts() function..
+             2015-01-17 t.makita
+          -->
         <variable name="Block_Outer_Border_Width">0.5pt</variable>
         <variable name="Block_Padding">5pt</variable>
         
@@ -2298,6 +2304,7 @@ URL : http://www.antennahouse.com/
             <attribute name="border-bottom">$Block_Outer_Border_Width hidden black</attribute>
             <attribute name="border-left">$Block_Outer_Border_Width hidden black</attribute>
             <attribute name="border-right">$Block_Outer_Border_Width hidden black</attribute>
+            <attribute name="padding-top">$Block_Padding</attribute>
         </attribute-set>
     
         <attribute-set name="atsBlockBorderBottom">
@@ -2305,6 +2312,7 @@ URL : http://www.antennahouse.com/
             <attribute name="border-bottom">$Block_Outer_Border_Width solid black</attribute>
             <attribute name="border-left">$Block_Outer_Border_Width hidden black</attribute>
             <attribute name="border-right">$Block_Outer_Border_Width hidden black</attribute>
+            <attribute name="padding-bottom">$Block_Padding</attribute>
         </attribute-set>
     
         <attribute-set name="atsBlockBorderTopBottom">
@@ -2312,8 +2320,8 @@ URL : http://www.antennahouse.com/
             <attribute name="border-bottom">$Block_Outer_Border_Width solid black</attribute>
             <attribute name="border-left">$Block_Outer_Border_Width hidden black</attribute>
             <attribute name="border-right">$Block_Outer_Border_Width hidden black</attribute>
-            <attribute name="padding-top">5pt</attribute>
-            <attribute name="padding-bottom">5pt</attribute>
+            <attribute name="padding-top">$Block_Padding</attribute>
+            <attribute name="padding-bottom">$Block_Padding</attribute>
         </attribute-set>
     
         <attribute-set name="atsBlockBorderAll">
@@ -2329,6 +2337,8 @@ URL : http://www.antennahouse.com/
             <attribute name="border-bottom">$Block_Outer_Border_Width hidden black</attribute>
             <attribute name="border-left">$Block_Outer_Border_Width solid black</attribute>
             <attribute name="border-right">$Block_Outer_Border_Width solid black</attribute>
+            <attribute name="padding-left">$Block_Padding</attribute>
+            <attribute name="padding-right">$Block_Padding</attribute>
         </attribute-set>
 
         <attribute-set name="atsBlockBorderNone">
