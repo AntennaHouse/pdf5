@@ -84,7 +84,7 @@ E-mail : info@antennahouse.com
             <xsl:attribute name="rowheader" select="if ($prmTable/@rowheader) then string($prmTable/@rowheader) else 'norowheader'"/>
             <xsl:attribute name="scale"  select="if ($prmTable/@scale)  then string($prmTable/@scale) else '100'"/>
             <xsl:copy-of select="$prmTable/@class"/>
-            <xsl:copy-of select="$prmTable/@fo"/>
+            <xsl:copy-of select="$prmTable/@fo:prop"/>
         </dummy>
     </xsl:function>
     

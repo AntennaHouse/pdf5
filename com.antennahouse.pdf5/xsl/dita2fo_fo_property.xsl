@@ -12,8 +12,8 @@
          function:	Expand FO style & property into attribute()*
          param:		prmElem
          return:	Attribute node
-         note:		Style is authored in $prmElem/@fo-style
-                    XSL-FO attribute is authored in $prmElem/@fo in CSS notation.
+         note:		Style is authored in $prmElem/@fo:style
+                    XSL-FO attribute is authored in $prmElem/@fo:prop in CSS notation.
                     2014-09-13 t.makita
                     Changed attributename:
                     fo⇒fo:prop
@@ -30,7 +30,7 @@
          function:	Expand FO style into attribute()*
          param:		prmElem
          return:	Attribute node
-         note:		Style is authored in $prmElem/@fo-style
+         note:		Style is authored in $prmElem/@fo:style
                     2014-09-13 t.makita
     -->
     <xsl:function name="ahf:getFoStyle">
@@ -49,7 +49,7 @@
          function:	Expand FO property into attribute()*
          param:		prmElem
          return:	Attribute node
-         note:		XSL-FO attribute is authored in $prmElem/@fo in CSS notation.
+         note:		XSL-FO attribute is authored in $prmElem/@fo:prop in CSS notation.
                     2014-04-22 t.makita
     -->
     <xsl:function name="ahf:getFoProperty" as="attribute()*">
@@ -91,7 +91,7 @@
                             </xsl:choose>                            
                         </xsl:when>
                         <xsl:otherwise>
-                            <xsl:message select="'[getFoAttribute 001F] Missing '':'' in style description. @fo=''',$foAttr,''' @xtrc=',string($prmElem/@xtrc),' @xtrf=',string($prmElem/@xtrf)"/>
+                            <xsl:message select="'[getFoAttribute 001F] Missing '':'' in style description. @fo:prop=''',$foAttr,''' @xtrc=',string($prmElem/@xtrc),' @xtrf=',string($prmElem/@xtrf)"/>
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:for-each>
@@ -107,7 +107,7 @@
                     Replacing text() with given parameters ($prmSrc, $prmDst).
          param:		prmElem,$prmSrc,$prmDst
          return:	Attribute node
-         note:		XSL-FO attribute is authored in $prmElem/@fo in CSS notation.
+         note:		XSL-FO attribute is authored in $prmElem/@fo:prop in CSS notation.
                     2014-04-22 t.makita
     -->
     <xsl:function name="ahf:getFoPropertyReplacing" as="attribute()*">
@@ -116,8 +116,8 @@
         <xsl:param name="prmDst" as="xs:string+"/>
         
         <xsl:choose>
-            <xsl:when test="exists($prmElem/@fo)">
-                <xsl:variable name="foAttr" as="xs:string" select="normalize-space(string($prmElem/@fo))"/>
+            <xsl:when test="exists($prmElem/@fo:prop)">
+                <xsl:variable name="foAttr" as="xs:string" select="normalize-space(string($prmElem/@fo:prop))"/>
                 <xsl:for-each select="tokenize($foAttr, ';')">
                     <xsl:variable name="propDesc" select="normalize-space(string(.))"/>
                     <xsl:choose>
@@ -152,7 +152,7 @@
                             </xsl:choose>                            
                         </xsl:when>
                         <xsl:otherwise>
-                            <xsl:message select="'[getFoPropertyReplacing 001F] Missing '':'' in style description. @fo=''',$foAttr,''' @xtrc=',string($prmElem/@xtrc),' @xtrf=',string($prmElem/@xtrf)"/>
+                            <xsl:message select="'[getFoPropertyReplacing 001F] Missing '':'' in style description. @fo:prop=''',$foAttr,''' @xtrc=',string($prmElem/@xtrc),' @xtrf=',string($prmElem/@xtrf)"/>
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:for-each>
