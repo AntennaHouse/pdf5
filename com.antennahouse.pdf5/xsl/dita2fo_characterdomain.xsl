@@ -24,7 +24,7 @@
         return:	    fo:block
         note:		none
     -->
-    <xsl:template match="*[contains(@class, ' ch-d/check ')]" priority="2">
+    <xsl:template match="*[contains(@class, ' ch-d/cm ')]" priority="2">
         <xsl:variable name="check" as="element()" select="." />
         <xsl:choose>
             <xsl:when test="string($check/@value) eq 'yes'">
