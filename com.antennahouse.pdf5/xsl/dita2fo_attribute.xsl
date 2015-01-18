@@ -371,52 +371,102 @@ E-mail : info@antennahouse.com
                     <xsl:variable name="borderEndWidth" as="xs:string" select="substring-before(normalize-space(string($borderStyle[name() eq 'border-right'][last()])),' ')"/>
                     <xsl:variable name="originStartPadding" as="attribute()?" select="$originStyle[name() = ('padding','padding-left','padding-start')][last()]"/>
                     <xsl:variable name="originEndPadding" as="attribute()?" select="$originStyle[name() = ('padding','padding-right','padding-end')][last()]"/>
+                    <xsl:variable name="originPadding" as="attribute()*" select="$originStyle[matches(name(),'padding(-.+)?')]"/>
                     <xsl:variable name="adjustedIndent" as="attribute()*">
                         <!-- Adjust start-indent -->
                         <xsl:choose>
+                            <xsl:when test="exists($originStartIndent) and exists($originStartPadding)">
+                                <xsl:attribute name="start-indent">
+                                    <xsl:value-of select="$originStartIndent"/>
+                                    <xsl:text> + (</xsl:text>
+                                    <xsl:value-of select="$borderStartWidth"/>
+                                    <xsl:text>)</xsl:text>
+                                </xsl:attribute>
+                            </xsl:when>
                             <xsl:when test="exists($originStartIndent) and exists($borderStartPadding)">
                                 <xsl:attribute name="start-indent">
                                     <xsl:value-of select="$originStartIndent"/>
-                                    <xsl:text> + </xsl:text>
+                                    <xsl:text> + (</xsl:text>
+                                    <xsl:value-of select="$borderStartPadding"/>
+                                    <xsl:text>) + (</xsl:text>
                                     <xsl:value-of select="$borderStartWidth"/>
+                                    <xsl:text>)</xsl:text>
+                                </xsl:attribute>
+                            </xsl:when>
+                            <xsl:when test="exists($originStartIndent) and empty($borderStartPadding)">
+                                <xsl:attribute name="start-indent">
+                                    <xsl:value-of select="$originStartIndent"/>
+                                    <xsl:text> + (</xsl:text>
+                                    <xsl:value-of select="$borderStartWidth"/>
+                                    <xsl:text>)</xsl:text>
                                 </xsl:attribute>
                             </xsl:when>
                             <xsl:when test="empty($originStartIndent) and exists($borderStartPadding)">
                                 <xsl:attribute name="start-indent">
-                                    <xsl:text>inherited-property-value(start-indent) + </xsl:text>
+                                    <xsl:text>inherited-property-value(start-indent) + (</xsl:text>
                                     <xsl:value-of select="$borderStartPadding"/>
+                                    <xsl:text>) + (</xsl:text>
+                                    <xsl:value-of select="$borderStartWidth"/>
+                                    <xsl:text>)</xsl:text>
+                                </xsl:attribute>
+                            </xsl:when>
+                            <xsl:when test="empty($originStartIndent) and empty($borderStartPadding)">
+                                <xsl:attribute name="start-indent">
+                                    <xsl:text>inherited-property-value(start-indent) + (</xsl:text>
+                                    <xsl:value-of select="$borderStartWidth"/>
+                                    <xsl:text>)</xsl:text>
                                 </xsl:attribute>
                             </xsl:when>
                         </xsl:choose>
                         <!-- Adjust end-indent -->
                         <xsl:choose>
+                            <xsl:when test="exists($originEndIndent) and exists($originEndPadding)">
+                                <xsl:attribute name="end-indent">
+                                    <xsl:value-of select="$originEndIndent"/>
+                                    <xsl:text> + (</xsl:text>
+                                    <xsl:value-of select="$borderEndWidth"/>
+                                    <xsl:text>)</xsl:text>
+                                </xsl:attribute>
+                            </xsl:when>
                             <xsl:when test="exists($originEndIndent) and exists($borderEndPadding)">
                                 <xsl:attribute name="end-indent">
                                     <xsl:value-of select="$originEndIndent"/>
-                                    <xsl:text> + </xsl:text>
+                                    <xsl:text> + (</xsl:text>
+                                    <xsl:value-of select="$borderEndPadding"/>
+                                    <xsl:text>) + (</xsl:text>
                                     <xsl:value-of select="$borderEndWidth"/>
+                                    <xsl:text>)</xsl:text>
+                                </xsl:attribute>
+                            </xsl:when>
+                            <xsl:when test="exists($originEndIndent) and empty($borderEndPadding)">
+                                <xsl:attribute name="end-indent">
+                                    <xsl:value-of select="$originEndIndent"/>
+                                    <xsl:text> + (</xsl:text>
+                                    <xsl:value-of select="$borderEndWidth"/>
+                                    <xsl:text>)</xsl:text>
                                 </xsl:attribute>
                             </xsl:when>
                             <xsl:when test="empty($originEndIndent) and exists($borderEndPadding)">
                                 <xsl:attribute name="end-indent">
-                                    <xsl:text>inherited-property-value(start-indent) + </xsl:text>
+                                    <xsl:text>inherited-property-value(end-indent) + (</xsl:text>
                                     <xsl:value-of select="$borderEndPadding"/>
+                                    <xsl:text>) + (</xsl:text>
+                                    <xsl:value-of select="$borderEndWidth"/>
+                                    <xsl:text>)</xsl:text>
+                                </xsl:attribute>
+                            </xsl:when>
+                            <xsl:when test="empty($originEndIndent) and empty($borderEndPadding)">
+                                <xsl:attribute name="end-indent">
+                                    <xsl:text>inherited-property-value(end-indent) + (</xsl:text>
+                                    <xsl:value-of select="$borderEndWidth"/>
+                                    <xsl:text>)</xsl:text>
                                 </xsl:attribute>
                             </xsl:when>
                         </xsl:choose>
                     </xsl:variable>
-                    <xsl:variable name="adjustedPadding" as="attribute()*">
-                        <!-- Adjust padding -->
-                        <xsl:if test="$originStartPadding">
-                            <xsl:sequence select="$originStartPadding"/>
-                        </xsl:if>
-                        <xsl:if test="$originEndPadding">
-                            <xsl:sequence select="$originEndPadding"/>
-                        </xsl:if>
-                    </xsl:variable>
                     <xsl:copy-of select="$borderStyle"/>
                     <xsl:copy-of select="$adjustedIndent"/>
-                    <xsl:copy-of select="$adjustedPadding"/>
+                    <xsl:copy-of select="$originPadding"/>
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:if>
