@@ -2,9 +2,42 @@
 
                  Antenna House pdf5 Plugin Revision Notes
 
-      Copyright (C) 2009-2014 Antenna House, Inc. All rights reserved.
+      Copyright (C) 2009-2015 Antenna House, Inc. All rights reserved.
              Antenna House is a trademark of Antenna House, Inc.
 _______________________________________________________________________________
+Jan, 2015
+V2.1.5
+- Change character domain class attribute value.
+- Adjust the indent for elements that use frame attribute.
+- Fixed the bug of fo:prop processing. 
+- Added some code for customization.
+- Introduce ahf:getAttributeSetReplacing function.
+- Fix the bug of ahf:getAttribute and ahf:getAttributeValue 
+- Implement .ditaval flagging feature experimentally. 
+- Fixed the xref to topic problem. 
+- Fixed the "Unresolved index-key value" error. 
+- Fix the lq/@href problem. 
+- Changed the fo attribute name.
+- Fixed duplicate id error in index page.
+- Fixed frontmatter title bug
+- Fixed the toc chapter title spacing bug.
+- Added character-domain.
+- Fixed the table & fig title bug in appendix.
+- Changed thumbnail index in appendix page.
+- Changed appendix numbering format.
+- Thumbnail index on index page.
+- Remove appendice from toc.
+- Changed appendice processing.
+- Thumbnail index in online PDF.
+- Decrease the use of generate-id().
+- Added dita2fo_generate_history_id.xsl.
+- Fix bookmark generation bug.
+- Fix CSS style generation bug.
+- Add page-break control to topicref[not(@href)].
+- Change topic page-break control.
+- Add @fo:style processing. 
+- Separate style processing template into dita2fo_setstyle.xsl, dita2fo_getstyle.xsl.
+
 Sep, 2014
 V2.1.4
 - Fixed the duplicated id error in index page.
