@@ -1475,7 +1475,7 @@ E-mail : info@antennahouse.com
      note:		
      -->
     <xsl:template name="ahf:getFigTitlePrefix" as="xs:string">
-        <xsl:param name="prmTopicRef" tunnel="yes" required="yes" as="element()"/>
+        <xsl:param name="prmTopicRef" tunnel="yes" required="yes" as="element()?"/>
         <xsl:param name="prmFig" required="no" as="element()" select="."/>
         
         <xsl:variable name="titlePrefix" as="xs:string">
