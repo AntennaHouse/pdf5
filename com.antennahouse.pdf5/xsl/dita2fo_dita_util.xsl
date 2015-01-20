@@ -82,6 +82,57 @@ URL : http://www.antennahouse.co.jp/
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
-    
+
+    <!-- 
+     function:	Get topic from topicref 
+     param:		prmTopicRef
+     return:	xs:element?
+     note:		
+     -->
+    <xsl:function name="ahf:getTopicFromTopicRef" as="element()?">
+        <xsl:param name="prmTopicRef" as="element()"/>
+        <xsl:variable name="id" select="substring-after($prmTopicRef/@href, '#')" as="xs:string"/>
+        <xsl:variable name="topicContent" select="if (string($id)) then key('topicById', $id, $root)[1] else ()" as="element()?"/>
+        <xsl:sequence select="$topicContent"/>
+    </xsl:function>
+
+    <!-- 
+     function:	Get topicref from topic
+     param:		prmTopicContent
+     return:	topicref
+     note:		
+     -->
+    <xsl:function name="ahf:getTopicRef" as="element()?">
+        <xsl:param name="prmTopic" as="element()?"/>
+        
+        <xsl:choose>
+            <xsl:when test="empty($prmTopic)">
+                <!-- invalid parameter -->
+                <xsl:sequence select="()"/>
+            </xsl:when>
+            <xsl:when test="not(contains($prmTopic/@class, ' topic/topic '))">
+                <!-- It is not a topic! -->
+                <xsl:sequence select="()"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:variable name="id" select="$prmTopic/@id" as="xs:string"/>
+                <xsl:variable name="topicRef" select="key('topicrefByHref', concat('#',$id), $map)[1]" as="element()?"/>
+                <xsl:choose>
+                    <xsl:when test="exists($topicRef)">
+                        <xsl:sequence select="$topicRef"/>
+                    </xsl:when>
+                    <xsl:when test="$prmTopic/ancestor::*[contains(@class, ' topic/topic ')]">
+                        <!-- search ancestor -->
+                        <xsl:sequence select="ahf:getTopicRef($prmTopic/ancestor::*[contains(@class, ' topic/topic ')][position()=last()])"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <!-- not found -->
+                        <xsl:sequence select="()"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:function>
+
     <!-- end of stylesheet -->
 </xsl:stylesheet>

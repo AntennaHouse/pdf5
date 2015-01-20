@@ -36,6 +36,172 @@ E-mail : info@antennahouse.com
     <!-- index id prefix -->
     <xsl:variable name="cIndexKeyPrefix" select="'__indexkey'"/>
     
+    <!-- Moved from dita2fo_common.xsl -->
+    <!-- 
+     function:	Process indexterm in metadata
+     param:		prmTopicRef, prmTopicContent
+     return:	call indexterm template and make index-key or start FO object
+     note:		This template should be called from the beginning of topic/title template.
+                Changed to allow empty($prmTopicContent) 2011-07-25 t.makita
+                The indexterm must be exist before (<<) the $lastTopicRef. 
+                Otherwise it will be ignored by FO processor. 
+                This template ignores if <indexterm> exists aftre the $lastTopicRef.
+                2012-03-29 t.makita
+     -->
+    <xsl:template name="processIndextermInMetadata">
+        <xsl:param name="prmTopicRef"     required="yes" as="element()"/>
+        <xsl:param name="prmTopicContent" required="yes" as="element()?"/>
+        
+        <xsl:if test="$prmTopicRef &lt;&lt; $lastTopicRef or $prmTopicRef is $lastTopicRef">
+            <!-- Make @index-key and start FO object for topicref/topicmeta/keywords/indexterm 
+                 $prmTopicRef must be () because indexterm exists in topicref/topicmeta.
+                 It does not exists in topic pointed by topicref.
+             -->
+            <xsl:choose>
+                <xsl:when test="exists($prmTopicContent)">
+                    <xsl:choose>
+                        <xsl:when test="$prmTopicContent/ancestor::*[contains(@class,' topic/topic ')]"/>
+                        <xsl:otherwise>
+                            <xsl:apply-templates select="$prmTopicRef/child::*[contains(@class, ' map/topicmeta ')]/*[contains(@class, ' topic/keywords ')]/*[contains(@class, ' topic/indexterm ')]">
+                                <xsl:with-param name="prmTopicRef" tunnel="yes" select="()"/>
+                                <xsl:with-param name="prmNeedId"   tunnel="yes" select="false()"/>
+                                <xsl:with-param name="prmMakeKeyAndStart" tunnel="yes" select="true()"/>
+                            </xsl:apply-templates>
+                        </xsl:otherwise>
+                    </xsl:choose>            
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:apply-templates select="$prmTopicRef/child::*[contains(@class, ' map/topicmeta ')]/*[contains(@class, ' topic/keywords ')]/*[contains(@class, ' topic/indexterm ')]">
+                        <xsl:with-param name="prmTopicRef" tunnel="yes" select="()"/>
+                        <xsl:with-param name="prmNeedId"   tunnel="yes" select="false()"/>
+                        <xsl:with-param name="prmMakeKeyAndStart" tunnel="yes" select="true()"/>
+                    </xsl:apply-templates>
+                </xsl:otherwise>
+            </xsl:choose>
+            
+            <!-- Make @index-key and start FO object for topic/prolog/metadata/keywords/indexterm -->
+            <xsl:if test="exists($prmTopicContent)">
+                <xsl:apply-templates select="$prmTopicContent/child::*[contains(@class, ' topic/prolog ')]/child::*[contains(@class, ' topic/metadata ')]/*[contains(@class, ' topic/keywords ')]/*[contains(@class, ' topic/indexterm ')]">
+                    <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
+                    <xsl:with-param name="prmNeedId"   tunnel="yes" select="false()"/>
+                    <xsl:with-param name="prmMakeKeyAndStart" tunnel="yes" select="true()"/>
+                </xsl:apply-templates>
+            </xsl:if>
+        </xsl:if>
+    </xsl:template>
+    
+    <!-- 
+     function:	Process indexterm in metadata
+     param:		prmTopicRef, prmTopicContent
+     return:	call indexterm template and make fo:index-range-end FO object
+     note:		This template should be called from the end of topicref.
+     -->
+    <xsl:template name="processIndextermInMetadataEnd">
+        <xsl:param name="prmTopicRef"     required="yes" as="element()"/>
+        <xsl:param name="prmTopicContent" required="yes" as="element()?"/>
+        
+        <xsl:variable name="indextermRangeEnd" as="element()*">
+            <!-- topicref/topicmeta/keywords/indexterm -->
+            <xsl:apply-templates select="$prmTopicRef/child::*[contains(@class, ' map/topicmeta ')]/*[contains(@class, ' topic/keywords ')]/*[contains(@class, ' topic/indexterm ')]">
+                <xsl:with-param name="prmTopicRef" tunnel="yes" select="()"/>
+                <xsl:with-param name="prmNeedId"   tunnel="yes" select="false()"/>
+                <xsl:with-param name="prmMakeEnd"  tunnel="yes" select="true()"/>
+            </xsl:apply-templates>
+            
+            <!-- topic/prolog/metadata/keywords/indexterm -->
+            <xsl:if test="exists($prmTopicContent)">
+                <xsl:apply-templates select="$prmTopicContent/descendant-or-self::*[contains(@class,' topic/topic ')]/child::*[contains(@class, ' topic/prolog ')]/child::*[contains(@class, ' topic/metadata ')]/*[contains(@class, ' topic/keywords ')]/*[contains(@class, ' topic/indexterm ')]">
+                    <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
+                    <xsl:with-param name="prmNeedId"   tunnel="yes" select="false()"/>
+                    <xsl:with-param name="prmMakeEnd"  tunnel="yes" select="true()"/>
+                </xsl:apply-templates>
+            </xsl:if>
+            
+            <xsl:if test="exists($prmTopicContent)">
+                <!-- Make fo:index-range-end FO object for topic/prolog/metadata/keywords/indexterm 
+                     that has @start but has no corresponding @end indexterm
+                 -->
+                <xsl:apply-templates select="$prmTopicContent/descendant-or-self::*[contains(@class,' topic/topic ')]/child::*[contains(@class, ' topic/prolog ')]/child::*[contains(@class, ' topic/metadata ')]/*[contains(@class, ' topic/keywords ')]/*[contains(@class, ' topic/indexterm ')]">
+                    <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
+                    <xsl:with-param name="prmNeedId"   tunnel="yes" select="false()"/>
+                    <xsl:with-param name="prmMakeComplementEnd" tunnel="yes" select="true()"/>
+                    <xsl:with-param name="prmRangeElem" tunnel="yes" select="$prmTopicRef"/><!-- Special! -->
+                </xsl:apply-templates>
+            </xsl:if>
+            
+            <!-- Make fo:index-range-end FO object for topicref/topicmeta/keywords/indexterm 
+                 that has @start but has no corresponding @end indexterm
+             -->
+            <xsl:if test="$prmTopicRef is $lastTopicRef">
+                <xsl:for-each select="$map/descendant::*[contains(@class,' map/topicref ')]">
+                    <xsl:variable name="topicRef" select="."/>
+                    <xsl:apply-templates select="$topicRef/child::*[contains(@class, ' map/topicmeta ')]/*[contains(@class, ' topic/keywords ')]/*[contains(@class, ' topic/indexterm ')]">
+                        <xsl:with-param name="prmTopicRef" tunnel="yes" select="$topicRef"/>
+                        <xsl:with-param name="prmNeedId"   tunnel="yes" select="false()"/>
+                        <xsl:with-param name="prmMakeComplementEnd" tunnel="yes" select="true()"/>
+                        <xsl:with-param name="prmRangeElem" tunnel="yes" select="$map"/>
+                    </xsl:apply-templates>
+                </xsl:for-each>
+            </xsl:if>
+        </xsl:variable>
+        
+        <xsl:if test="exists($indextermRangeEnd)">
+            <fo:block-container>
+                <xsl:copy-of select="$indextermRangeEnd"/>
+            </fo:block-container>
+        </xsl:if>
+        
+    </xsl:template>
+    
+    <!-- 
+        function:	Complement indexterm[@end] in topic body portion
+        param:		prmTopicRef, prmTopicContent
+        return:	    call indexterm template and make fo:index-range-end FO object
+        note:		This template should be called from the end of topic.
+    -->
+    <xsl:template name="processIndextermInTopicEnd">
+        <xsl:param name="prmTopicRef"     required="yes" as="element()"/>
+        <xsl:param name="prmTopicContent" required="yes" as="element()"/>
+        
+        <xsl:variable name="indextermRangeEnd" as="element()*">
+            <!-- topic/title -->
+            <xsl:apply-templates select="$prmTopicContent/child::*[contains(@class, ' topic/title ')]//*[contains(@class, ' topic/indexterm ')]">
+                <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
+                <xsl:with-param name="prmNeedId"   tunnel="yes" select="false()"/>
+                <xsl:with-param name="prmMakeComplementEnd" tunnel="yes" select="true()"/>
+                <xsl:with-param name="prmRangeElem" tunnel="yes" select="$prmTopicContent"/>
+            </xsl:apply-templates>
+            
+            <!-- topic/shortdesc,abstract -->
+            <xsl:apply-templates select="$prmTopicContent/child::*[contains(@class, ' topic/shortdesc ')]//*[contains(@class, ' topic/indexterm ')]">
+                <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
+                <xsl:with-param name="prmNeedId"   tunnel="yes" select="false()"/>
+                <xsl:with-param name="prmMakeComplementEnd" tunnel="yes" select="true()"/>
+                <xsl:with-param name="prmRangeElem" tunnel="yes" select="$prmTopicContent"/>
+            </xsl:apply-templates>
+            
+            <xsl:apply-templates select="$prmTopicContent/child::*[contains(@class, ' topic/abstract ')]//*[contains(@class, ' topic/indexterm ')]">
+                <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
+                <xsl:with-param name="prmNeedId"   tunnel="yes" select="false()"/>
+                <xsl:with-param name="prmMakeComplementEnd" tunnel="yes" select="true()"/>
+                <xsl:with-param name="prmRangeElem" tunnel="yes" select="$prmTopicContent"/>
+            </xsl:apply-templates>
+            
+            <!-- topic/body -->
+            <xsl:apply-templates select="$prmTopicContent/child::*[contains(@class, ' topic/body ')]//*[contains(@class, ' topic/indexterm ')]">
+                <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
+                <xsl:with-param name="prmNeedId"   tunnel="yes" select="false()"/>
+                <xsl:with-param name="prmMakeComplementEnd" tunnel="yes" select="true()"/>
+                <xsl:with-param name="prmRangeElem" tunnel="yes" select="$prmTopicContent"/>
+            </xsl:apply-templates>
+        </xsl:variable>
+        <xsl:if test="exists($indextermRangeEnd)">
+            <fo:block-container>
+                <xsl:copy-of select="$indextermRangeEnd"/>    
+            </fo:block-container>
+        </xsl:if>
+    </xsl:template>
+    
     <!-- 
      function: General text mode templates for indexterm 
      param:    see below
@@ -161,8 +327,6 @@ E-mail : info@antennahouse.com
     -->
     <!-- indexterm -->
     <xsl:template match="*[contains(@class, ' topic/indexterm ')]">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
         <xsl:param name="prmGetIndextermFO" required="no" tunnel="yes" as="xs:boolean" select="false()"/>
         <xsl:param name="prmGetIndexSeeFO"  required="no" tunnel="yes" as="xs:boolean" select="false()"/>
         <xsl:param name="prmMakeCover"      required="no" tunnel="yes" as="xs:boolean" select="false()"/>
@@ -178,10 +342,8 @@ E-mail : info@antennahouse.com
                     <xsl:value-of select="', '"/>
                 </fo:inline>
                 <fo:inline>
-                    <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+                    <xsl:call-template name="ahf:getUnivAtts"/>
                     <xsl:apply-templates>
-                        <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                        <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
                         <xsl:with-param name="prmGetIndexSeeFO" tunnel="yes" select="$prmGetIndexSeeFO"/>
                     </xsl:apply-templates>
                 </fo:inline>
@@ -201,8 +363,6 @@ E-mail : info@antennahouse.com
                         <!-- Normal pattern: generate @index-key, fo:index-range-begin, fo:index-range-end -->
                         <!-- "MODE_PROCESS_INDEXTERM_MAIN" template is coded in dita2fo_indexterm.xsl -->
                         <xsl:apply-templates select="self::node()" mode="MODE_PROCESS_INDEXTERM_MAIN">
-                            <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                            <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
                             <xsl:with-param name="prmIndextermKey" select="''"/>
                             <xsl:with-param name="prmIndextermStart" select="''"/>
                             <xsl:with-param name="prmIndextermStartId" select="''"/>
@@ -217,8 +377,6 @@ E-mail : info@antennahouse.com
     <xsl:template match="*[contains(@class, ' indexing-d/index-see ')]
                         |*[contains(@class, ' indexing-d/index-see-also ')]
                         |*[contains(@class, ' topic/index-base ')]">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
         <xsl:param name="prmGetIndextermFO" required="no" tunnel="yes" as="xs:boolean" select="false()"/>
         <xsl:param name="prmGetIndexSeeFO"  required="no" tunnel="yes" as="xs:boolean" select="false()"/>
     
@@ -228,10 +386,8 @@ E-mail : info@antennahouse.com
             </xsl:when>
             <xsl:when test="$prmGetIndexSeeFO">
                 <fo:inline>
-                    <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+                    <xsl:call-template name="ahf:getUnivAtts"/>
                     <xsl:apply-templates>
-                        <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                        <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
                         <xsl:with-param name="prmGetIndexSeeFO" tunnel="yes" select="$prmGetIndexSeeFO"/>
                     </xsl:apply-templates>
                 </fo:inline>
@@ -242,8 +398,6 @@ E-mail : info@antennahouse.com
     <!-- index-sort-as -->
     <xsl:template match="*[contains(@class, ' indexing-d/index-sort-as ')]"
                   priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
         <xsl:param name="prmGetIndextermFO" required="no" tunnel="yes" as="xs:boolean" select="false()"/>
         <xsl:param name="prmGetIndexSeeFO"  required="no" tunnel="yes" as="xs:boolean" select="false()"/>
     

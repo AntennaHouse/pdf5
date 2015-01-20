@@ -42,7 +42,7 @@ URL : http://www.antennahouse.co.jp/
     <xsl:template name="getDestinationAttr" as="attribute()*">
         <xsl:param name="prmHref" as="xs:string" required="yes"/>
         <xsl:param name="prmElem" as="element()" required="yes"/>
-        <xsl:param name="prmTopicRef" as="element()?" required="yes"/>
+        <xsl:param name="prmTopicRef" tunnel="yes" required="yes" as="element()?"/>
         <xsl:choose>
             <xsl:when test="not(string($prmHref))">
                 <xsl:sequence select="()"/>

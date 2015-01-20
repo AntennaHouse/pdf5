@@ -307,7 +307,6 @@ E-mail : info@antennahouse.com
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:call-template name="makeFootNote">
-                        <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                         <xsl:with-param name="prmElement"  select="."/>
                     </xsl:call-template>
                 </xsl:otherwise>
@@ -491,7 +490,6 @@ E-mail : info@antennahouse.com
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:call-template name="makeFootNote">
-                            <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                             <xsl:with-param name="prmElement"  select="child::*[contains(@class, ' glossentry/glossdef ')]"/>
                         </xsl:call-template>
                     </xsl:otherwise>

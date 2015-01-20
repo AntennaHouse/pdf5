@@ -29,14 +29,34 @@ E-mail : info@antennahouse.com
         <xsl:param name="prmTopicRef" as="element()?"/>
         <xsl:param name="prmNeedId"   as="xs:boolean"/>
     
-        <!-- localization-atts -->
-        <xsl:sequence select="ahf:getLocalizationAtts($prmElement)"/>
-        
-        <!-- id-atts -->
-        <xsl:sequence select="ahf:getIdAtts($prmElement, $prmTopicRef, $prmNeedId)"/>
+        <xsl:call-template name="ahf:getIdAtts">
+            <xsl:with-param name="prmElement" select="$prmElement"/>
+            <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
+            <xsl:with-param name="prmNeedId"   tunnel="yes" select="$prmNeedId"/>
+        </xsl:call-template>
         
     </xsl:function>
+
+    <xsl:template name="ahf:getUnivAtts" as="attribute()*">
+        <xsl:param name="prmElement" as="element()" required="no" select="."/>
+        <xsl:param name="prmTopicRef" as="element()?" tunnel="yes" required="yes"/>
+        <xsl:param name="prmNeedId"   as="xs:boolean" tunnel="yes" required="no" select="true()"/>
+        
+        <!-- localization-atts -->
+        <xsl:call-template name="ahf:getLocalizationAtts">
+            <xsl:with-param name="prmElement" select="$prmElement"/>
+        </xsl:call-template>
+        
+        <!-- id-atts -->
+        <xsl:call-template name="ahf:getIdAtts">
+            <xsl:with-param name="prmElement" select="$prmElement"/>
+            <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
+            <xsl:with-param name="prmNeedId" tunnel="yes" select="$prmNeedId"/>
+        </xsl:call-template>
+        
+    </xsl:template>
     
+
     <!-- 
      function:	Process %id-atts; attribute
      param:		prmElement, prmTopicRef, prmNeedId
@@ -48,6 +68,19 @@ E-mail : info@antennahouse.com
         <xsl:param name="prmTopicRef" as="element()?"/>
         <xsl:param name="prmNeedId"   as="xs:boolean"/>
     
+        <xsl:call-template name="ahf:getIdAtts">
+            <xsl:with-param name="prmElement" select="$prmElement"/>
+            <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
+            <xsl:with-param name="prmNeedId"   tunnel="yes" select="$prmNeedId"/>
+        </xsl:call-template>
+    
+    </xsl:function>
+
+    <xsl:template name="ahf:getIdAtts" as="attribute()*">
+        <xsl:param name="prmElement"  as="element()" required="no" select="."/>
+        <xsl:param name="prmTopicRef" as="element()?" tunnel="yes" required="yes"/>
+        <xsl:param name="prmNeedId"   as="xs:boolean" tunnel="yes" required="no" select="true()"/>
+        
         <xsl:choose>
             <!-- topicref -->
             <xsl:when test="contains($prmElement/@class, ' map/topicref ') and $prmNeedId">
@@ -97,8 +130,8 @@ E-mail : info@antennahouse.com
                                     </xsl:otherwise>
                                 </xsl:choose>
                                 <!--xsl:if test="$refedTopic"-->
-                                    <!-- Add named destination -->
-                                    <xsl:attribute name="axf:destination-type" select="'xyz-top'"/>
+                                <!-- Add named destination -->
+                                <xsl:attribute name="axf:destination-type" select="'xyz-top'"/>
                                 <!--/xsl:if-->
                             </xsl:when>
                             <xsl:otherwise>
@@ -148,7 +181,7 @@ E-mail : info@antennahouse.com
                             <xsl:when test="$pUseOid">
                                 <!-- add topic/oid to every id as prefix to make it unique -->
                                 <xsl:variable name="topicOid" 
-                                select="string($prmElement/ancestor::*[contains(@class, ' topic/topic ')][1]/@oid)" as="xs:string"/>
+                                    select="string($prmElement/ancestor::*[contains(@class, ' topic/topic ')][1]/@oid)" as="xs:string"/>
                                 <xsl:choose>
                                     <xsl:when test="$topicRefCount eq 1">
                                         <!-- normal pattern -->
@@ -182,7 +215,7 @@ E-mail : info@antennahouse.com
                             </xsl:when>
                             <xsl:otherwise>
                                 <xsl:variable name="topicId" 
-                                select="string($prmElement/ancestor::*[contains(@class, ' topic/topic ')][1]/@id)" as="xs:string"/>
+                                    select="string($prmElement/ancestor::*[contains(@class, ' topic/topic ')][1]/@id)" as="xs:string"/>
                                 <xsl:choose>
                                     <xsl:when test="$topicRefCount eq 1">
                                         <!-- normal pattern -->
@@ -219,9 +252,10 @@ E-mail : info@antennahouse.com
                 </xsl:choose>
             </xsl:when>
         </xsl:choose>
+        
+    </xsl:template>
     
-    </xsl:function>
-    
+
     <!-- 
      function:	Process %localization-atts; attribute
      param:		prmElement
@@ -249,7 +283,18 @@ E-mail : info@antennahouse.com
             </xsl:choose>
         </xsl:if-->
     </xsl:function>
+
+    <xsl:template name="ahf:getLocalizationAtts" as="attribute()*">
+        <xsl:param name="prmElement" as="element()" required="no" select="."/>
+        
+        <!-- localization-atts: xml:lang -->
+        <xsl:if test="$prmElement/@xml:lang">
+            <xsl:sequence select="$prmElement/@xml:lang"/>
+        </xsl:if>
+        
+    </xsl:template>
     
+
     <!-- 
      function:	Process %display-atts; attribute
      param:		prmElement, prmStyleName
@@ -540,7 +585,16 @@ E-mail : info@antennahouse.com
     <xsl:function name="ahf:generateId" as="xs:string">
         <xsl:param name="prmElement" as="element()"/>
         <xsl:param name="prmTopicRef" as="element()?"/>
+        <xsl:call-template name="ahf:generateId">
+            <xsl:with-param name="prmElement" select="$prmElement"/>
+            <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
+        </xsl:call-template>
+    </xsl:function>
     
+    <xsl:template name="ahf:generateId" as="xs:string">
+        <xsl:param name="prmElement" required="no" as="element()" select="."/>
+        <xsl:param name="prmTopicRef" tunnel="yes" required="yes" as="element()?"/>
+        
         <xsl:choose>
             <xsl:when test="$prmElement/ancestor::*[contains(@class,' map/map ')]">
                 <xsl:sequence select="ahf:generateHistoryId($prmElement)"/>
@@ -553,6 +607,12 @@ E-mail : info@antennahouse.com
                 <xsl:sequence select="concat($id1,$id2,$id3)"/>
             </xsl:otherwise>
         </xsl:choose>
-    </xsl:function>
-
+    </xsl:template>
+    
+    <xsl:template name="ahf:generateIdAttr" as="attribute()">
+        <xsl:param name="prmElement" required="no" as="element()" select="."/>
+        <xsl:param name="prmTopicRef" tunnel="yes" required="yes" as="element()?"/>
+        <xsl:attribute name="id" select="ahf:generateId($prmElement,$prmTopicRef)"/>
+    </xsl:template>
+    
 </xsl:stylesheet>

@@ -123,15 +123,14 @@ E-mail : info@antennahouse.com
     
         <xsl:variable name="topicRef" select="."/>
         <!-- get topic from @href -->
-        <xsl:variable name="id" select="substring-after(@href, '#')" as="xs:string"/>
-        <xsl:variable name="topicContent" select="if (string($id)) then key('topicById', $id)[1] else ()" as="element()?"/>
+        <xsl:variable name="topicContent" select="ahf:getTopicFromTopicRef($topicRef)" as="element()?"/>
         <xsl:variable name="titleMode" select="ahf:getTitleMode($topicRef,())" as="xs:integer"/>
         
         <xsl:choose>
             <xsl:when test="exists($topicContent)">
                 <!-- Process contents -->
                 <xsl:apply-templates select="$topicContent" mode="PROCESS_MAIN_CONTENT">
-                    <xsl:with-param name="prmTopicRef"   select="$topicRef"/>
+                    <xsl:with-param name="prmTopicRef"   tunnel="yes" select="$topicRef"/>
                     <xsl:with-param name="prmTitleMode"  select="$titleMode"/>
                 </xsl:apply-templates>
             </xsl:when>
