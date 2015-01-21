@@ -20,6 +20,11 @@
                     fo-style⇒fo:style
                     2014-10-04 t.makita
     -->
+    <xsl:template name="ahf:getFoStyleAndProperty" as="attribute()*">
+        <xsl:param name="prmElem" required="no" as="element()" select="."/>
+        <xsl:sequence select="ahf:getFoStyleAndProperty($prmElem)"/>
+    </xsl:template>
+    
     <xsl:function name="ahf:getFoStyleAndProperty" as="attribute()*">
         <xsl:param name="prmElem" as="element()"/>
         <xsl:sequence select="ahf:getFoStyle($prmElem)"/>

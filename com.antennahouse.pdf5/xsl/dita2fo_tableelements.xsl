@@ -886,7 +886,7 @@ E-mail : info@antennahouse.com
      note:		
      -->
     <xsl:template name="ahf:getTableTitlePrefix" as="xs:string">
-        <xsl:param name="prmTopicRef" tunnel="yes" required="yes" as="element()?"/>
+        <xsl:param name="prmTopicRef" tunnel="yes" required="yes" as="element()"/>
         <xsl:param name="prmTable" required="no" as="element()" select="."/>
         
         <xsl:variable name="titlePrefix" as="xs:string">
@@ -894,18 +894,6 @@ E-mail : info@antennahouse.com
                 <xsl:when test="$pAddNumberingTitlePrefix">
                     <xsl:variable name="titlePrefixPart" select="ahf:genLevelTitlePrefixByCount($prmTopicRef,$cTableGroupingLevelMax)"/>
                     <xsl:sequence select="concat($titlePrefixPart,$cTitleSeparator)"/>
-                    <!--xsl:variable name="tempTitlePrefix" select="ahf:genNumberingPrefix($prmTopicRef,$cTableGroupingLevelMax)"/>
-                    <xsl:choose>
-                        <xsl:when test="not(string($tempTitlePrefix))">
-                            <xsl:sequence select="''"/>
-                        </xsl:when>
-                        <xsl:when test="ends-with($tempTitlePrefix, $cTitlePrefixSeparator)">
-                            <xsl:sequence select="concat(substring($tempTitlePrefix, 1, string-length($tempTitlePrefix)-1), $cTitleSeparator)"/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:sequence select="concat($tempTitlePrefix, $cTitleSeparator)"/>
-                        </xsl:otherwise>
-                    </xsl:choose-->
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:sequence select="''"/>
@@ -929,51 +917,15 @@ E-mail : info@antennahouse.com
         
         <xsl:sequence select="concat($cTableTitle,$titlePrefix,string($tableNumber))"/>
     </xsl:template>
-    
 
     <xsl:function name="ahf:getTableTitlePrefix" as="xs:string">
         <xsl:param name="prmTopicRef" as="element()"/>
         <xsl:param name="prmTable" as="element()"/>
-    
-        <xsl:variable name="titlePrefix" as="xs:string">
-            <xsl:choose>
-                <xsl:when test="$pAddNumberingTitlePrefix">
-                    <xsl:variable name="titlePrefixPart" select="ahf:genLevelTitlePrefixByCount($prmTopicRef,$cTableGroupingLevelMax)"/>
-                    <xsl:sequence select="concat($titlePrefixPart,$cTitleSeparator)"/>
-                    <!--xsl:variable name="tempTitlePrefix" select="ahf:genNumberingPrefix($prmTopicRef,$cTableGroupingLevelMax)"/>
-                    <xsl:choose>
-                        <xsl:when test="not(string($tempTitlePrefix))">
-                            <xsl:sequence select="''"/>
-                        </xsl:when>
-                        <xsl:when test="ends-with($tempTitlePrefix, $cTitlePrefixSeparator)">
-                            <xsl:sequence select="concat(substring($tempTitlePrefix, 1, string-length($tempTitlePrefix)-1), $cTitleSeparator)"/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:sequence select="concat($tempTitlePrefix, $cTitleSeparator)"/>
-                        </xsl:otherwise>
-                    </xsl:choose-->
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:sequence select="''"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
-    
-        <xsl:variable name="topicNode" select="$prmTable/ancestor::*[contains(@class, ' topic/topic ')][position()=last()]"/>
-    
-        <xsl:variable name="tablePreviousAmount" as="xs:integer">
-            <xsl:variable name="topicNodeId" select="ahf:generateId($topicNode,$prmTopicRef)"/>
-            <xsl:sequence select="$tableNumberingMap/*[@id=$topicNodeId]/@count"/>
-        </xsl:variable>
-    
-        <xsl:variable name="tableCurrentAmount"  as="xs:integer">
-            <xsl:variable name="topic" as="element()" select="$prmTable/ancestor::*[contains(@class,' topic/topic ')][last()]"/>
-            <xsl:sequence select="count($topic//*[contains(@class,' topic/table ')][child::*[contains(@class, ' topic/title ')]][. &lt;&lt; $prmTable]|$prmTable)"/>
-        </xsl:variable>
-    
-        <xsl:variable name="tableNumber" select="$tablePreviousAmount + $tableCurrentAmount" as="xs:integer"/>
-    
-        <xsl:sequence select="concat($cTableTitle,$titlePrefix,string($tableNumber))"/>
+        
+        <xsl:call-template name="ahf:getTableTitlePrefix">
+            <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
+            <xsl:with-param name="prmTable" select="$prmTable"/>
+        </xsl:call-template>
     </xsl:function>
 
 </xsl:stylesheet>

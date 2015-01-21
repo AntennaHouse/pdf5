@@ -28,8 +28,6 @@ E-mail : info@antennahouse.com
      note:		none
      -->
     <xsl:template match="*[contains(@class, ' topic/titlealts ')]">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
     </xsl:template>
     <!-- 
      function:	navtitle template
@@ -38,12 +36,7 @@ E-mail : info@antennahouse.com
      note:		none
      -->
     <xsl:template match="*[contains(@class, ' topic/navtitle ')]">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-        <xsl:apply-templates>
-            <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-            <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-        </xsl:apply-templates>
+        <xsl:apply-templates/>
     </xsl:template>
     
     <!-- 
@@ -53,8 +46,6 @@ E-mail : info@antennahouse.com
      note:		none
      -->
     <xsl:template match="*[contains(@class, ' topic/searchtitle ')]">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
     </xsl:template>
     
     <!-- 
@@ -65,17 +56,11 @@ E-mail : info@antennahouse.com
                 Make fo:block unconditionally. (2011-09-07 t.makita)
      -->
     <xsl:template match="*[contains(@class, ' topic/abstract ')]">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-        
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsAbstract')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:block>
     </xsl:template>
     
@@ -86,31 +71,22 @@ E-mail : info@antennahouse.com
      note:		Abstract can contain shortdesc as inline or block level objects.
      -->
     <xsl:template match="*[contains(@class, ' topic/shortdesc ')]">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-        
         <xsl:choose>
             <xsl:when test="parent::*[contains(@class, ' topic/abstract ')]">
                 <!-- Child of abstract -->
                 <fo:wrapper>
-                    <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+                    <xsl:call-template name="ahf:getUnivAtts"/>
                     <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-                    <xsl:apply-templates>
-                        <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                        <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-                    </xsl:apply-templates>
+                    <xsl:apply-templates/>
                 </fo:wrapper>
             </xsl:when>
             <xsl:otherwise>
                 <!-- Independent shortdesc -->
                 <fo:block>
                     <xsl:copy-of select="ahf:getAttributeSet('atsShortdesc')"/>
-                    <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+                    <xsl:call-template name="ahf:getUnivAtts"/>
                     <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-                    <xsl:apply-templates>
-                        <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                        <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-                    </xsl:apply-templates>
+                    <xsl:apply-templates/>
                 </fo:block>
             </xsl:otherwise>
         </xsl:choose>
@@ -123,24 +99,17 @@ E-mail : info@antennahouse.com
      note:		
      -->
     <xsl:template match="*[contains(@class, ' topic/body ')]">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-        
         <xsl:variable name="body" select="."/>
         <fo:wrapper>
             <xsl:copy-of select="ahf:getAttributeSet('atsBody')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
             <!-- Make fo:index-range-end FO object that has @start 
                  but has no corresponding @end indexterm in body.
              -->
             <xsl:apply-templates select="$body//*[contains(@class, ' topic/indexterm ')]">
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId" select="false()"/>
+                <xsl:with-param name="prmNeedId" tunnel="yes" select="false()"/>
                 <xsl:with-param name="prmMakeComplementEnd" tunnel="yes" select="true()"/>
                 <xsl:with-param name="prmRangeElem" tunnel="yes" select="$body"/>
             </xsl:apply-templates>
@@ -154,16 +123,10 @@ E-mail : info@antennahouse.com
         note:       Bodydiv needs no special formattings. (2011-10-25 t.makita)		
     -->
     <xsl:template match="*[contains(@class, ' topic/bodydiv ')]">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-        
         <fo:block>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:block>
     </xsl:template>
     
@@ -174,17 +137,11 @@ E-mail : info@antennahouse.com
      note:		Example has same content model with section
      -->
     <xsl:template match="*[contains(@class, ' topic/example ')]">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsExample')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:block>
     </xsl:template>
     

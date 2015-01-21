@@ -169,12 +169,12 @@ E-mail : info@antennahouse.com
     		    <xsl:variable name="titleMode" select="ahf:getTitleMode($topicRef,())" as="xs:integer"/>
     		    <fo:block>
     		        <xsl:copy-of select="ahf:getAttributeSet('atsBase')"/>
-    		        <xsl:copy-of select="ahf:getLocalizationAtts($topicRef)"/>
+    		        <xsl:call-template name="ahf:getLocalizationAtts"/>
     		        <xsl:call-template name="getChapterTopicBreakAttr">
     		            <xsl:with-param name="prmTopicRef" select="$topicRef"/>
     		            <xsl:with-param name="prmTopicContent" select="()"/>
     		        </xsl:call-template>
-    		        <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
+    		        <xsl:call-template name="ahf:getFoStyleAndProperty"/>
     		        
     		        <xsl:choose>
     		            <xsl:when test="$titleMode eq $cRoundBulletTitleMode">
@@ -198,13 +198,13 @@ E-mail : info@antennahouse.com
     		                    <xsl:with-param name="prmTopicContent" select="()"/>
     		                </xsl:call-template>
     		            </xsl:when>
-    		            <xsl:when test="$topicRef[contains(@class, ' bookmap/appendices ')]">
-    		                <!-- appendices content -->
+    		            <!--xsl:when test="$topicRef[contains(@class, ' bookmap/appendices ')]">
+    		                <!-\- appendices content -\->
     		                <xsl:call-template name="genAppendicesTitle">
-    		                    <xsl:with-param name="prmTopicRef" select="$topicRef"/>
+    		                    <xsl:with-param name="prmTopicRef" tunnel="yes" select="$topicRef"/>
     		                    <xsl:with-param name="prmTopicContent" select="()"/>
     		                </xsl:call-template>
-    		            </xsl:when>
+    		            </xsl:when-->
     		            <xsl:otherwise>
     		                <!-- Pointed from bookmap contents -->
     		                <xsl:call-template name="genChapterTitle">
@@ -231,7 +231,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	Process topic (part, chapter, appendix and nested topic)
-     param:		prmTopicRef, prmTitleMode
+     param:		prmTitleMode
      return:	topic contents
      note:		Changed to output post-note per topic/body. 2011-07-28 t.makita
                 Apply style and fo attribute in $prmTopicRef if topic is top level.
@@ -240,14 +240,14 @@ E-mail : info@antennahouse.com
                 2014-09-13 t.makita
      -->
     <xsl:template match="*[contains(@class, ' topic/topic ')]" mode="PROCESS_MAIN_CONTENT">
-        <xsl:param name="prmTopicRef"    required="yes" as="element()"/>
+        <xsl:param name="prmTopicRef" tunnel="yes"  required="yes" as="element()"/>
         <xsl:param name="prmTitleMode"   required="yes" as="xs:integer"/>
         
         <xsl:variable name="isTopLevelTopic" as="xs:boolean" select="empty(ancestor::*[contains(@class,' topic/topic ')])"/>
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsBase')"/>
-            <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,true())"/>
-            <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
+            <xsl:call-template name="ahf:getIdAtts"/>
+            <xsl:call-template name="ahf:getLocalizationAtts"/>
             <xsl:call-template name="getChapterTopicBreakAttr">
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmTopicContent" select="."/>
@@ -255,7 +255,7 @@ E-mail : info@antennahouse.com
             <xsl:if test="$isTopLevelTopic">
                 <xsl:copy-of select="ahf:getFoStyleAndProperty($prmTopicRef)"/>
             </xsl:if>
-            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
+            <xsl:call-template name="ahf:getFoStyleAndProperty"/>
             
             <xsl:choose>
                 <xsl:when test="$prmTitleMode eq $cRoundBulletTitleMode">
@@ -296,16 +296,10 @@ E-mail : info@antennahouse.com
             </xsl:choose>
     
             <!-- abstract/shortdesc -->
-            <xsl:apply-templates select="child::*[contains(@class, ' topic/abstract ')] | child::*[contains(@class, ' topic/shortdesc ')]">
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="true()"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates select="child::*[contains(@class, ' topic/abstract ')] | child::*[contains(@class, ' topic/shortdesc ')]"/>
             
             <!-- body -->
-            <xsl:apply-templates select="child::*[contains(@class, ' topic/body ')]">
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="true()"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates select="child::*[contains(@class, ' topic/body ')]"/>
     		
             <!-- postnote -->
             <xsl:if test="$pDisplayFnAtEndOfTopic">
@@ -326,7 +320,6 @@ E-mail : info@antennahouse.com
     
             <!-- nested concept/reference/task -->
             <xsl:apply-templates select="child::*[contains(@class, ' topic/topic ')]" mode="PROCESS_MAIN_CONTENT">
-                <xsl:with-param name="prmTopicRef"   select="$prmTopicRef"/>
                 <xsl:with-param name="prmTitleMode"  select="$prmTitleMode"/>
             </xsl:apply-templates>
         </fo:block>
@@ -340,8 +333,8 @@ E-mail : info@antennahouse.com
                 2014-09-13 t.makita
      -->
     <xsl:template name="getChapterTopicBreakAttr" as="attribute()*">
-        <xsl:param name="prmTopicRef" as="element()" required="yes"/>
-        <xsl:param name="prmTopicContent" as="element()?" required="yes"/>
+        <xsl:param name="prmTopicRef" required="yes" as="element()"/>
+        <xsl:param name="prmTopicContent" required="yes" as="element()?"/>
         
         <!-- Nesting level in the bookmap -->
         <xsl:variable name="level" as="xs:integer" select="count($prmTopicRef/ancestor-or-self::*[contains(@class, ' map/topicref ')])"/>

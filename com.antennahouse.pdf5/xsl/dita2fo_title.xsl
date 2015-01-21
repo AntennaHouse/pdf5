@@ -247,18 +247,12 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	Heading title template
-     param:		prmTopicRef, prmNeedId
+     param:		
      return:	title contents
      note:		
      -->
     <xsl:template match="*[contains(@class, ' topic/title ')]">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
-        <xsl:apply-templates>
-            <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-            <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-        </xsl:apply-templates>
+        <xsl:apply-templates/>
     </xsl:template>
     
     <!-- 
@@ -397,8 +391,9 @@ E-mail : info@antennahouse.com
         param:		prmTopicRef, prmTopicContent
         return:	    title contents
         note:		This template is inttended for appendices[not(@href)] element.
+                    Deprecated. 2015-01-20 t.makita
     -->
-    <xsl:template name="genAppendicesTitle">
+    <!--xsl:template name="genAppendicesTitle">
         <xsl:param name="prmTopicRef"     required="yes" as="element()"/>
         <xsl:param name="prmTopicContent" required="yes" as="element()?"/>
         
@@ -441,9 +436,7 @@ E-mail : info@antennahouse.com
                 </xsl:otherwise>
             </xsl:choose>
         </fo:block>
-    </xsl:template>
-    
-    
+    </xsl:template-->
     
     <!-- 
      function:	Square bullet heading generation 
