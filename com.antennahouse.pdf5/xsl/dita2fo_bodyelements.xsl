@@ -22,7 +22,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	p template
-     param:	    prmTopicRef,prmNeedId
+     param:	    
      return:	fo:block with p's contents
      note:		none
      -->
@@ -40,7 +40,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	note template
-     param:	    prmTopicRef,prmNeedId
+     param:	    
      return:	fo:block 
      note:		Treat empty(@type) as @type="note" (2011-11-04 t.makita)
      -->
@@ -136,7 +136,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	ph template
-     param:	    prmTopicRef,prmNeedId
+     param:	    
      return:	fo:inline
      note:		no special formatting
      -->
@@ -154,7 +154,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	keyword template
-     param:	    prmTopicRef,prmNeedId
+     param:	    
      return:	fo:inline
      note:		no special formatting
      -->
@@ -175,7 +175,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	ol template
-     param:	    prmTopicRef,prmNeedId
+     param:	    
      return:	Numbered list (fo:list-block)
      note:		none
      -->
@@ -200,7 +200,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	ol/li template
-     param:	    prmTopicRef,prmNeedId
+     param:	    
      return:	Numbered list (fo:list-block)
      note:		Add consideration for stepsection.
                 (2011-10-24 t.makita)
@@ -280,7 +280,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	ul template
-     param:	    prmTopicRef,prmNeedId
+     param:	    
      return:	Unordered list (fo:list-block)
      note:		none
      -->
@@ -324,7 +324,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	sl template
-     param:	    prmTopicRef,prmNeedId
+     param:	    
      return:	fo:list-block
      note:		none
      -->
@@ -378,7 +378,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	dl template
-     param:	    prmTopicRef,prmNeedId
+     param:	    
      return:	fo:table
      note:		
      -->
@@ -597,7 +597,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
         function:	Section template
-        param:	    prmTopicRef, prmNeedId
+        param:	    
         return:	    Section contents
         note:		
     -->
@@ -612,7 +612,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
         function:	Section title template
-        param:	    prmTopicRef, prmNeedId
+        param:	    
         return:	    Section title list
         note:		
     -->
@@ -642,7 +642,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
         function:	Sectiondiv template
-        param:	    prmTopicRef, prmNeedId
+        param:	    
         return:	    fo:wrapper
         note:		2011-10-27 t.makita
     -->
@@ -657,7 +657,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
         function:	Example title template
-        param:	    prmTopicRef, prmNeedId
+        param:	    
         return:	    Example title list
         note:		
     -->
@@ -688,7 +688,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	fig template
-     param:	    prmTopicRef,prmNeedId
+     param:	    
      return:	fo:block
      note:		Generate id attribute for figure list.
      -->
@@ -736,7 +736,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	figgroup template
-     param:	    prmTopicRef,prmNeedId
+     param:	    
      return:	fo:block
      note:		
      -->
@@ -779,7 +779,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	image template
-     param:	    prmTopicRef,prmNeedId
+     param:	    
      return:	fo:external-graphic (fo:block)
      note:		
      -->
@@ -910,7 +910,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	alt template
-     param:	    prmTopicRef,prmNeedId
+     param:	    
      return:	none
      note:		skip contents
      -->
@@ -919,7 +919,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	object template
-     param:	    prmTopicRef,prmNeedId
+     param:	    
      return:	none
      note:		Element object is not supported because:
                 1. Object without foreign/unknown is for HTML output.
@@ -963,7 +963,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	lines template
-     param:	    prmTopicRef,prmNeedId
+     param:	    
      return:	fo:block
      note:		
      -->
@@ -979,7 +979,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	cite template
-     param:	    prmTopicRef,prmNeedId
+     param:	    
      return:	fo:inline
      note:		
      -->
@@ -1000,7 +1000,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	lq template
-     param:	    prmTopicRef,prmNeedId
+     param:	    
      return:	fo:block
      note:		Different from xref/@href, DITA-OT doesn't do special processing for lq/@href.
                 Treate @scope="peer" as external considering DITA-OT standard processing.
@@ -1183,7 +1183,7 @@ E-mail : info@antennahouse.com
         
     <!-- 
         function:	fn template
-        param:      prmTopicRef, prmNeedId
+        param:      
         return:	    fo:basic-link(fo:footnote)
         note:		none
     -->
@@ -1329,7 +1329,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
         function:	term template
-        param:	    prmTopicRef, prmNeedId
+        param:	    
         return:	fo:inline
         note:		
     -->
@@ -1344,7 +1344,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
         function:	text template
-        param:	    prmTopicRef, prmNeedId
+        param:	    
         return:	    fo:wrapper
         note:		Text is only a container for text.
         Generate a fo:wrapper. (2011-10-27 t.makita)
@@ -1359,7 +1359,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
         function:	tm
-        param:      prmTopicRef, prmNeedId
+        param:      
         return:	    fo:inline
         note:		none
     -->

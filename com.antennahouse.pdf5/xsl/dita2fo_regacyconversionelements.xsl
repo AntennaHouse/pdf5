@@ -19,7 +19,7 @@ E-mail : info@antennahouse.com
 
     <!-- 
      function:	required-cleanup template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:block
      note:		none
      -->
@@ -28,14 +28,11 @@ E-mail : info@antennahouse.com
     <xsl:variable name="requiredCleanupTitleSuffix" select="ahf:getVarValue('Required_Cleanup_Title_Suffix')"/>
     
     <xsl:template match="*[contains(@class,' topic/required-cleanup ')]">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <xsl:if test="$pOutputRequiredCleanup">
             <fo:block>
                 <xsl:copy-of select="ahf:getAttributeSet('atsRequiredCleanup')"/>
-                <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,$prmNeedId)"/>
-                <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
+                <xsl:call-template name="ahf:getIdAtts"/>
+                <xsl:call-template name="ahf:getLocalizationAtts"/>
                 <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                 <fo:block>
                     <xsl:copy-of select="ahf:getAttributeSet('atsRequiredCleanupTitle')"/>
@@ -46,10 +43,7 @@ E-mail : info@antennahouse.com
                     </xsl:if>
                     <xsl:value-of select="$requiredCleanupTitleSuffix"/>
                 </fo:block>
-                <xsl:apply-templates>
-                    <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                    <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-                </xsl:apply-templates>
+                <xsl:apply-templates/>
             </fo:block>
         </xsl:if>
     </xsl:template>

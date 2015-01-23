@@ -142,7 +142,7 @@ E-mail : info@antennahouse.com
             </xsl:otherwise>
         </xsl:choose>
     
-        <!-- Process children.-->
+        <!-- Process children-->
         <xsl:apply-templates select="child::*[contains(@class,' map/topicref ')]" mode="PROCESS_TOPICREF"/>
     
         <!-- generate fo:index-range-end for metadata -->

@@ -71,30 +71,30 @@ E-mail : info@antennahouse.com
      note:		none
      -->
     <xsl:template match="*[contains(@class, ' bookmap/bookmeta ')]" mode="cover">
-        <xsl:apply-templates mode="cover"/>
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
     <xsl:template match="*[contains(@class, ' xnal-d/namedetails ')]" mode="cover">
         <fo:block>
-            <xsl:apply-templates mode="cover"/>
+            <xsl:apply-templates mode="#current"/>
         </fo:block>
     </xsl:template>
     
     <xsl:template match="*[contains(@class, ' xnal-d/addressdetails ')]" mode="cover">
         <fo:block>
-            <xsl:apply-templates mode="cover"/>
+            <xsl:apply-templates mode="#current"/>
         </fo:block>
     </xsl:template>
     
     <xsl:template match="*[contains(@class, ' xnal-d/contactnumbers ')]" mode="cover">
         <fo:block>
-            <xsl:apply-templates mode="cover"/>
+            <xsl:apply-templates mode="#current"/>
         </fo:block>
     </xsl:template>
     
     <xsl:template match="*[contains(@class, ' xnal-d/emailaddresses ')]" mode="cover">
         <fo:block>
-            <xsl:apply-templates mode="cover"/>
+            <xsl:apply-templates mode="#current"/>
         </fo:block>
     </xsl:template>
     
@@ -102,7 +102,7 @@ E-mail : info@antennahouse.com
     
     <xsl:template match="*[contains(@class, ' bookmap/publisherinformation ')]" mode="cover">
         <fo:block>
-            <xsl:apply-templates mode="cover"/>
+            <xsl:apply-templates mode="#current"/>
         </fo:block>
     </xsl:template>
     
@@ -114,19 +114,18 @@ E-mail : info@antennahouse.com
     
     <xsl:template match="*[contains(@class, ' bookmap/bookid ')]" mode="cover">
         <fo:block>
-            <xsl:apply-templates mode="cover"/>
+            <xsl:apply-templates mode="#current"/>
         </fo:block>
     </xsl:template>
     
     <xsl:template match="*[contains(@class, ' bookmap/bookrights ')]" mode="cover">
         <fo:block>
-            <xsl:apply-templates mode="cover"/>
+            <xsl:apply-templates mode="#current"/>
         </fo:block>
     </xsl:template>
     
     <xsl:template match="*" mode="cover">
-        <xsl:apply-templates mode="cover"/>
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
-
 
 </xsl:stylesheet>

@@ -24,22 +24,16 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	General template for debug
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	debug message
      note:		
      -->
     <xsl:template match="*" priority="-3">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <xsl:call-template name="warningContinue">
             <xsl:with-param name="prmMes"
              select="ahf:replace($stMes001,('%elem','%file'),(name(.),@xtrf))"/>
         </xsl:call-template>
-        <xsl:apply-templates>
-            <xsl:with-param name="prmTopicRef"    select="$prmTopicRef"/>
-            <xsl:with-param name="prmNeedId"      select="$prmNeedId"/>
-        </xsl:apply-templates>
+        <xsl:apply-templates/>
     </xsl:template>
     
     <!-- =======================
@@ -84,14 +78,15 @@ E-mail : info@antennahouse.com
     
     <xsl:template match="*[contains(@class,' topic/tm ')]" mode="TEXT_ONLY">
         <xsl:apply-templates mode="TEXT_ONLY"/>
+        <xsl:variable name="tmType" as="xs:string" select="string(@tmtype)"/>
         <xsl:choose>
-            <xsl:when test="@tmtype='tm'">
+            <xsl:when test="$tmType eq 'tm'">
                 <xsl:value-of select="$tmSymbolTmText"/>
             </xsl:when>
-            <xsl:when test="@tmtype='reg'">
+            <xsl:when test="$tmType eq 'reg'">
                 <xsl:value-of select="$tmSymbolRegText"/>
             </xsl:when>
-            <xsl:when test="@tmtype='service'">
+            <xsl:when test="$tmType eq 'service'">
                 <xsl:value-of select="$tmSymbolServiceText"/>
             </xsl:when>
         </xsl:choose>
@@ -158,8 +153,8 @@ E-mail : info@antennahouse.com
         <fo:inline>
             <xsl:copy-of select="ahf:getUnivAtts(.,(),false())"/>
             <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="()"/>
-                <xsl:with-param name="prmNeedId"   select="false()"/>
+                <xsl:with-param name="prmTopicRef" tunnel="yes" select="()"/>
+                <xsl:with-param name="prmNeedId"   tunnel="yes" select="false()"/>
                 <xsl:with-param name="prmGetContent" tunnel="yes" select="true()"/>
             </xsl:apply-templates>
         </fo:inline>
@@ -259,13 +254,13 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	Get topic title generation mode
-     param:		prmTopicRref
+     param:		prmTopicRref,prmTopicContent
      return:	cRoundBulletTitleMode, cSquareBulletTitleMode, cNoRestrictionTitleMode
      note:		
      -->
     <xsl:function name="ahf:getTitleMode" as="xs:integer">
-        <xsl:param name="prmTopicRef" as="element()"/>
-        <xsl:param name="prmTopicContent" as="element()?"/>
+        <xsl:param name="prmTopicRef" required="yes" as="element()"/>
+        <xsl:param name="prmTopicContent" required="yes" as="element()?"/>
         
         <!--xsl:variable name="isNoToc" select="boolean($prmTopicRef/@toc='no')"/-->
         <xsl:variable name="isNoToc" select="ahf:isTocNo($prmTopicRef)"/>
@@ -315,6 +310,5 @@ E-mail : info@antennahouse.com
           indexterm related common template
          ===================================== -->
     <!-- Moved into dita2fo_indexcommon.xsl -->
-    
 
 </xsl:stylesheet>

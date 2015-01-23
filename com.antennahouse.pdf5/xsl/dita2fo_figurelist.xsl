@@ -158,7 +158,7 @@ E-mail : info@antennahouse.com
      note:		none
      -->
     <xsl:template match="*" mode="MAKE_FIGURE_LIST">
-        <xsl:apply-templates mode="MAKE_FIGURE_LIST"/>
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
     <xsl:template match="text()" mode="MAKE_FIGURE_LIST"/>
@@ -166,19 +166,19 @@ E-mail : info@antennahouse.com
     
     <!-- Frontmatter -->
     <xsl:template match="*[contains(@class,' bookmap/frontmatter ')]" mode="MAKE_FIGURE_LIST" priority="2" >
-        <xsl:apply-templates mode="MAKE_FIGURE_LIST"/>
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
     <!-- Backmatter -->
     <xsl:template match="*[contains(@class,' bookmap/backmatter ')]" mode="MAKE_FIGURE_LIST" priority="2" >
-        <xsl:apply-templates mode="MAKE_FIGURE_LIST"/>
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
     <!-- frontmatter/backmatter contents -->
     
     <!-- booklist is skipped in dita2fo_convmerged.xsl -->
     <xsl:template match="*[contains(@class,' bookmap/booklists ')]" mode="MAKE_FIGURE_LIST" priority="2" >
-        <xsl:apply-templates mode="MAKE_FIGURE_LIST"/>
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
     <xsl:template match="*[contains(@class,' bookmap/toc ')][not(@href)]" mode="MAKE_FIGURE_LIST" priority="2" >
@@ -205,7 +205,7 @@ E-mail : info@antennahouse.com
     
     <xsl:template match="*[contains(@class,' bookmap/glossarylist ')][not(@href)]" mode="MAKE_FIGURE_LIST" priority="2" >
         <!-- Glossarylist have topicref child element. -->
-        <xsl:apply-templates mode="MAKE_FIGURE_LIST"/>
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
     <xsl:template match="*[contains(@class,' bookmap/indexlist ')][not(@href)]" mode="MAKE_FIGURE_LIST" priority="2" >
@@ -218,12 +218,12 @@ E-mail : info@antennahouse.com
     
     <xsl:template match="*[contains(@class,' bookmap/notices ')][not(@href)]" mode="MAKE_FIGURE_LIST" priority="2" >
         <!-- Notices have topicref child element. -->
-        <xsl:apply-templates mode="MAKE_FIGURE_LIST"/>
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
     <xsl:template match="*[contains(@class,' bookmap/preface ')][not(@href)]" mode="MAKE_FIGURE_LIST" priority="2" >
         <!-- Preface has topicref child element. -->
-        <xsl:apply-templates mode="MAKE_TABLE_LIST"/>
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
     <xsl:template match="*[contains(@class,' bookmap/dedication ')][not(@href)]" mode="MAKE_FIGURE_LIST" priority="2" >
@@ -241,7 +241,7 @@ E-mail : info@antennahouse.com
     <!-- topicgroup is skipped in dita2fo_convmerged.xsl -->
     <xsl:template match="*[contains(@class,' mapgroup-d/topicgroup ')]" mode="MAKE_FIGURE_LIST" priority="2" >
         <!-- topicgroup create group without affecting the hierarchy. -->
-        <xsl:apply-templates mode="MAKE_FIGURE_LIST"/>
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
     <!-- Ignore reltable contents -->
@@ -255,16 +255,15 @@ E-mail : info@antennahouse.com
      -->
     <xsl:template match="*[contains(@class,' map/topicref ')][@href]" mode="MAKE_FIGURE_LIST">
         <xsl:variable name="topicRef" select="."/>
-        <xsl:variable name="id" select="substring-after(@href, '#')"/>
-        <xsl:variable name="topicContent" select="if (string($id)) then key('topicById',$id)[1] else ()" as="element()?"/>
+        <xsl:variable name="topicContent"  as="element()?" select="ahf:getTopicFromTopicRef($topicRef)"/>
     
         <xsl:for-each select="$topicContent/descendant::*[contains(@class, ' topic/fig ')][child::*[contains(@class, ' topic/title ')]]">
             <xsl:variable name="fig" select="."/>
             <xsl:variable name="figId" select="if (@id) then string(ahf:getIdAtts($fig,$topicRef,true())) else ahf:generateId($fig,$topicRef)" as="xs:string"/>
             <xsl:variable name="figTitle" as="node()*">
-                <xsl:apply-templates select="$fig/*[contains(@class,' topic/title ')]" mode="MAKE_FIGURE_LIST">
-                    <xsl:with-param name="prmTopicRef"    select="$topicRef"/>
-                    <xsl:with-param name="prmNeedId"      select="false()"/>
+                <xsl:apply-templates select="$fig/*[contains(@class,' topic/title ')]" mode="#current">
+                    <xsl:with-param name="prmTopicRef"  tunnel="yes"  select="$topicRef"/>
+                    <xsl:with-param name="prmNeedId"    tunnel="yes"  select="false()"/>
                 </xsl:apply-templates>
             </xsl:variable>
             <xsl:call-template name="makeFigListLine">
@@ -273,30 +272,26 @@ E-mail : info@antennahouse.com
             </xsl:call-template>
         </xsl:for-each>
         <!-- Navigate to lower level -->
-        <xsl:apply-templates mode="MAKE_FIGURE_LIST"/>
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
     <!-- 
         function:	Make figure title FO
-        param:		prmTopicRef, prmNeedId
+        param:		
         return:	    fo:inline * 2
         note:		This template must return exactly 2 <fo:inline> elements.
     -->
     <xsl:template match="*[contains(@class, ' topic/fig ')]/*[contains(@class, ' topic/title ')]" priority="2" mode="MAKE_FIGURE_LIST">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-        
         <fo:inline>
-            <xsl:value-of select="ahf:getFigTitlePrefix($prmTopicRef,parent::*)"/>
+            <xsl:call-template name="ahf:getFigTitlePrefix">
+                <xsl:with-param name="prmFig" select="parent::*"/>
+            </xsl:call-template>
             <xsl:text>&#x00A0;</xsl:text>
             <xsl:text>&#x00A0;</xsl:text>
         </fo:inline>
         <fo:inline>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef"    select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"      select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:call-template name="ahf:getUnivAtts"/>
+            <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
     

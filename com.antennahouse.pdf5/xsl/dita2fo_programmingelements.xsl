@@ -19,127 +19,92 @@ E-mail : info@antennahouse.com
 
     <!-- 
      function:	apiname template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		none
      -->
     <xsl:template match="*[contains(@class,' pr-d/apiname ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsApiName')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
     
     <!-- 
      function:	codeblock template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:block
      note:		
      -->
     <xsl:template match="*[contains(@class, ' pr-d/codeblock ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-        
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsCodeBlock')"/>
             <xsl:copy-of select="ahf:getDisplayAtts(.,'atsCodeBlock')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:block>
     </xsl:template>
     
     <!-- 
      function:	codeph template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		none
      -->
     <xsl:template match="*[contains(@class,' pr-d/codeph ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsCodePh')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
     
     <!-- 
      function:	option template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		none
      -->
     <xsl:template match="*[contains(@class,' pr-d/option ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsOption')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
     
     <!-- 
      function:	paramname template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		none
      -->
     <xsl:template match="*[contains(@class,' pr-d/parmname ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsParamName')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
     
     <!-- 
      function:	parml template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:wrapper
      note:		none
      -->
     <xsl:template match="*[contains(@class,' pr-d/parml ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <xsl:variable name="doCompact" select="boolean(@compact='yes')" as="xs:boolean"/>
         <fo:wrapper>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
                 <xsl:with-param name="prmDoCompact"  select="$doCompact"/>
             </xsl:apply-templates>
         </fo:wrapper>
@@ -147,7 +112,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	plentry template
-     param:	    prmTopicRef, prmNeedId, prmDoCompact
+     param:	    prmDoCompact
      return:	fo:block
      note:		none
      -->
@@ -155,86 +120,63 @@ E-mail : info@antennahouse.com
     <xsl:variable name="plCompactAttrName"  select="ahf:getVarValue('Pl_Compact_Attr')" as="xs:string"/>
     
     <xsl:template match="*[contains(@class,' pr-d/plentry ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
         <xsl:param name="prmDoCompact"   select="false()" as="xs:boolean"/>
         
         <xsl:variable name="compactAttrVal" select="ahf:getAttributeValue('atsPlEntry',$plCompactAttrName)"/>
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsPlEntry')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <!-- apply compact spacing -->
             <xsl:if test="string($compactAttrVal) and $prmDoCompact">
                 <xsl:attribute name="{$plCompactAttrName}" 
                                select="ahf:getPropertyRatio($compactAttrVal,$plCompactRatio)"/>
             </xsl:if>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:block>
     </xsl:template>
     
     <!-- 
      function:	pt template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:block
      note:		none
      -->
     <xsl:template match="*[contains(@class,' pr-d/pt ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsPt')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:block>
     </xsl:template>
     
     <!-- 
      function:	pd template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:block
      note:		none
      -->
     <xsl:template match="*[contains(@class,' pr-d/pd ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsPd')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:block>
     </xsl:template>
     
     <!-- 
      function:	synph template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		none
      -->
     <xsl:template match="*[contains(@class,' pr-d/synph ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:inline>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
     
@@ -256,38 +198,28 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	syntaxdiagram template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:block
      note:		Syntaxdiagram belongs figure.
      -->
     <xsl:template match="*[contains(@class,' pr-d/syntaxdiagram ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
+        <xsl:param name="prmTopicRef" tunnel="yes" required="yes" as="element()?"/>
+        <xsl:param name="prmNeedId" tunnel="yes" required="no" as="xs:boolean" select="true()"/>
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsSyntaxDiagram')"/>
             <xsl:copy-of select="ahf:getDisplayAtts(.,'atsSyntaxDiagram')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:if test="not(@id) and $prmNeedId">
                 <xsl:attribute name="id" select="ahf:generateId(.,$prmTopicRef)"/>
             </xsl:if>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates select="*[not(contains(@class,' topic/title '))]">
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates select="*[not(contains(@class,' topic/title '))]"/>
             <xsl:if test="descendant::*[contains(@class,' pr-d/synnote ')]">
-                <xsl:call-template name="outputSynNote">
-                    <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                    <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-                </xsl:call-template>
+                <xsl:call-template name="outputSynNote"/>
             </xsl:if>
         </fo:block>
         <!-- process title last -->
-        <xsl:apply-templates select="*[contains(@class,' topic/title ')]">
-            <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-            <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-        </xsl:apply-templates>
+        <xsl:apply-templates select="*[contains(@class,' topic/title ')]"/>
     </xsl:template>
     
     <!-- 
@@ -297,9 +229,8 @@ E-mail : info@antennahouse.com
      note:		current is syntaxdiagram.
      -->
     <xsl:template name="outputSynNote">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
+        <xsl:param name="prmTopicRef" tunnel="yes" required="yes" as="element()?"/>
+        <xsl:param name="prmNeedId" tunnel="yes" required="no" as="xs:boolean" select="true()"/>
         <fo:list-block>
             <xsl:copy-of select="ahf:getAttributeSet('atsSynNoteListBlock')"/>
             <xsl:for-each select="descendant::*[contains(@class, ' pr-d/synnote ')]">
@@ -349,7 +280,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	groupseq/groupcomp/groupchoice template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:block
      note:		none
      -->
@@ -357,39 +288,27 @@ E-mail : info@antennahouse.com
                       |  *[contains(@class,' pr-d/groupcomp ')]
                       |  *[contains(@class,' pr-d/groupchoice ')]"
                   priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-        
         <xsl:choose>
             <xsl:when test="parent::*[contains(@class, ' pr-d/syntaxdiagram ')]
                          or parent::*[contains(@class, ' pr-d/fragment ')]">
                 <fo:block>
                     <xsl:copy-of select="ahf:getAttributeSet('atsGroup')"/>
-                    <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+                    <xsl:call-template name="ahf:getUnivAtts"/>
                     <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-                    <xsl:call-template name="processGroup">
-                        <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                        <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-                    </xsl:call-template>
+                    <xsl:call-template name="processGroup"/>
                 </fo:block>
             </xsl:when>
             <xsl:otherwise>
                 <fo:wrapper>
-                    <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+                    <xsl:call-template name="ahf:getUnivAtts"/>
                     <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-                    <xsl:call-template name="processGroup">
-                        <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                        <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-                    </xsl:call-template>
+                    <xsl:call-template name="processGroup"/>
                 </fo:wrapper>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
     
     <xsl:template name="processGroup">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <xsl:variable name="isGroupChoice" select="boolean(contains(@class,' pr-d/groupchoice '))"/>
         <xsl:variable name="isOptional"    select="boolean(@importance='optional')"/>
         <xsl:variable name="hasRepSep"     select="boolean(child::*[contains(@class,' pr-d/repsep ')])"/>
@@ -397,10 +316,7 @@ E-mail : info@antennahouse.com
                       select="if ($hasRepSep) then boolean(child::*[contains(@class,' pr-d/repsep ')]/@importance='required') else false()"/>
         <xsl:variable name="needOr"        select="ahf:sdNeedOr(.)"/>
         
-        <xsl:apply-templates select="*[contains(@class,' topic/title ')]">
-            <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-            <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-        </xsl:apply-templates>
+        <xsl:apply-templates select="*[contains(@class,' topic/title ')]"/>
         
         <xsl:if test="$needOr">
             <xsl:value-of select="$sdOr"/><!-- | -->
@@ -411,25 +327,18 @@ E-mail : info@antennahouse.com
         <xsl:if test="$isGroupChoice">
             <xsl:value-of select="$sdChoicePrefix"/><!-- { -->
         </xsl:if>
-        <xsl:apply-templates select="child::*[not(contains(@class,' pr-d/repsep '))][not(contains(@class,' topic/title '))]">
-            <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-            <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-        </xsl:apply-templates>
+        <xsl:apply-templates select="child::*[not(contains(@class,' pr-d/repsep '))][not(contains(@class,' topic/title '))]"/>
         <xsl:if test="$isGroupChoice">
             <xsl:value-of select="$sdChoiceSuffix"/><!-- } -->
         </xsl:if>
         <xsl:if test="$hasRepSep">
             <xsl:value-of select="$sdRepeatPrefix"/><!-- ( -->
-            <xsl:apply-templates select="*[contains(@class,' pr-d/repsep ')]"><!-- , (etc) -->
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates select="*[contains(@class,' pr-d/repsep ')]"/><!-- , (etc) -->
             <xsl:if test="$isGroupChoice">
                 <xsl:value-of select="$sdChoicePrefix"/><!-- { -->
             </xsl:if>
             <xsl:apply-templates select="child::*[not(contains(@class,' pr-d/repsep '))][not(contains(@class,' topic/title '))]">
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="false()"/>
+                <xsl:with-param name="prmNeedId" tunnel="yes" select="false()"/>
             </xsl:apply-templates>
             <xsl:if test="$isGroupChoice">
                 <xsl:value-of select="$sdChoiceSuffix"/><!-- } -->
@@ -459,21 +368,15 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	fragment template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:wrapper
      note:		none
      -->
     <xsl:template match="*[contains(@class,' pr-d/fragment ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:wrapper>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:wrapper>
     </xsl:template>
     
@@ -500,26 +403,22 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	fragref template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		none
      -->
     <xsl:template match="*[contains(@class,' pr-d/fragref ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
-        <xsl:variable name="isOptional"    select="boolean(@importance='optional')"/>
-        <xsl:variable name="orgTitle">
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+        <xsl:variable name="isOptional" as="xs:boolean" select="boolean(string(@importance) eq 'optional')"/>
+        <xsl:variable name="orgTitle" as="document-node()">
+            <xsl:document>
+                <xsl:apply-templates/>
+            </xsl:document>
         </xsl:variable>
-        <xsl:variable name="hasTitle" select="normalize-space($orgTitle)"/>
-        <xsl:variable name="fragrefTitle">
+        <xsl:variable name="hasTitle" as="xs:boolean" select="boolean(string(normalize-space($orgTitle)))"/>
+        <xsl:variable name="fragrefTitle" as="node()">
             <xsl:choose>
                 <xsl:when test="$hasTitle">
-                    <xsl:copy-of select="$orgTitle"/>
+                    <xsl:copy-of select="$orgTitle/node()/node()"/>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:variable name="fragmentId" select="substring-after(@href,'/')"/>
@@ -541,7 +440,7 @@ E-mail : info@antennahouse.com
         </xsl:if>
         <fo:inline>
             <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
-            <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getIdAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:value-of select="$sdFragmentRefPrefix"/>
             <xsl:copy-of select="$fragrefTitle"/>
@@ -554,33 +453,26 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	synblk template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:wrapper
      note:		none
      -->
     <xsl:template match="*[contains(@class,' pr-d/synblk ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:wrapper>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:wrapper>
     </xsl:template>
     
     <!-- 
      function:	synnote template
-     param:	    prmTopicRef, prmNeedId
+     param:	    prmTopicRef
      return:	fo:basic-link
      note:		none
      -->
     <xsl:template match="*[contains(@class,' pr-d/synnote ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
+        <xsl:param name="prmTopicRef" tunnel="yes" required="yes"  as="element()?"/>
     
         <xsl:variable name="syntaxDiagramElement" select="ancestor::*[contains(@class,' pr-d/syntaxdiagram ')][1]"/>
         <xsl:choose>
@@ -612,13 +504,12 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	synnoteref template
-     param:	    prmTopicRef, prmNeedId
+     param:	    prmTopicRef
      return:	fo:basic-link
      note:		referenced synnote must exist in the same sytaxdiagram.
      -->
     <xsl:template match="*[contains(@class,' pr-d/synnoteref ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
+        <xsl:param name="prmTopicRef" tunnel="yes" required="yes"  as="element()?"/>
         
         <xsl:variable name="href" select="@href"/>
         <xsl:variable name="synNoteId" select="substring-after($href,'/')"/>
@@ -642,7 +533,7 @@ E-mail : info@antennahouse.com
                         <xsl:value-of select="$synNoteElemIdAtr[1]"/>
                     </xsl:attribute>
                     <xsl:copy-of select="ahf:getAttributeSet('atsSynNote')"/>
-                    <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+                    <xsl:call-template name="ahf:getUnivAtts"/>
                     <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                     <xsl:choose>
                         <xsl:when test="string(normalize-space($synNoteElement/@callout))">
@@ -663,14 +554,11 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	kwd template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		none
      -->
     <xsl:template match="*[contains(@class,' pr-d/kwd ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <xsl:variable name="isOptional"  select="boolean(@importance='optional')"/>
         <xsl:variable name="atsKwd"      select="if (@importance='default') then 'atsKwdDefault' else 'atsKwd'"/>
         <xsl:variable name="needOr"      select="ahf:sdNeedOr(.)"/>
@@ -683,30 +571,23 @@ E-mail : info@antennahouse.com
         </xsl:if>
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet($atsKwd)"/>
-            <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
-            <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getLocalizationAtts"/>
+            <xsl:call-template name="ahf:getIdAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
         <xsl:if test="$isOptional">
             <xsl:value-of select="$sdOptionalSuffix"/>
         </xsl:if>
     </xsl:template>
     
-    
     <!-- 
      function:	var template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		none
      -->
     <xsl:template match="*[contains(@class,' pr-d/var ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <xsl:variable name="isOptional"  select="boolean(@importance='optional')"/>
         <xsl:variable name="atsVar"      select="if (@importance='default') then 'atsVarDefault' else 'atsVar'"/>
         <xsl:variable name="needOr"      select="ahf:sdNeedOr(.)"/>
@@ -719,13 +600,10 @@ E-mail : info@antennahouse.com
         </xsl:if>
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet($atsVar)"/>
-            <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
-            <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getLocalizationAtts"/>
+            <xsl:call-template name="ahf:getIdAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
         <xsl:if test="$isOptional">
             <xsl:value-of select="$sdOptionalSuffix"/>
@@ -734,14 +612,11 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	oper template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		none
      -->
     <xsl:template match="*[contains(@class,' pr-d/oper ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <xsl:variable name="isOptional"  select="boolean(@importance='optional')"/>
         <xsl:variable name="atsOper"      select="if (@importance='default') then 'atsOperDefault' else 'atsOper'"/>
         <xsl:variable name="needOr" select="ahf:sdNeedOr(.)"/>
@@ -754,13 +629,10 @@ E-mail : info@antennahouse.com
         </xsl:if>
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet($atsOper)"/>
-            <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
-            <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getLocalizationAtts"/>
+            <xsl:call-template name="ahf:getIdAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
         <xsl:if test="$isOptional">
             <xsl:value-of select="$sdOptionalSuffix"/>
@@ -769,14 +641,11 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	delim template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		none
      -->
     <xsl:template match="*[contains(@class,' pr-d/delim ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <xsl:variable name="isOptional"  select="boolean(@importance='optional')"/>
         <xsl:variable name="atsDelim"    select="if (@importance='default') then 'atsDelimDefault' else 'atsDelim'"/>
         <xsl:variable name="needOr"      select="ahf:sdNeedOr(.)"/>
@@ -790,12 +659,9 @@ E-mail : info@antennahouse.com
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet($atsDelim)"/>
             <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
-            <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getIdAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
         <xsl:if test="$isOptional">
             <xsl:value-of select="$sdOptionalSuffix"/>
@@ -804,14 +670,11 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	sep template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		none
      -->
     <xsl:template match="*[contains(@class,' pr-d/sep ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <xsl:variable name="isOptional"  select="boolean(@importance='optional')"/>
         <xsl:variable name="atsSep"      select="if (@importance='default') then 'atsSepDefault' else 'atsSep'"/>
         <xsl:variable name="needOr"      select="ahf:sdNeedOr(.)"/>
@@ -824,13 +687,10 @@ E-mail : info@antennahouse.com
         </xsl:if>
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet($atsSep)"/>
-            <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
-            <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getLocalizationAtts"/>
+            <xsl:call-template name="ahf:getIdAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
         <xsl:if test="$isOptional">
             <xsl:value-of select="$sdOptionalSuffix"/>
@@ -839,25 +699,18 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	repsep template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		@importance is processed in processGroup template.
      -->
     <xsl:template match="*[contains(@class,' pr-d/repsep ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:inline>
-            <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
-            <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getLocalizationAtts"/>
+            <xsl:call-template name="ahf:getIdAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
             <xsl:text> </xsl:text>
         </fo:inline>
     </xsl:template>
-
 
 </xsl:stylesheet>

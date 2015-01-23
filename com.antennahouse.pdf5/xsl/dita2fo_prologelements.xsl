@@ -17,13 +17,11 @@ E-mail : info@antennahouse.com
 
     <!-- 
      function:	prolog template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	
      note:		This template will be never called.
      -->
     <xsl:template match="*[contains(@class, ' topic/prolog ')]">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
     </xsl:template>
 
 

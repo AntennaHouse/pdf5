@@ -23,14 +23,11 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	properties template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:table
      note:		
      -->
     <xsl:template match="*[contains(@class, ' reference/properties ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <xsl:variable name="properties" select="."/>
         <xsl:variable name="keyCol" select="ahf:getKeyCol(.)" as="xs:integer"/>
         <xsl:if test="@expanse='page' or @expanse='column'">
@@ -39,7 +36,7 @@ E-mail : info@antennahouse.com
         <fo:table>
             <xsl:copy-of select="ahf:getAttributeSet('atsPropertyTable')"/>
             <xsl:copy-of select="ahf:getDisplayAtts(.,'atsPropertyTable')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:if test="@relcolwidth">
                 <xsl:copy-of select="ahf:getAttributeSet('atsPropertyTableFixed')"/>
@@ -49,15 +46,11 @@ E-mail : info@antennahouse.com
                 </xsl:call-template>
             </xsl:if>
             <xsl:apply-templates select="*[contains(@class,' reference/prophead ')]">
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
                 <xsl:with-param name="prmKeyCol" select="$keyCol"/>
             </xsl:apply-templates>
             <fo:table-body>
                 <xsl:copy-of select="ahf:getAttributeSet('atsPropertyTableBody')"/>
                 <xsl:apply-templates select="*[contains(@class,' reference/property ')]">
-                    <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                    <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
                     <xsl:with-param name="prmKeyCol" select="$keyCol"/>
                 </xsl:apply-templates>
             </fo:table-body>
@@ -67,23 +60,20 @@ E-mail : info@antennahouse.com
         </xsl:if>
     </xsl:template>
     
-    
     <!-- 
      function:	prophead template
-     param:	    prmTopicRef, prmNeedId, prmKeyCol
+     param:	    prmKeyCol
      return:	fo:table-header
      note:		prophead is optional.
                 proptypehd, propvaluehd, propvaluehd are all optional.
                 This stylesheet apply bold for prophead if properties/@keycol is not defined.
      -->
     <xsl:template match="*[contains(@class, ' reference/prophead ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
         <xsl:param name="prmKeyCol"   required="yes"  as="xs:integer"/>
         
         <fo:table-header>
             <xsl:copy-of select="ahf:getAttributeSet('atsPropertyTableHeader')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <fo:table-row>
                 <xsl:copy-of select="ahf:getAttributeSet('atsPropertyTableRow')"/>
@@ -98,10 +88,7 @@ E-mail : info@antennahouse.com
                             <xsl:copy-of select="ahf:getAttributeSet('atsPropertyTableNoKeyCol')"/>
                         </xsl:when>
                     </xsl:choose>
-                    <xsl:apply-templates select="*[contains(@class, ' reference/proptypehd ')]">
-                        <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                        <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-                    </xsl:apply-templates>
+                    <xsl:apply-templates select="*[contains(@class, ' reference/proptypehd ')]"/>
                 </fo:table-cell>
                 <!-- propvaluehd -->
                 <fo:table-cell>
@@ -114,10 +101,7 @@ E-mail : info@antennahouse.com
                             <xsl:copy-of select="ahf:getAttributeSet('atsPropertyTableNoKeyCol')"/>
                         </xsl:when>
                     </xsl:choose>
-                    <xsl:apply-templates select="*[contains(@class, ' reference/propvaluehd ')]">
-                        <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                        <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-                    </xsl:apply-templates>
+                    <xsl:apply-templates select="*[contains(@class, ' reference/propvaluehd ')]"/>
                 </fo:table-cell>
                 <!-- propvaluehd -->
                 <fo:table-cell>
@@ -130,10 +114,7 @@ E-mail : info@antennahouse.com
                             <xsl:copy-of select="ahf:getAttributeSet('atsPropertyTableNoKeyCol')"/>
                         </xsl:when>
                     </xsl:choose>
-                    <xsl:apply-templates select="*[contains(@class, ' reference/propdeschd ')]">
-                        <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                        <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-                    </xsl:apply-templates>
+                    <xsl:apply-templates select="*[contains(@class, ' reference/propdeschd ')]"/>
                 </fo:table-cell>
             </fo:table-row>
         </fo:table-header>
@@ -141,73 +122,53 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	proptypehd template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	proptypehd contents (fo:block)
      note:		none
      -->
     <xsl:template match="*[contains(@class, ' reference/proptypehd ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:block>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:block>
     </xsl:template>
     
     <!-- 
      function:	propvaluehd template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	propvaluehd contents (fo:block)
      note:		none
      -->
     <xsl:template match="*[contains(@class, ' reference/propvaluehd ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:block>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:block>
     </xsl:template>
     
     <!-- 
      function:	propdeschd template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	propdeschd contents (fo:block)
      note:		none
      -->
     <xsl:template match="*[contains(@class, ' reference/propdeschd ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:block>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:block>
     </xsl:template>
     
     <!-- 
      function:	property template
-     param:	    prmTopicRef, prmNeedId, prmKeyCol
+     param:	    prmKeyCol
      return:	fo:table-row
      note:		none
      -->
     <xsl:template match="*[contains(@class, ' reference/property ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
         <xsl:param name="prmKeyCol"   required="yes"  as="xs:integer"/>
         
         <fo:table-row>
@@ -224,10 +185,7 @@ E-mail : info@antennahouse.com
                         <xsl:copy-of select="ahf:getAttributeSet('atsPropertyTableNoKeyCol')"/>
                     </xsl:otherwise>
                 </xsl:choose>
-                <xsl:apply-templates select="*[contains(@class, ' reference/proptype ')]">
-                    <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                    <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-                </xsl:apply-templates>
+                <xsl:apply-templates select="*[contains(@class, ' reference/proptype ')]"/>
             </fo:table-cell>
             <!-- propvalue -->
             <fo:table-cell>
@@ -240,10 +198,7 @@ E-mail : info@antennahouse.com
                         <xsl:copy-of select="ahf:getAttributeSet('atsPropertyTableNoKeyCol')"/>
                     </xsl:otherwise>
                 </xsl:choose>
-                <xsl:apply-templates select="*[contains(@class, ' reference/propvalue ')]">
-                    <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                    <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-                </xsl:apply-templates>
+                <xsl:apply-templates select="*[contains(@class, ' reference/propvalue ')]"/>
             </fo:table-cell>
             <!-- propdesc -->
             <fo:table-cell>
@@ -256,73 +211,51 @@ E-mail : info@antennahouse.com
                         <xsl:copy-of select="ahf:getAttributeSet('atsPropertyTableNoKeyCol')"/>
                     </xsl:otherwise>
                 </xsl:choose>
-                <xsl:apply-templates select="*[contains(@class, ' reference/propdesc ')]">
-                    <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                    <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-                </xsl:apply-templates>
+                <xsl:apply-templates select="*[contains(@class, ' reference/propdesc ')]"/>
             </fo:table-cell>
         </fo:table-row>
     </xsl:template>
     
     <!-- 
      function:	proptype template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	proptype contents (fo:block)
      note:		none
      -->
     <xsl:template match="*[contains(@class, ' reference/proptype ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:block>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:block>
     </xsl:template>
     
     <!-- 
      function:	propvalue template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	propvalue contents (fo:block)
      note:		none
      -->
     <xsl:template match="*[contains(@class, ' reference/propvalue ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:block>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:block>
     </xsl:template>
     
     <!-- 
      function:	propdesc template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	propdesc contents (fo:block)
      note:		none
      -->
     <xsl:template match="*[contains(@class, ' reference/propdesc ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:block>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:block>
     </xsl:template>
-
 
 </xsl:stylesheet>

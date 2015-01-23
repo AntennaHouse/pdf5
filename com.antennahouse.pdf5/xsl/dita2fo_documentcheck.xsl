@@ -202,8 +202,7 @@ E-mail : info@antennahouse.com
     </xsl:template>
     
     <xsl:template match="*[contains(@class, ' map/topicref ')]" mode="CHECK_ID">
-        <xsl:variable name="targetId" select="substring-after(@href, '#')" as="xs:string"/>
-        <xsl:variable name="topic" select="key('topicById', $targetId)[1]" as="element()?"/>
+        <xsl:variable name="topic" select="ahf:getTopicFromTopicRef(.)" as="element()?"/>
         <xsl:variable name="oid" select="$topic/@oid" as="xs:string?"/>
         
         <xsl:choose>

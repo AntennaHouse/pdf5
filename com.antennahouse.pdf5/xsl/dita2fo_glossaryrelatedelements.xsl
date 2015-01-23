@@ -25,35 +25,33 @@ E-mail : info@antennahouse.com
      -->
     
     <xsl:template match="*[contains(@class,' abbrev-d/abbreviated-form ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
+        <xsl:param name="prmTopicRef" tunnel="yes" required="yes"  as="element()?"/>
     
         <xsl:variable name="topicRefKey"  select="string(@keyref)" as="xs:string"/>
-        <xsl:message>$topicRefKey=<xsl:value-of select="$topicRefKey"/></xsl:message>
-        <xsl:variable name="topicRef"     select="key('topicrefByKey', $topicRefKey)[1]" as="element()?"/>
-        <xsl:variable name="href"         select="substring-after($topicRef/@href,'#')"/>
-        <xsl:message>$href=<xsl:value-of select="$href"/></xsl:message>
-        <xsl:variable name="topicElement" select="key('topicById', $href)[1]" as="element()?"/>
+        <!--xsl:message>$topicRefKey=<xsl:value-of select="$topicRefKey"/></xsl:message-->
+        <xsl:variable name="topicRef"  as="element()?" select="key('topicrefByKey', $topicRefKey)[1]"/>
+        <xsl:variable name="href"     as="xs:string" select="substring-after($topicRef/@href,'#')"/>
+        <!--xsl:message>$href=<xsl:value-of select="$href"/></xsl:message-->
+        <xsl:variable name="topicElement"  as="element()?" select="ahf:getTopicFromHref($href)"/>
         <!-- get topic's oid -->
-        <xsl:variable name="topicOidAtr" select="ahf:getIdAtts($topicElement,$topicRef,true())" as="attribute()*"/>
-        <xsl:variable name="topicOid" select="string($topicOidAtr[1])" as="xs:string"/>
+        <xsl:variable name="topicIdAtr" select="ahf:getIdAtts($topicElement,$topicRef,true())" as="attribute()*"/>
+        <xsl:variable name="topicId" select="string($topicIdAtr[1])" as="xs:string"/>
     
         <xsl:variable name="abbreviatedFormCount" as="xs:integer">
             <xsl:number select="."
                         level="any"
-                        count="*[contains(@class,' abbrev-d/abbreviated-form ')][string(@keyref)=$topicRefKey]"
+                        count="*[contains(@class,' abbrev-d/abbreviated-form ')][string(@keyref) eq $topicRefKey]"
                         from="*[contains(@class, ' topic/topic ')][parent::* is $root]"/>
         </xsl:variable>
         
         <xsl:choose>
             <xsl:when test="not(contains($topicElement/@class,' glossentry/glossentry '))">
-                <fo:basic-link internal-destination="{$topicOid}">
+                <fo:basic-link internal-destination="{$topicId}">
                     <xsl:copy-of select="ahf:getAttributeSet('atsXref')"/>
-                    <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+                    <xsl:call-template name="ahf:getUnivAtts"/>
                     <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                     <xsl:apply-templates select="$topicElement/*[contains(@class, ' topic/title ')]">
-                        <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                        <xsl:with-param name="prmNeedId"   select="false()"/>
+                        <xsl:with-param name="prmNeedId"   tunnel="yes" select="false()"/>
                     </xsl:apply-templates>
                 </fo:basic-link>
             </xsl:when>
@@ -65,9 +63,9 @@ E-mail : info@antennahouse.com
                               as="element()*"/>
                 <xsl:choose>
                     <xsl:when test="exists($glossSurfaceFormElem)">
-                        <fo:basic-link internal-destination="{$topicOid}">
+                        <fo:basic-link internal-destination="{$topicId}">
                             <xsl:copy-of select="ahf:getAttributeSet('atsXref')"/>
-                            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+                            <xsl:call-template name="ahf:getUnivAtts"/>
                             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                             <xsl:apply-templates select="$glossSurfaceFormElem[1]/node()">
                                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
@@ -76,13 +74,12 @@ E-mail : info@antennahouse.com
                         </fo:basic-link>
                     </xsl:when>
                     <xsl:otherwise>
-                        <fo:basic-link internal-destination="{$topicOid}">
+                        <fo:basic-link internal-destination="{$topicId}">
                             <xsl:copy-of select="ahf:getAttributeSet('atsXref')"/>
-                            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+                            <xsl:call-template name="ahf:getUnivAtts"/>
                             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                             <xsl:apply-templates select="$topicElement/*[contains(@class, ' glossentry/glossterm  ')]">
-                                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                                <xsl:with-param name="prmNeedId"   select="false()"/>
+                                <xsl:with-param name="prmNeedId" tunnel="yes" select="false()"/>
                             </xsl:apply-templates>
                         </fo:basic-link>
                     </xsl:otherwise>
@@ -116,13 +113,12 @@ E-mail : info@antennahouse.com
                         </xsl:otherwise>
     			                </xsl:choose>
                 </xsl:variable>
-                <fo:basic-link internal-destination="{$topicOid}">
+                <fo:basic-link internal-destination="{$topicId}">
                     <xsl:copy-of select="ahf:getAttributeSet('atsXref')"/>
-                    <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+                    <xsl:call-template name="ahf:getUnivAtts"/>
                     <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
                     <xsl:apply-templates select="$glossAltElem/node()">
-                        <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                        <xsl:with-param name="prmNeedId"   select="false()"/>
+                        <xsl:with-param name="prmNeedId" tunnel="yes" select="false()"/>
                     </xsl:apply-templates>
                 </fo:basic-link>
             </xsl:otherwise>

@@ -364,20 +364,8 @@ E-mail : info@antennahouse.com
     <xsl:template match="*[contains(@class,' map/topicref ')][ahf:isToc(.)]" mode="MAKE_BOOKMARK">
         <xsl:param name="prmDefaultTitle" as="xs:string" required="no" select="''"/>
         
-        <!--xsl:message>[topicref] href="<xsl:value-of select="@href"/>"</xsl:message-->
         <xsl:variable name="topicRef" select="."/>
-        <xsl:variable name="id">
-            <xsl:choose>
-                <xsl:when test="@href">
-                    <xsl:value-of select="substring-after(@href, '#')"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="''"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
-        
-        <xsl:variable name="linkContent" select="if (string($id)) then key('topicById',$id)[1] else ()"/>
+        <xsl:variable name="linkContent" as="element()?" select="ahf:getTopicFromTopicRef($topicRef)"/>
         <xsl:variable name="oid" select="if (empty($linkContent)) then () else ahf:getIdAtts($linkContent,$topicRef,true())" as="attribute()*"/>
         <xsl:variable name="topicRefId" select="ahf:getIdAtts($topicRef,$topicRef,true())" as="attribute()*"/>
         <xsl:variable name="hasNavtitle" as="xs:boolean">
@@ -711,10 +699,9 @@ E-mail : info@antennahouse.com
     -->
     <xsl:template match="*[contains(@class,' map/topicref ')][@href]" mode="MAKE_BOOKMARK_TOPICREF_IN_TEMPORARY_TREE">
         
-        <xsl:variable name="topicRef" select="." as="element()"/>
+        <xsl:variable name="topicRef" as="element()" select="."/>
         <!-- get topic from @href -->
-        <xsl:variable name="id" select="substring-after(@href, '#')" as="xs:string"/>
-        <xsl:variable name="topicContent" select="if (string($id)) then key('topicById', $id)[1] else ()" as="element()?"/>
+        <xsl:variable name="topicContent" as="element()?" select="ahf:getTopicFromTopicRef($topicRef)" />
         
         <xsl:choose>
             <xsl:when test="exists($topicContent)">

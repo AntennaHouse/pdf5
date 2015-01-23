@@ -42,20 +42,6 @@ URL : http://www.antennahouse.co.jp/
         <xsl:param name="prmValue" as ="element()"/>
         
         <xsl:sequence select="not(ahf:isTocNo($prmValue))"/>
-        <!--xsl:choose>
-            <xsl:when  test="$prmValue/@toc='yes'">
-                <xsl:sequence select="true()"/>
-            </xsl:when>
-            <xsl:when  test="$prmValue/@toc='no'">
-                <xsl:sequence select="false()"/>
-            </xsl:when>
-            <xsl:when  test="not($prmValue/@toc)">
-                <xsl:sequence select="true()"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:sequence select="true()"/>
-            </xsl:otherwise>
-        </xsl:choose-->
     </xsl:function>
     
     <!-- 
@@ -93,6 +79,18 @@ URL : http://www.antennahouse.co.jp/
         <xsl:param name="prmTopicRef" as="element()"/>
         <xsl:variable name="id" select="substring-after($prmTopicRef/@href, '#')" as="xs:string"/>
         <xsl:variable name="topicContent" select="if (string($id)) then key('topicById', $id, $root)[1] else ()" as="element()?"/>
+        <xsl:sequence select="$topicContent"/>
+    </xsl:function>
+
+    <!-- 
+     function:	Get topic from href 
+     param:		prmHref
+     return:	xs:element?
+     note:		
+     -->
+    <xsl:function name="ahf:getTopicFromHref" as="element()?">
+        <xsl:param name="prmHref" as="xs:string"/>
+        <xsl:variable name="topicContent" select="if (string($prmHref)) then key('topicById', $prmHref, $root)[1] else ()" as="element()?"/>
         <xsl:sequence select="$topicContent"/>
     </xsl:function>
 

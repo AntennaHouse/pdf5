@@ -26,9 +26,6 @@ E-mail : info@antennahouse.com
                 This is checked using ahf:isBidiOverrideAllowedElem() function.
      -->
     <xsl:template match="*[exists(@dir)][ahf:isBidiOverrideAllowedElem(.)]" priority="10">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-
         <xsl:variable name="dir" as="xs:string" select="string(@dir)"/>
         <xsl:variable name="unicodeBidi" as="xs:string">
             <xsl:choose>
@@ -62,10 +59,7 @@ E-mail : info@antennahouse.com
             </xsl:choose>
         </xsl:variable>
         <fo:bidi-override unicode-bidi="{$unicodeBidi}" direction="{$direction}">
-            <xsl:next-match>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:next-match>
+            <xsl:next-match/>
         </fo:bidi-override>
     </xsl:template>
     

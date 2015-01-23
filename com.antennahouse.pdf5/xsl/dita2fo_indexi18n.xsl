@@ -68,20 +68,19 @@ E-mail : info@antennahouse.com
             <xsl:with-param name="prmIndextermElem" select="()"/>
         </xsl:apply-templates>
         
-        <xsl:variable name="id" select="substring-after(string(@href), '#')" as="xs:string"/>
-        <xsl:variable name="linkTopic" select="if (string($id)) then key('topicById',$id)[1] else ()" as="element()?"/>
+        <xsl:variable name="linkTopic" as="element()?" select="ahf:getTopicFromTopicRef($topicRef)"/>
         
         <!-- process topic -->
         <xsl:if test="exists($linkTopic)">
             <xsl:apply-templates select="$linkTopic" mode="MAKE_INDEX_ORIGIN">
-                <xsl:with-param name="prmTopicRef" select="."/>
+                <xsl:with-param name="prmTopicRef" tunnel="yes" select="$topicRef"/>
             </xsl:apply-templates>
         </xsl:if>
     </xsl:template>
     
     <!-- Linked topic/topic -->
     <xsl:template match="*[contains(@class, ' topic/topic ')]" mode="MAKE_INDEX_ORIGIN">
-        <xsl:param name="prmTopicRef" required="yes" as="element()"/>
+        <xsl:param name="prmTopicRef" tunnel="yes" required="yes" as="element()"/>
         
         <xsl:apply-templates select="descendant::*[contains(@class,$CLASS_INDEXTERM)]
                                                   [not(ancestor::*[contains(@class,$CLASS_INDEXTERM)])]"
@@ -101,7 +100,7 @@ E-mail : info@antennahouse.com
      note:     none
     -->
     <xsl:template match="*[contains(@class, ' topic/indexterm ')]" mode="MAKE_INDEX_ORIGIN">
-        <xsl:param name="prmTopicRef"      required="yes" as="element()?"/>
+        <xsl:param name="prmTopicRef"      tunnel="yes" required="yes" as="element()?"/>
         <xsl:param name="prmFoIndexKey"    required="yes" as="xs:string"/>
         <xsl:param name="prmLevel"         required="yes" as="xs:integer"/>
         <xsl:param name="prmIndextermElem" required="yes" as="element()*"/>
@@ -135,8 +134,8 @@ E-mail : info@antennahouse.com
             <fo:inline>
                 <xsl:copy-of select="ahf:getUnivAtts(.,(),false())"/>
                 <xsl:apply-templates>
-                    <xsl:with-param name="prmTopicRef" select="()"/>
-                    <xsl:with-param name="prmNeedId"   select="false()"/>
+                    <xsl:with-param name="prmTopicRef" tunnel="yes" select="()"/>
+                    <xsl:with-param name="prmNeedId"   tunnel="yes" select="false()"/>
                     <xsl:with-param name="prmGetIndextermFO" tunnel="yes" select="true()"/>
                 </xsl:apply-templates>
             </fo:inline>
@@ -219,7 +218,7 @@ E-mail : info@antennahouse.com
                 <!-- Navigate to child index-see-also -->
                 <xsl:apply-templates select="child::*[contains(@class, $CLASS_INDEX_SEEALSO)]"
                                      mode="MAKE_INDEX_ORIGIN">
-                    <xsl:with-param name="prmTopicRef"       select="$prmTopicRef"/>
+                    <xsl:with-param name="prmTopicRef"      tunnel="yes" select="$prmTopicRef"/>
                     <xsl:with-param name="prmFoIndexKey"    select="$currentFoIndexKey"/>
                     <xsl:with-param name="prmLevel"         select="$currentLevel"/>
                     <xsl:with-param name="prmIndextermElem" select="$currentIndextermElement"/>
@@ -231,7 +230,7 @@ E-mail : info@antennahouse.com
                 <xsl:apply-templates select="child::*[contains(@class, $CLASS_INDEXTERM)]
                                             |child::*[contains(@class, $CLASS_INDEX_SEE)]"
                                      mode="MAKE_INDEX_ORIGIN">
-                    <xsl:with-param name="prmTopicRef"       select="$prmTopicRef"/>
+                    <xsl:with-param name="prmTopicRef"      tunnel="yes" select="$prmTopicRef"/>
                     <xsl:with-param name="prmFoIndexKey"    select="$currentFoIndexKey"/>
                     <xsl:with-param name="prmLevel"         select="$currentLevel"/>
                     <xsl:with-param name="prmIndextermElem" select="$currentIndextermElement"/>
@@ -264,7 +263,7 @@ E-mail : info@antennahouse.com
                 <!-- Navigate to child index-see-also -->
                 <xsl:apply-templates select="child::*[contains(@class, $CLASS_INDEX_SEEALSO)]"
                                      mode="MAKE_INDEX_ORIGIN">
-                    <xsl:with-param name="prmTopicRef"      select="$prmTopicRef"/>
+                    <xsl:with-param name="prmTopicRef"      tunnel="yes" select="$prmTopicRef"/>
                     <xsl:with-param name="prmFoIndexKey"    select="$currentFoIndexKey"/>
                     <xsl:with-param name="prmLevel"         select="$currentLevel"/>
                     <xsl:with-param name="prmIndextermElem" select="$currentIndextermElement"/>
@@ -302,7 +301,7 @@ E-mail : info@antennahouse.com
      note:     none
     -->
     <xsl:template match="*[contains(@class, ' indexing-d/index-see ')]" mode="MAKE_INDEX_ORIGIN">
-        <xsl:param name="prmTopicRef"      required="yes" as="element()?"/>
+        <xsl:param name="prmTopicRef"      tunnel="yes" required="yes" as="element()?"/>
         <xsl:param name="prmFoIndexKey"    required="yes" as="xs:string"/>
         <xsl:param name="prmLevel"         required="yes" as="xs:integer"/>
         <xsl:param name="prmIndextermElem" required="yes" as="element()*"/>
@@ -322,7 +321,7 @@ E-mail : info@antennahouse.com
             <fo:inline>
                 <xsl:copy-of select="ahf:getUnivAtts(.,(),false())"/>
                 <xsl:apply-templates>
-                    <xsl:with-param name="prmTopicRef" select="()"/>
+                    <xsl:with-param name="prmTopicRef" tunnel="yes" select="()"/>
                     <xsl:with-param name="prmNeedId"   select="false()"/>
                     <xsl:with-param name="prmGetIndexSeeFO" tunnel="yes" select="true()"/>
                 </xsl:apply-templates>
@@ -390,7 +389,7 @@ E-mail : info@antennahouse.com
      note:     none
     -->
     <xsl:template match="*[contains(@class, ' indexing-d/index-see-also ')]" mode="MAKE_INDEX_ORIGIN">
-        <xsl:param name="prmTopicRef"      required="yes" as="element()?"/>
+        <xsl:param name="prmTopicRef"      tunnel="yes" required="yes" as="element()?"/>
         <xsl:param name="prmFoIndexKey"    required="yes" as="xs:string"/>
         <xsl:param name="prmLevel"         required="yes" as="xs:integer"/>
         <xsl:param name="prmIndextermElem" required="yes" as="element()*"/>
@@ -410,8 +409,8 @@ E-mail : info@antennahouse.com
             <fo:inline>
                 <xsl:copy-of select="ahf:getUnivAtts(.,(),false())"/>
                 <xsl:apply-templates>
-                    <xsl:with-param name="prmTopicRef" select="()"/>
-                    <xsl:with-param name="prmNeedId"   select="false()"/>
+                    <xsl:with-param name="prmTopicRef" tunnel="yes" select="()"/>
+                    <xsl:with-param name="prmNeedId"   tunnel="yes" select="false()"/>
                     <xsl:with-param name="prmGetIndexSeeFO" tunnel="yes" select="true()"/>
                 </xsl:apply-templates>
             </fo:inline>

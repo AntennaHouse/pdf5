@@ -86,8 +86,7 @@ E-mail : info@antennahouse.com
     -->
     <xsl:template match="*[contains(@class, ' bookmap/frontmatter ')]//*[contains(@class,' map/topicref ')]" mode="PROCESS_FRONTMATTER" priority="4">
         <xsl:variable name="topicRef" select="."/>
-        <xsl:variable name="id" select="substring-after(@href, '#')" as="xs:string"/>
-        <xsl:variable name="topicContent" select="if (string($id)) then key('topicById', $id)[1] else ()" as="element()?"/>
+        <xsl:variable name="topicContent"  as="element()?" select="ahf:getTopicFromTopicRef($topicRef)"/>
     
         <!-- Invoke next priority template -->
         <xsl:next-match/>
@@ -107,7 +106,7 @@ E-mail : info@antennahouse.com
      note:		
      -->
     <xsl:template match="*" mode="PROCESS_FRONTMATTER">
-        <xsl:apply-templates mode="PROCESS_FRONTMATTER"/>
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
     <xsl:template match="text()" mode="PROCESS_FRONTMATTER"/>
@@ -421,7 +420,15 @@ E-mail : info@antennahouse.com
                 </xsl:otherwise>
             </xsl:choose>
         </fo:block>
+
         <xsl:apply-templates select="child::*[contains(@class,' map/topicref ')]" mode="PROCESS_FRONTMATTER"/>
+
+        <!-- generate fo:index-range-end for metadata -->
+        <xsl:call-template name="processIndextermInMetadataEnd">
+            <xsl:with-param name="prmTopicRef"     select="$topicRef"/>
+            <xsl:with-param name="prmTopicContent" select="()"/>
+        </xsl:call-template>
+        
     </xsl:template>
     
     <!-- 
@@ -434,15 +441,14 @@ E-mail : info@antennahouse.com
         
         <xsl:variable name="topicRef" select="."/>
         <!-- get topic from @href -->
-        <xsl:variable name="id" select="substring-after(@href, '#')" as="xs:string"/>
-        <xsl:variable name="topicContent" select="if (string($id)) then key('topicById', $id)[1] else ()" as="element()?"/>
+        <xsl:variable name="topicContent" as="element()?" select="ahf:getTopicFromTopicRef($topicRef)"/>
         <xsl:variable name="titleMode" select="ahf:getTitleMode($topicRef,())" as="xs:integer"/>
         
         <xsl:choose>
             <xsl:when test="exists($topicContent)">
                 <!-- Process contents -->
                 <xsl:apply-templates select="$topicContent" mode="OUTPUT_FRONTMATTER">
-                    <xsl:with-param name="prmTopicRef"   select="$topicRef"/>
+                    <xsl:with-param name="prmTopicRef"   tunnel="yes" select="$topicRef"/>
                     <xsl:with-param name="prmTitleMode"  select="$titleMode"/>
                 </xsl:apply-templates>
             </xsl:when>
@@ -455,7 +461,13 @@ E-mail : info@antennahouse.com
         </xsl:choose>
         
         <!-- Process children. -->
-        <xsl:apply-templates select="child::*[contains(@class,' map/topicref ')]" mode="PROCESS_FRONTMATTER"/>
+        <xsl:apply-templates select="child::*[contains(@class,' map/topicref ')]" mode="#current"/>
+
+        <!-- generate fo:index-range-end for metadata -->
+        <xsl:call-template name="processIndextermInMetadataEnd">
+            <xsl:with-param name="prmTopicRef"     select="$topicRef"/>
+            <xsl:with-param name="prmTopicContent" select="()"/>
+        </xsl:call-template>
         
     </xsl:template>
     
@@ -466,7 +478,7 @@ E-mail : info@antennahouse.com
      note:		Changed to output post-note per topic/body. 2011-07-28 t.makita
      -->
     <xsl:template match="*[contains(@class, ' topic/topic ')]" mode="OUTPUT_FRONTMATTER">
-        <xsl:param name="prmTopicRef"    required="yes" as="element()"/>
+        <xsl:param name="prmTopicRef"    tunnel="yes" required="yes" as="element()"/>
         <xsl:param name="prmTitleMode"   required="yes" as="xs:integer"/>
         
         <!-- Nesting level in the bookmap 
@@ -480,8 +492,8 @@ E-mail : info@antennahouse.com
         <xsl:variable name="isTopLevelTopic" as="xs:boolean" select="empty(ancestor::*[contains(@class,' topic/topic ')])"/>
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsBase')"/>
-            <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,true())"/>
-            <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
+            <xsl:call-template name="ahf:getIdAtts"/>
+            <xsl:call-template name="ahf:getLocalizationAtts"/>
             <xsl:call-template name="getFrontmatterTopicBreakAttr">
                 <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                 <xsl:with-param name="prmTopicContent" select="."/>
@@ -524,16 +536,10 @@ E-mail : info@antennahouse.com
             </xsl:choose>
             
             <!-- abstract/shortdesc -->
-            <xsl:apply-templates select="child::*[contains(@class, ' topic/abstract ')] | child::*[contains(@class, ' topic/shortdesc ')]">
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="true()"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates select="child::*[contains(@class, ' topic/abstract ')] | child::*[contains(@class, ' topic/shortdesc ')]"/>
             
             <!-- body -->
-            <xsl:apply-templates select="child::*[contains(@class, ' topic/body ')]">
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="true()"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates select="child::*[contains(@class, ' topic/body ')]"/>
     
             <!-- postnote -->
             <xsl:if test="$pDisplayFnAtEndOfTopic">
@@ -554,7 +560,6 @@ E-mail : info@antennahouse.com
     
             <!-- nested concept/reference/task -->
             <xsl:apply-templates select="child::*[contains(@class, ' topic/topic ')]" mode="OUTPUT_FRONTMATTER">
-                <xsl:with-param name="prmTopicRef"   select="$prmTopicRef"/>
                 <xsl:with-param name="prmTitleMode"  select="$prmTitleMode"/>
             </xsl:apply-templates>
             

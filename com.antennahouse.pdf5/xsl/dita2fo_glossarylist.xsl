@@ -27,7 +27,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	Generate glossary list template
-     param:		none ($prmEditStatus: tunnel)
+     param:		none 
      return:	(fo:page-sequence)
      note:      1. Current context is booklist/glossarylist
      			2. This template made by the basis of the promise 
@@ -131,7 +131,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	Glossary list main template
-     param:		$prmEditStatus: tunnel
+     param:		
      return:	fo:block
      note:		Current context is booklist/glossarylist
      -->
@@ -139,13 +139,13 @@ E-mail : info@antennahouse.com
         <xsl:variable name="topicRef" select="."/>
         <!-- get topic from @href -->
         <xsl:variable name="id" select="substring-after(@href, '#')" as="xs:string"/>
-        <xsl:variable name="topicContent" select="if (@href) then key('topicById', $id)[1] else ()" as="element()?"/>
+        <xsl:variable name="topicContent" as="element()?" select="ahf:getTopicFromTopicRef($topicRef)"/>
         <xsl:variable name="titleMode" select="ahf:getTitleMode($topicRef,())" as="xs:integer"/>
         
         <xsl:choose>
             <xsl:when test="exists($topicContent)">
                 <xsl:apply-templates select="$topicContent" mode="PROCESS_GLOSSARYLIST_PREFIX_CONTENT">
-                    <xsl:with-param name="prmTopicRef"   select="$topicRef"/>
+                    <xsl:with-param name="prmTopicRef"   tunnel="yes" select="$topicRef"/>
                     <xsl:with-param name="prmTitleMode"  select="$titleMode"/>
                 </xsl:apply-templates>
             </xsl:when>
@@ -179,7 +179,7 @@ E-mail : info@antennahouse.com
                         <xsl:choose>
                             <xsl:when test="$topicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
                                 <xsl:apply-templates select="$topicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
-                                    <xsl:with-param name="prmTopicRef" select="$topicRef"/>
+                                    <xsl:with-param name="prmTopicRef" tunnel="yes" select="$topicRef"/>
                                 </xsl:apply-templates>
                             </xsl:when>
                             <xsl:when test="$topicRef/@navtitle">
@@ -227,7 +227,7 @@ E-mail : info@antennahouse.com
                 <!-- Format the sorted glossentry -->
                 <xsl:for-each select="$glossEntrySorted/*[contains(@class,' glossentry/glossentry ')]">
                     <xsl:variable name="glossEntry" select="."/>
-                    <xsl:variable name="editStatus" select="string($glossEntry/@editStatus)" as="xs:string"/>
+                    <!--xsl:variable name="editStatus" select="string($glossEntry/@editStatus)" as="xs:string"/-->
                     <xsl:variable name="topicRefId" select="string($glossEntry/@topicRefId)" as="xs:string"/>
                     <!--xsl:variable name="topicRef" select="key('topicrefByGenerateId',$topicRefId)" as="element()*"/-->
                     <xsl:variable name="topicRef" select="$map//*[contains(@class, 'map/topicref')][ahf:generateId(.,()) eq $topicRefId][1]" as="element()*"/>
@@ -237,7 +237,7 @@ E-mail : info@antennahouse.com
                             <xsl:apply-templates select="$glossEntry" mode="PROCESS_GLOSSARYLIST_CONTENT">
                                 <xsl:with-param name="prmTopicRef" select="$topicRef"/>
                                 <xsl:with-param name="prmNeedId"   select="true()"/>
-                                <xsl:with-param name="prmEditStatus" select="$editStatus" tunnel="yes"/>
+                                <!--xsl:with-param name="prmEditStatus" select="$editStatus" tunnel="yes"/-->
                             </xsl:apply-templates>
                         </xsl:when>
                         <xsl:otherwise> 
@@ -269,12 +269,12 @@ E-mail : info@antennahouse.com
         note:		Changed to output post-note per topic/body. 2011-07-28 t.makita
     -->
     <xsl:template match="*[contains(@class, ' topic/topic ')]" mode="PROCESS_GLOSSARYLIST_PREFIX_CONTENT">
-        <xsl:param name="prmTopicRef"    required="yes" as="element()"/>
+        <xsl:param name="prmTopicRef" tunnel="yes"  required="yes" as="element()"/>
         
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsBaseGlossaryListPrefixContent')"/>
-            <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,true())"/>
-            <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
+            <xsl:call-template name="ahf:getIdAtts"/>
+            <xsl:call-template name="ahf:getLocalizationAtts"/>
             <xsl:copy-of select="ahf:getAttributeSet('atsSpanAll')"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             
@@ -286,16 +286,10 @@ E-mail : info@antennahouse.com
             </xsl:call-template>
             
             <!-- abstract/shortdesc -->
-            <xsl:apply-templates select="child::*[contains(@class, ' topic/abstract ')] | child::*[contains(@class, ' topic/shortdesc ')]">
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="true()"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates select="child::*[contains(@class, ' topic/abstract ')] | child::*[contains(@class, ' topic/shortdesc ')]"/>
             
             <!-- body -->
-            <xsl:apply-templates select="child::*[contains(@class, ' topic/body ')]">
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="true()"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates select="child::*[contains(@class, ' topic/body ')]"/>
             
             <!-- postnote (footnote) -->
             <xsl:choose>
@@ -314,7 +308,7 @@ E-mail : info@antennahouse.com
             
             <!-- nested concept/reference/task -->
             <xsl:apply-templates select="child::*[contains(@class, ' topic/topic ')]" mode="#current">
-                <xsl:with-param name="prmTopicRef"   select="$prmTopicRef"/>
+                <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
             </xsl:apply-templates>
             
             <!-- related-links -->
@@ -331,17 +325,17 @@ E-mail : info@antennahouse.com
     -->
     <xsl:template match="*[contains(@class,' map/topicref ')][@href]" mode="PROCESS_GLOSSARYLIST_TOPICREF_IN_TEMPORARY_TREE">
         
-        <xsl:variable name="topicref" select="."/>
+        <xsl:variable name="topicRef" select="."/>
         <!-- get topic from @href -->
         <xsl:variable name="id" select="substring-after(@href, '#')" as="xs:string"/>
-        <xsl:variable name="topicContent" select="if (string($id)) then key('topicById', $id)[1] else ()" as="element()?"/>
-        <xsl:variable name="titleMode" select="ahf:getTitleMode($topicref,())" as="xs:integer"/>
+        <xsl:variable name="topicContent"  as="element()?" select="ahf:getTopicFromTopicRef($topicRef)"/>
+        <xsl:variable name="titleMode" select="ahf:getTitleMode($topicRef,())" as="xs:integer"/>
         
         <xsl:choose>
             <xsl:when test="exists($topicContent)">
                 <!-- Copy contents -->
                 <xsl:apply-templates select="$topicContent" mode="PROCESS_GLOSSENTRY_IN_TEMPORARY_TREE">
-                    <xsl:with-param name="prmTopicRef" select="$topicref"/>    
+                    <xsl:with-param name="prmTopicRef" tunnel="yes" select="$topicRef"/>    
                 </xsl:apply-templates>
             </xsl:when>
             <xsl:otherwise>
@@ -362,7 +356,7 @@ E-mail : info@antennahouse.com
     
     <!-- Templates for sorting -->
     <xsl:template match="*[contains(@class,' glossentry/glossentry ')]" mode="PROCESS_GLOSSENTRY_IN_TEMPORARY_TREE">
-        <xsl:param name="prmTopicRef" as="element()" required="yes"/>    
+        <xsl:param name="prmTopicRef" tunnel="yes" as="element()" required="yes"/>    
     
         <xsl:copy>
             <xsl:copy-of select="@*"/>
@@ -378,11 +372,8 @@ E-mail : info@antennahouse.com
     </xsl:template>
     
     <xsl:template match="*[contains(@class,' glossgroup/glossgroup ')]" mode="PROCESS_GLOSSENTRY_IN_TEMPORARY_TREE">
-        <xsl:param name="prmTopicRef" as="element()" required="yes"/>    
-    
         <!-- glossgroup or glossentry -->
         <xsl:apply-templates select="*[contains(@class, ' glossgroup/glossgroup ')] | *[contains(@class, ' glossentry/glossentry ')]" mode="#current">
-            <xsl:with-param name="prmTopicRef"   select="$prmTopicRef"/>
         </xsl:apply-templates>
     </xsl:template>
         
@@ -394,19 +385,19 @@ E-mail : info@antennahouse.com
         note:		none
     -->
     <xsl:template match="*[contains(@class,' map/topicref ')][@href]" mode="PROCESS_GLOSSARYLIST_TOPICREF">
-        <xsl:param name="prmEditStatus" tunnel="yes" required="yes"/>
+        <!--xsl:param name="prmEditStatus" tunnel="yes" required="yes"/-->
         
         <xsl:variable name="topicRef" select="."/>
         <!-- get topic from @href -->
         <xsl:variable name="id" select="substring-after(@href, '#')" as="xs:string"/>
-        <xsl:variable name="topicContent" select="if (string($id)) then key('topicById', $id)[1] else ()" as="element()?"/>
+        <xsl:variable name="topicContent"  as="element()?" select="ahf:getTopicFromTopicRef($topicRef)"/>
         <xsl:variable name="titleMode" select="ahf:getTitleMode($topicRef,())" as="xs:integer"/>
         
         <xsl:choose>
             <xsl:when test="exists($topicContent)">
                 <!-- Process contents -->
                 <xsl:apply-templates select="$topicContent" mode="PROCESS_GLOSSARYLIST_CONTENT">
-                    <xsl:with-param name="prmTopicRef"   select="$topicRef"/>
+                    <xsl:with-param name="prmTopicRef" tunnel="yes" select="$topicRef"/>
                 </xsl:apply-templates>
             </xsl:when>
             <xsl:otherwise>
@@ -445,32 +436,26 @@ E-mail : info@antennahouse.com
         note:		Changed to output post-note per topic/body. 2011-07-28 t.makita
     -->
     <xsl:template match="*[contains(@class, ' glossentry/glossentry ')]" mode="PROCESS_GLOSSARYLIST_CONTENT" priority="2">
-        <xsl:param name="prmTopicRef"    required="yes" as="element()"/>
+        <xsl:param name="prmTopicRef" tunnel="yes" required="yes" as="element()"/>
         <!--xsl:param name="prmTitleMode"   required="yes" as="xs:integer"/-->
         
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsBaseGlossaryList')"/>
-            <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,true())"/>
-            <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
+            <xsl:call-template name="ahf:getIdAtts"/>
+            <xsl:call-template name="ahf:getLocalizationAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             
             <fo:block>
                 <xsl:copy-of select="ahf:getAttributeSet('atsGlossEntry')"/>
                 
                 <!-- glossterm -->
-                <xsl:apply-templates select="child::*[contains(@class, ' glossentry/glossterm ')]">
-                    <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                    <xsl:with-param name="prmNeedId"   select="true()"/>
-                </xsl:apply-templates>
+                <xsl:apply-templates select="child::*[contains(@class, ' glossentry/glossterm ')]"/>
                 
                 <!-- Inline padding -->
                 <xsl:text>&#x00A0;&#x00A0;</xsl:text>
                 
                 <!-- glossdef -->
-                <xsl:apply-templates select="child::*[contains(@class, ' glossentry/glossdef ')]">
-                    <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                    <xsl:with-param name="prmNeedId"   select="true()"/>
-                </xsl:apply-templates>
+                <xsl:apply-templates select="child::*[contains(@class, ' glossentry/glossdef ')]"/>
                 
                 <!-- glossBody -->
                 <!--xsl:apply-templates select="child::*[contains(@class, ' glossentry/glossBody ')]">
@@ -504,70 +489,52 @@ E-mail : info@antennahouse.com
     
     <!-- 
         function:	Process glossgroup
-        param:		prmTopicRef
+        param:		
         return:	    topic contents
         note:		
     -->
     <xsl:template match="*[contains(@class, ' glossgroup/glossgroup ')]" mode="PROCESS_GLOSSARYLIST_CONTENT" priority="2">
-        <xsl:param name="prmTopicRef"    required="yes" as="element()"/>
-        
         <fo:wrapper>
-            <xsl:copy-of select="ahf:getIdAtts(.,$prmTopicRef,true())"/>
-            <xsl:copy-of select="ahf:getLocalizationAtts(.)"/>
+            <xsl:call-template name="ahf:getIdAtts"/>
+            <xsl:call-template name="ahf:getLocalizationAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            
             <!-- glossgroup or glossentry -->
-            <xsl:apply-templates select="*[contains(@class, ' glossgroup/glossgroup ')] |  *[contains(@class, ' glossentry/glossentry ')]" mode="#current">
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="true()"/>
-            </xsl:apply-templates>
-            
+            <xsl:apply-templates select="*[contains(@class, ' glossgroup/glossgroup ')] | *[contains(@class, ' glossentry/glossentry ')]" mode="#current"/>
         </fo:wrapper>
     </xsl:template>
     
     <!-- 
         function:	glossterm template
-        param:	    prmTopicRef, prmNeedId
+        param:	    prmTopicRef
         return:	    fo:block or descendant generated fo objects
         note:		Apply priority="6" to this template.
     -->
-        <xsl:template match="*[contains(@class, ' glossentry/glossterm ')]" priority="6">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-        
+    <xsl:template match="*[contains(@class, ' glossentry/glossterm ')]" priority="6">
+        <xsl:param name="prmTopicRef" tunnel="yes" required="yes" as="element()?"/>
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsGlossTerm')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:call-template name="processIndextermInMetadata">
                 <xsl:with-param name="prmTopicRef"      select="$prmTopicRef"/>
                 <xsl:with-param name="prmTopicContent" select="ancestor::*[contains(@class,' topic/topic ')][1]"/>
             </xsl:call-template>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
         
     <!-- 
         function:	glossdef template
-        param:	    prmTopicRef, prmNeedId
+        param:	    
         return:	    fo:block or descendant generated fo objects
         note:		Apply priority="6" to this template.
     -->
     <xsl:template match="*[contains(@class, ' glossentry/glossdef ')]" priority="6">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-        
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsGlossDef')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
 
