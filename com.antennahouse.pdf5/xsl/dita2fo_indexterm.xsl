@@ -68,8 +68,7 @@ E-mail : info@antennahouse.com
                 This template is called from dita2fo_indexcommon.xsl.
      -->
     <xsl:template match="*[contains(@class, ' topic/indexterm ')]" mode="MODE_PROCESS_INDEXTERM_MAIN">
-        <xsl:param name="prmTopicRef" required="yes" as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
+        <xsl:param name="prmTopicRef" tunnel="yes" required="yes" as="element()?"/>
         <xsl:param name="prmIndextermKey" required="yes" as="xs:string"/>
         <xsl:param name="prmIndextermStart" required="yes" as="xs:string"/>
         <xsl:param name="prmIndextermStartId" required="yes" as="xs:string"/>
@@ -229,8 +228,6 @@ E-mail : info@antennahouse.com
             <xsl:when test="child::*[contains(@class, $CLASS_INDEXTERM)]">
                 <!-- Navigate to next indexterm -->
                 <xsl:apply-templates select="child::*[contains(@class, $CLASS_INDEXTERM)]" mode="MODE_PROCESS_INDEXTERM_MAIN">
-                    <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                    <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
                     <xsl:with-param name="prmIndextermKey" select="$currentIndexKey"/>
                     <xsl:with-param name="prmIndextermStart">
                         <xsl:choose>
