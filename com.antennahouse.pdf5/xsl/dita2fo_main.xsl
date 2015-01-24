@@ -21,7 +21,7 @@ E-mail : info@antennahouse.com
     <!-- Plug-in name and version -->
     <xsl:variable name="pluginAuthor" as="xs:string" select="'Antenna House'"/>
     <xsl:variable name="pluginName" as="xs:string" select="'PDF5'"/>
-    <xsl:variable name="pluginVersion" as="xs:string" select="'2.1'"/>
+    <xsl:variable name="pluginVersion" as="xs:string" select="'2.2'"/>
     
     <!-- 
      function:	root matching template

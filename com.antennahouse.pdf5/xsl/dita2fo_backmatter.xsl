@@ -83,8 +83,7 @@ E-mail : info@antennahouse.com
     -->
     <xsl:template match="*[contains(@class, ' bookmap/backmatter ')]//*[contains(@class,' map/topicref ')]" mode="PROCESS_BACKMATTER" priority="4">
         <xsl:variable name="topicRef" select="."/>
-        <xsl:variable name="id" select="substring-after(@href, '#')" as="xs:string"/>
-        <xsl:variable name="topicContent" select="if (string($id)) then key('topicById', $id)[1] else ()" as="element()?"/>
+        <xsl:variable name="topicContent"  as="element()?" select="ahf:getTopicFromTopicRef($topicRef)"/>
     
         <!-- Invoke next priority template -->
         <xsl:next-match/>
@@ -346,11 +345,6 @@ E-mail : info@antennahouse.com
 
         <xsl:apply-templates select="child::*[contains(@class,' map/topicref ')]" mode="PROCESS_BACKMATTER"/>
 
-        <!-- generate fo:index-range-end for metadata -->
-        <xsl:call-template name="processIndextermInMetadataEnd">
-            <xsl:with-param name="prmTopicRef"     select="$topicRef"/>
-            <xsl:with-param name="prmTopicContent" select="()"/>
-        </xsl:call-template>
     </xsl:template>
     
     
@@ -385,12 +379,6 @@ E-mail : info@antennahouse.com
         <!-- Process children -->
         <xsl:apply-templates select="child::*[contains(@class,' map/topicref ')]" mode="#current"/>
 
-        <!-- generate fo:index-range-end for metadata -->
-        <xsl:call-template name="processIndextermInMetadataEnd">
-            <xsl:with-param name="prmTopicRef"     select="$topicRef"/>
-            <xsl:with-param name="prmTopicContent" select="$topicContent"/>
-        </xsl:call-template>
-        
     </xsl:template>
     
     <!-- 

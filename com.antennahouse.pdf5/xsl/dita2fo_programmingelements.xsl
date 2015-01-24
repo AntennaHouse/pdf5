@@ -409,16 +409,14 @@ E-mail : info@antennahouse.com
      -->
     <xsl:template match="*[contains(@class,' pr-d/fragref ')]" priority="2">
         <xsl:variable name="isOptional" as="xs:boolean" select="boolean(string(@importance) eq 'optional')"/>
-        <xsl:variable name="orgTitle" as="document-node()">
-            <xsl:document>
-                <xsl:apply-templates/>
-            </xsl:document>
+        <xsl:variable name="orgTitle" as="node()*">
+            <xsl:apply-templates/>
         </xsl:variable>
-        <xsl:variable name="hasTitle" as="xs:boolean" select="boolean(string(normalize-space($orgTitle/node())))"/>
+        <xsl:variable name="hasTitle" as="xs:boolean" select="exists($orgTitle)"/>
         <xsl:variable name="fragrefTitle" as="node()*">
             <xsl:choose>
                 <xsl:when test="$hasTitle">
-                    <xsl:copy-of select="$orgTitle/node()/node()"/>
+                    <xsl:copy-of select="$orgTitle"/>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:variable name="fragmentId" select="substring-after(@href,'/')"/>

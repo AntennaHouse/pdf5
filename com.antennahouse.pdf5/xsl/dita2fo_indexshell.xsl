@@ -17,7 +17,6 @@ E-mail : info@antennahouse.com
  xmlns:ahf="http://www.antennahouse.com/names/XSLT/Functions/Document"
  xmlns:psmi="http://www.CraneSoftwrights.com/resources/psmi"
  xmlns:i18n_index_saxon9="java:jp.co.antenna.ah_i18n_index.IndexSortSaxon9"
- xmlns:debug="urn:debug"
  extension-element-prefixes="i18n_index_saxon9"
  exclude-result-prefixes="xs ahf i18n_index_saxon9"
 >

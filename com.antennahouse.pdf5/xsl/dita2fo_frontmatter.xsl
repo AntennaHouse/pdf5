@@ -422,12 +422,6 @@ E-mail : info@antennahouse.com
         </fo:block>
 
         <xsl:apply-templates select="child::*[contains(@class,' map/topicref ')]" mode="PROCESS_FRONTMATTER"/>
-
-        <!-- generate fo:index-range-end for metadata -->
-        <xsl:call-template name="processIndextermInMetadataEnd">
-            <xsl:with-param name="prmTopicRef"     select="$topicRef"/>
-            <xsl:with-param name="prmTopicContent" select="()"/>
-        </xsl:call-template>
         
     </xsl:template>
     
@@ -462,12 +456,6 @@ E-mail : info@antennahouse.com
         
         <!-- Process children. -->
         <xsl:apply-templates select="child::*[contains(@class,' map/topicref ')]" mode="#current"/>
-
-        <!-- generate fo:index-range-end for metadata -->
-        <xsl:call-template name="processIndextermInMetadataEnd">
-            <xsl:with-param name="prmTopicRef"     select="$topicRef"/>
-            <xsl:with-param name="prmTopicContent" select="()"/>
-        </xsl:call-template>
         
     </xsl:template>
     

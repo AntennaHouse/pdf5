@@ -721,7 +721,9 @@ E-mail : info@antennahouse.com
     <!-- fig/title -->
     <xsl:template match="*[contains(@class, ' topic/fig ')]/*[contains(@class, ' topic/title ')]" priority="2">
         <xsl:variable name="figTitlePrefix" as="xs:string">
-            <xsl:call-template name="ahf:getFigTitlePrefix"/>
+            <xsl:call-template name="ahf:getFigTitlePrefix">
+                <xsl:with-param name="prmFig" select="parent::*[1]"/>
+            </xsl:call-template>
         </xsl:variable>
         
         <fo:block>

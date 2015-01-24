@@ -15,11 +15,10 @@ E-mail : info@antennahouse.com
  xmlns:xs="http://www.w3.org/2001/XMLSchema"
  xmlns:axf="http://www.antennahouse.com/names/XSL/Extensions"
  xmlns:ahf="http://www.antennahouse.com/names/XSLT/Functions/Document"
- xmlns:psmi="http://www.CraneSoftwrights.com/resources/psmi"
  xmlns:i18n_index_saxon9="java:jp.co.antenna.ah_i18n_index.IndexSortSaxon9"
- xmlns:debug="urn:debug"
+ xmlns:psmi="http://www.CraneSoftwrights.com/resources/psmi"
  extension-element-prefixes="i18n_index_saxon9"
- exclude-result-prefixes="xs ahf i18n_index_saxon9"
+ exclude-result-prefixes="xs ahf i18n_index_saxon9 psmi"
 >
     <!-- DEBUG Parameter: hidden -->
     <xsl:param name="PRM_DEBUG_INDEX_SORT_RESULT" select="$cNo"/>
@@ -485,7 +484,7 @@ E-mail : info@antennahouse.com
         </xsl:if>
     	
     	<xsl:if test="$indextermSortedCount &gt; 0">
-            <psmi:page-sequence>
+    	    <psmi:page-sequence>
                 <xsl:choose>
                     <xsl:when test="$pOnlinePdf">
                         <xsl:copy-of select="ahf:getAttributeSet('atsPageSeqIndexOnline')"/>
