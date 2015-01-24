@@ -29,7 +29,7 @@ E-mail : info@antennahouse.com
         <xsl:param name="prmTopicRef" as="element()?"/>
         <xsl:param name="prmNeedId"   as="xs:boolean"/>
     
-        <xsl:call-template name="ahf:getIdAtts">
+        <xsl:call-template name="ahf:getUnivAtts">
             <xsl:with-param name="prmElement" select="$prmElement"/>
             <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
             <xsl:with-param name="prmNeedId"   tunnel="yes" select="$prmNeedId"/>
@@ -266,9 +266,7 @@ E-mail : info@antennahouse.com
         <xsl:param name="prmElement" as="element()"/>
     
         <!-- localization-atts: xml:lang -->
-        <xsl:if test="$prmElement/@xml:lang">
-            <xsl:sequence select="$prmElement/@xml:lang"/>
-        </xsl:if>
+        <xsl:copy-of select="$prmElement/@xml:lang"/>
         
         <!-- localization-atts: dir
              Moved to dita2fo_dir_attribute.xsl
@@ -288,10 +286,7 @@ E-mail : info@antennahouse.com
         <xsl:param name="prmElement" as="element()" required="no" select="."/>
         
         <!-- localization-atts: xml:lang -->
-        <xsl:if test="$prmElement/@xml:lang">
-            <xsl:sequence select="$prmElement/@xml:lang"/>
-        </xsl:if>
-        
+        <xsl:copy-of select="$prmElement/@xml:lang"/>
     </xsl:template>
     
 

@@ -235,8 +235,8 @@ E-mail : info@antennahouse.com
                     <xsl:choose>
                         <xsl:when test="exists($topicRef)">
                             <xsl:apply-templates select="$glossEntry" mode="PROCESS_GLOSSARYLIST_CONTENT">
-                                <xsl:with-param name="prmTopicRef" select="$topicRef"/>
-                                <xsl:with-param name="prmNeedId"   select="true()"/>
+                                <xsl:with-param name="prmTopicRef" tunnel="yes" select="$topicRef"/>
+                                <xsl:with-param name="prmNeedId"   tunnel="yes" select="true()"/>
                                 <!--xsl:with-param name="prmEditStatus" select="$editStatus" tunnel="yes"/-->
                             </xsl:apply-templates>
                         </xsl:when>

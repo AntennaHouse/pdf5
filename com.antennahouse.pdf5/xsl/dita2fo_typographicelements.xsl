@@ -19,129 +19,92 @@ E-mail : info@antennahouse.com
 
     <!-- 
      function:	b template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		none
      -->
     <xsl:template match="*[contains(@class,' hi-d/b ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsB')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
     
     <!-- 
      function:	i template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		none
      -->
     <xsl:template match="*[contains(@class,' hi-d/i ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsI')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
     
     <!-- 
      function:	u template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		none
      -->
     <xsl:template match="*[contains(@class,' hi-d/u ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsU')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
     
     <!-- 
      function:	tt template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		none
      -->
     <xsl:template match="*[contains(@class,' hi-d/tt ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsTt')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
     
     <!-- 
      function:	sup template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		none
      -->
     <xsl:template match="*[contains(@class,' hi-d/sup ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsSup')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
     
     <!-- 
      function:	sub template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		none
      -->
     <xsl:template match="*[contains(@class,' hi-d/sub ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsSub')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
-
 
 </xsl:stylesheet>

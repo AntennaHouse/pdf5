@@ -314,8 +314,8 @@ E-mail : info@antennahouse.com
             </xsl:when>
             <xsl:when test="$isBookMap">
                 <xsl:apply-templates select="$root/*[contains(@class, ' bookmap/bookmap ')]/*[contains(@class, ' bookmap/booktitle ')]/*[contains(@class, ' bookmap/booklibrary ')]">
-                    <xsl:with-param name="prmTopicRef" select="()"/>
-                    <xsl:with-param name="prmNeedId"   select="false()"/>
+                    <xsl:with-param name="prmTopicRef" tunnel="yes" select="()"/>
+                    <xsl:with-param name="prmNeedId"   tunnel="yes" select="false()"/>
                     <xsl:with-param name="prmMakeCover" tunnel="yes" select="true()"/>
                 </xsl:apply-templates>
             </xsl:when>
@@ -332,8 +332,8 @@ E-mail : info@antennahouse.com
                 <xsl:choose>
                     <xsl:when test="$root/*[contains(@class, ' map/map ')]/*[contains(@class, ' topic/title ')]">
                         <xsl:apply-templates select="$root/*[contains(@class, ' map/map ')]/*[contains(@class, ' topic/title ')]" >
-                            <xsl:with-param name="prmTopicRef" select="()"/>
-                            <xsl:with-param name="prmNeedId"   select="false()"/>
+                            <xsl:with-param name="prmTopicRef" tunnel="yes" select="()"/>
+                            <xsl:with-param name="prmNeedId"   tunnel="yes" select="false()"/>
                             <xsl:with-param name="prmMakeCover" tunnel="yes" select="true()"/>
                         </xsl:apply-templates>
                     </xsl:when>
@@ -351,15 +351,15 @@ E-mail : info@antennahouse.com
                 <xsl:choose>
                     <xsl:when test="$root/*[contains(@class, ' bookmap/bookmap ')]/*[contains(@class, ' bookmap/booktitle ')]">
                         <xsl:apply-templates select="$root/*[contains(@class, ' bookmap/bookmap ')]/*[contains(@class, ' bookmap/booktitle ')]/*[contains(@class, ' bookmap/mainbooktitle ')]">
-                            <xsl:with-param name="prmTopicRef" select="()"/>
-                            <xsl:with-param name="prmNeedId"   select="false()"/>
+                            <xsl:with-param name="prmTopicRef" tunnel="yes" select="()"/>
+                            <xsl:with-param name="prmNeedId"   tunnel="yes" select="false()"/>
                             <xsl:with-param name="prmMakeCover" tunnel="yes" select="true()"/>
                         </xsl:apply-templates>
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:apply-templates select="$root/*[contains(@class, ' bookmap/bookmap ')]/*[contains(@class, ' topic/title ')]">
-                            <xsl:with-param name="prmTopicRef" select="()"/>
-                            <xsl:with-param name="prmNeedId"   select="false()"/>
+                            <xsl:with-param name="prmTopicRef" tunnel="yes" select="()"/>
+                            <xsl:with-param name="prmNeedId"   tunnel="yes" select="false()"/>
                             <xsl:with-param name="prmMakeCover" tunnel="yes" select="true()"/>
                         </xsl:apply-templates>
                     </xsl:otherwise>
@@ -381,8 +381,8 @@ E-mail : info@antennahouse.com
             </xsl:when>
             <xsl:when test="$isBookMap">
                 <xsl:apply-templates select="$root/*[contains(@class, ' bookmap/bookmap ')]/*[contains(@class, ' bookmap/booktitle ')]/*[contains(@class, ' bookmap/booktitlealt ')]">
-                    <xsl:with-param name="prmTopicRef" select="()"/>
-                    <xsl:with-param name="prmNeedId"   select="false()"/>
+                    <xsl:with-param name="prmTopicRef" tunnel="yes" select="()"/>
+                    <xsl:with-param name="prmNeedId"   tunnel="yes" select="false()"/>
                     <xsl:with-param name="prmMakeCover" tunnel="yes" select="true()"/>
                 </xsl:apply-templates>
             </xsl:when>

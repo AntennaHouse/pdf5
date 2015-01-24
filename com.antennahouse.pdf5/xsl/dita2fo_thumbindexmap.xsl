@@ -79,12 +79,15 @@ E-mail : info@antennahouse.com
     </xsl:template>
     
     <xsl:template match="*[contains(@class, ' map/topicref ')]" mode="MAKE_CHAPTER_MAP">
-        <xsl:variable name="linkSrc" select="."/>
-        <xsl:variable name="linkContents" select="key('topicById', substring-after($linkSrc/@href, '#'))[1]"/>
+        <xsl:variable name="topicRef" select="."/>
+        <xsl:variable name="linkContents" as="element()?" select="ahf:getTopicFromTopicRef($topicRef)"/>
         <xsl:variable name="title">
             <xsl:choose>
-                <xsl:when test="@href">
+                <xsl:when test="exists($linkContents)">
                     <xsl:apply-templates select="$linkContents/child::*[contains(@class, ' topic/title ')]" mode="TEXT_ONLY"/>
+                </xsl:when>
+                <xsl:when test="$topicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
+                    <xsl:apply-templates select="$topicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]" mode="TEXT_ONLY"/>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:value-of select="@navtitle"/>

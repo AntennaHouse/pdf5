@@ -23,7 +23,7 @@ E-mail : info@antennahouse.com
         
     <!-- 
      function:	titlealts template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	none
      note:		none
      -->
@@ -31,7 +31,7 @@ E-mail : info@antennahouse.com
     </xsl:template>
     <!-- 
      function:	navtitle template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	none
      note:		none
      -->
@@ -41,7 +41,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	searchtitle template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	none
      note:		none
      -->
@@ -51,7 +51,7 @@ E-mail : info@antennahouse.com
     <!-- 
      function:	abstract template
      param:	    prmTopicRef, prmNeedId
-     return:	fo:block or descendant generated fo objects
+     return:	
      note:		xsl:strip-space is applied for this element.
                 Make fo:block unconditionally. (2011-09-07 t.makita)
      -->
@@ -66,7 +66,7 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	shortdesc template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:block or descendant generated fo objects
      note:		Abstract can contain shortdesc as inline or block level objects.
      -->

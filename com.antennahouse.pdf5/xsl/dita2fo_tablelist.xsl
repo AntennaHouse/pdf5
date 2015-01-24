@@ -163,18 +163,18 @@ E-mail : info@antennahouse.com
     
     <!-- Frontmatter -->
     <xsl:template match="*[contains(@class,' bookmap/frontmatter ')]" mode="MAKE_TABLE_LIST" priority="2" >
-        <xsl:apply-templates mode="MAKE_TABLE_LIST"/>
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
     <!-- Backmatter -->
     <xsl:template match="*[contains(@class,' bookmap/backmatter ')]" mode="MAKE_TABLE_LIST" priority="2" >
-        <xsl:apply-templates mode="MAKE_TABLE_LIST"/>
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
     <!-- frontmatter/backmatter contents -->
     
     <xsl:template match="*[contains(@class,' bookmap/booklists ')]" mode="MAKE_TABLE_LIST" priority="2" >
-        <xsl:apply-templates mode="MAKE_TABLE_LIST"/>
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
     <xsl:template match="*[contains(@class,' bookmap/toc ')][not(@href)]" mode="MAKE_TABLE_LIST" priority="2" >
@@ -201,7 +201,7 @@ E-mail : info@antennahouse.com
     
     <xsl:template match="*[contains(@class,' bookmap/glossarylist ')][not(@href)]" mode="MAKE_TABLE_LIST" priority="2" >
         <!-- Glossarylist have topicref child element. -->
-        <xsl:apply-templates mode="MAKE_TABLE_LIST"/>
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
     <xsl:template match="*[contains(@class,' bookmap/indexlist ')][not(@href)]" mode="MAKE_TABLE_LIST" priority="2" >
@@ -214,12 +214,12 @@ E-mail : info@antennahouse.com
     
     <xsl:template match="*[contains(@class,' bookmap/notices ')][not(@href)]" mode="MAKE_TABLE_LIST" priority="2" >
         <!-- Notices have topicref child element. -->
-        <xsl:apply-templates mode="MAKE_TABLE_LIST"/>
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
     <xsl:template match="*[contains(@class,' bookmap/preface ')][not(@href)]" mode="MAKE_TABLE_LIST" priority="2" >
         <!-- Preface has topicref child element. -->
-        <xsl:apply-templates mode="MAKE_TABLE_LIST"/>
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
     <xsl:template match="*[contains(@class,' bookmap/dedication ')][not(@href)]" mode="MAKE_TABLE_LIST" priority="2" >
@@ -237,7 +237,7 @@ E-mail : info@antennahouse.com
     <!-- topicgroup is skipped in dita2fo_convmerged.xsl -->
     <xsl:template match="*[contains(@class,' mapgroup-d/topicgroup ')]" mode="MAKE_TABLE_LIST" priority="2" >
         <!-- topicgroup create group without affecting the hierarchy. -->
-        <xsl:apply-templates mode="MAKE_TABLE_LIST"/>
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
     <!-- Ignore reltable contents -->
@@ -251,16 +251,15 @@ E-mail : info@antennahouse.com
      -->
     <xsl:template match="*[contains(@class,' map/topicref ')][@href]" mode="MAKE_TABLE_LIST">
         <xsl:variable name="topicRef" select="."/>
-        <xsl:variable name="id" select="substring-after(@href, '#')"/>
-        <xsl:variable name="topicContent" select="if (string($id)) then key('topicById',$id)[1] else ()" as="element()?"/>
+        <xsl:variable name="topicContent" select="ahf:getTopicFromTopicRef($topicRef)" as="element()?"/>
     
         <xsl:for-each select="$topicContent/descendant::*[contains(@class, ' topic/table ')][child::*[contains(@class, ' topic/title ')]]">
             <xsl:variable name="table" select="."/>
             <xsl:variable name="tableId" select="if (@id) then string(ahf:getIdAtts($table,$topicRef,true())) else ahf:generateId($table,$topicRef)" as="xs:string"/>
             <xsl:variable name="tableTitle" as="node()*">
                 <xsl:apply-templates select="$table/*[contains(@class,' topic/title ')]" mode="MAKE_TABLE_LIST">
-                    <xsl:with-param name="prmTopicRef"    select="$topicRef"/>
-                    <xsl:with-param name="prmNeedId"      select="false()"/>
+                    <xsl:with-param name="prmTopicRef"  tunnel="yes"  select="$topicRef"/>
+                    <xsl:with-param name="prmNeedId"    tunnel="yes"  select="false()"/>
                 </xsl:apply-templates>
             </xsl:variable>
             <xsl:call-template name="makeTableListLine">
@@ -279,8 +278,7 @@ E-mail : info@antennahouse.com
         note:		This template must return exactly 2 <fo:inline> elements.
     -->
     <xsl:template match="*[contains(@class, ' topic/table ')]/*[contains(@class, ' topic/title ')]" priority="2" mode="MAKE_TABLE_LIST">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
+        <xsl:param name="prmTopicRef" tunnel="yes" required="yes"  as="element()"/>
         
         <fo:inline>
             <xsl:value-of select="ahf:getTableTitlePrefix($prmTopicRef,parent::*)"/>
@@ -288,14 +286,10 @@ E-mail : info@antennahouse.com
             <xsl:text>&#x00A0;</xsl:text>
         </fo:inline>
         <fo:inline>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef"    select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"      select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:call-template name="ahf:getUnivAtts"/>
+            <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
-    
     
     <!-- 
      function:	Make table list line

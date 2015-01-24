@@ -19,14 +19,11 @@ E-mail : info@antennahouse.com
 
     <!-- 
      function:	uicontrol template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		
      -->
     <xsl:template match="*[contains(@class,' ui-d/uicontrol ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <xsl:if test="parent::*[contains(@class, ' ui-d/menucascade ')]">
             <!-- Child of menucascade -->
             <xsl:if test="preceding-sibling::*[contains(@class, ' ui-d/uicontrol ')]">
@@ -42,12 +39,9 @@ E-mail : info@antennahouse.com
             <xsl:value-of select="$cUiControlPrefix"/>
             <fo:inline>
                 <xsl:copy-of select="ahf:getAttributeSet('atsUiControl')"/>
-                <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+                <xsl:call-template name="ahf:getUnivAtts"/>
                 <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-                <xsl:apply-templates>
-                    <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                    <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-                </xsl:apply-templates>
+                <xsl:apply-templates/>
             </fo:inline>
             <xsl:value-of select="$cUiControlSuffix"/>
         </fo:inline>
@@ -55,89 +49,64 @@ E-mail : info@antennahouse.com
     
     <!-- 
      function:	wintitle template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		
      -->
     <xsl:template match="*[contains(@class,' ui-d/wintitle ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsWinTitle')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
     
     
     <!-- 
      function:	menucascade template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		
      -->
     <xsl:template match="*[contains(@class,' ui-d/menucascade ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsMenuCascade')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
     
     <!-- 
      function:	shortcut template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:inline
      note:		
      -->
     <xsl:template match="*[contains(@class,' ui-d/shortcut ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsShortcut')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:inline>
     </xsl:template>
     
     <!-- 
      function:	screen template
-     param:	    prmTopicRef, prmNeedId
+     param:	    
      return:	fo:block
      note:		
      -->
     <xsl:template match="*[contains(@class,' ui-d/screen ')]" priority="2">
-        <xsl:param name="prmTopicRef" required="yes"  as="element()?"/>
-        <xsl:param name="prmNeedId"   required="yes"  as="xs:boolean"/>
-    
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsScreen')"/>
             <xsl:copy-of select="ahf:getDisplayAtts(.,'atsScreen')"/>
-            <xsl:copy-of select="ahf:getUnivAtts(.,$prmTopicRef,$prmNeedId)"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-            <xsl:apply-templates>
-                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                <xsl:with-param name="prmNeedId"   select="$prmNeedId"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates/>
         </fo:block>
     </xsl:template>
-
 
 </xsl:stylesheet>

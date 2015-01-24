@@ -1015,6 +1015,7 @@ E-mail : info@antennahouse.com
                 2014-11-10 t.makita
      -->
     <xsl:template match="*[contains(@class, ' topic/lq ')]">
+        <xsl:param name="prmTopicRef" tunnel="yes" required="yes"  as="element()?"/>
         <xsl:variable name="longQuoteRef" select="child::*[contains(@class,' topic/longquoteref ')]" as="element()?"/>
         
         <xsl:variable name="type"   select="if (exists($longQuoteRef)) then string($longQuoteRef/@type) else string(@type)" as="xs:string"/>
@@ -1066,6 +1067,7 @@ E-mail : info@antennahouse.com
                         <xsl:when test="$isOt185OrLater">
                             <xsl:variable name="destAttr" as="attribute()*">
                                 <xsl:call-template name="getDestinationAttr">
+                                    <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
                                     <xsl:with-param name="prmHref" select="string(@href)"/>
                                     <xsl:with-param name="prmElem" select="."/>
                                 </xsl:call-template>

@@ -86,7 +86,7 @@ E-mail : info@antennahouse.com
                                               /*[contains(@class,$CLASS_KEYWORDS)]
                                               /*[contains(@class,$CLASS_INDEXTERM)]"
                              mode="MAKE_INDEX_ORIGIN">
-            <xsl:with-param name="prmTopicRef"      tunnel="yes" select="()"/>
+            <xsl:with-param name="prmTopicRef"      tunnel="yes" select="$topicRef"/>
             <xsl:with-param name="prmFoIndexKey"    select="''"/>
             <xsl:with-param name="prmIndexSortKey"  select="()"/>
             <xsl:with-param name="prmLevel"         select="0"/>

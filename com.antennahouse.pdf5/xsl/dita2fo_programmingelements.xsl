@@ -414,8 +414,8 @@ E-mail : info@antennahouse.com
                 <xsl:apply-templates/>
             </xsl:document>
         </xsl:variable>
-        <xsl:variable name="hasTitle" as="xs:boolean" select="boolean(string(normalize-space($orgTitle)))"/>
-        <xsl:variable name="fragrefTitle" as="node()">
+        <xsl:variable name="hasTitle" as="xs:boolean" select="boolean(string(normalize-space($orgTitle/node())))"/>
+        <xsl:variable name="fragrefTitle" as="node()*">
             <xsl:choose>
                 <xsl:when test="$hasTitle">
                     <xsl:copy-of select="$orgTitle/node()/node()"/>
@@ -423,7 +423,7 @@ E-mail : info@antennahouse.com
                 <xsl:otherwise>
                     <xsl:variable name="fragmentId" select="substring-after(@href,'/')"/>
                     <xsl:variable name="fragmentElement" select="if (string($fragmentId)) then key('elementById',$fragmentId,ancestor::*[contains(@class, ' pr-d/syntaxdiagram ')])[1] else ()" as="element()?"/>
-                    <xsl:variable name="fragmentTitle">
+                    <xsl:variable name="fragmentTitle" as="node()*">
                         <xsl:apply-templates select="$fragmentElement/*[contains(@class, ' topic/title ')]" mode="GET_CONTENTS"/>
                     </xsl:variable>
                     <xsl:copy-of select="$fragmentTitle"/>

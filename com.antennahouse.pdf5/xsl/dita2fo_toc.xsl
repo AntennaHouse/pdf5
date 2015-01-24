@@ -133,6 +133,12 @@ E-mail : info@antennahouse.com
         <xsl:variable name="id" as="xs:string" select="string(ahf:getIdAtts($topicRef,$topicRef,true())[1])"/>
         <xsl:variable name="title" as="xs:string">
             <xsl:choose>
+                <xsl:when test="$topicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
+                    <xsl:variable name="navTitle" as="xs:string*">
+                        <xsl:apply-templates select="$topicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]" mode="TEXT_ONLY"/>
+                    </xsl:variable>
+                    <xsl:sequence select="string-join($navTitle,'')"/>
+                </xsl:when>
                 <xsl:when test="$topicRef/@navtitle">
                     <xsl:sequence select="string($topicRef/@navtitle)"/>
                 </xsl:when>
@@ -372,20 +378,10 @@ E-mail : info@antennahouse.com
         <xsl:param name="prmDefaultTitle" as="xs:string" required="no" select="''"/>
         <xsl:param name="prmProcessChild" as="xs:boolean" required="no" select="true()"/>
         
-        <xsl:variable name="topicref" select="."/>
-        <xsl:variable name="id">
-            <xsl:choose>
-                <xsl:when test="@href">
-                    <xsl:value-of select="substring-after(@href, '#')"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="''"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
-        <xsl:variable name="linkContent" select="if (string($id)) then key('topicById',$id)[1] else ()" as="element()?"/>
-        <xsl:variable name="contentId" select="if (empty($linkContent)) then () else ahf:getIdAtts($linkContent,$topicref,true())" as="attribute()*"/>
-        <xsl:variable name="topicRefId" select="ahf:getIdAtts($topicref,$topicref,true())" as="attribute()*"/>
+        <xsl:variable name="topicRef" select="."/>
+        <xsl:variable name="linkContent"  as="element()?" select="ahf:getTopicFromTopicRef($topicRef)"/>
+        <xsl:variable name="contentId" select="if (empty($linkContent)) then () else ahf:getIdAtts($linkContent,$topicRef,true())" as="attribute()*"/>
+        <xsl:variable name="topicRefId" select="ahf:getIdAtts($topicRef,$topicRef,true())" as="attribute()*"/>
         <xsl:variable name="navtitle" select="normalize-space(@navtitle)"/>
         <xsl:variable name="nestedTopicCount" as="xs:integer">
             <xsl:sequence select="count(ancestor-or-self::*[contains(@class, ' map/topicref ')]
@@ -417,7 +413,7 @@ E-mail : info@antennahouse.com
             </xsl:when>
             <xsl:otherwise>
                 <!-- Make TOC line -->
-                <xsl:variable name="title" select="ahf:getTitleContent($topicref,$linkContent,$prmDefaultTitle)" as="node()*"/>
+                <xsl:variable name="title" select="ahf:getTitleContent($topicRef,$linkContent,$prmDefaultTitle)" as="node()*"/>
                 <xsl:if test="exists($title)">
                     <xsl:call-template name="makeTocLine">
                         <xsl:with-param name="prmId" as="xs:string">

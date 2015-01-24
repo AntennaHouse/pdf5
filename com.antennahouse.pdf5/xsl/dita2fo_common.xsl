@@ -259,8 +259,8 @@ E-mail : info@antennahouse.com
      note:		
      -->
     <xsl:function name="ahf:getTitleMode" as="xs:integer">
-        <xsl:param name="prmTopicRef" required="yes" as="element()"/>
-        <xsl:param name="prmTopicContent" required="yes" as="element()?"/>
+        <xsl:param name="prmTopicRef"  as="element()"/>
+        <xsl:param name="prmTopicContent"  as="element()?"/>
         
         <!--xsl:variable name="isNoToc" select="boolean($prmTopicRef/@toc='no')"/-->
         <xsl:variable name="isNoToc" select="ahf:isTocNo($prmTopicRef)"/>
