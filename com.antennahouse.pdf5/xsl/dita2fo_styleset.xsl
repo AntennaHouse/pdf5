@@ -20,7 +20,7 @@ URL : http://www.antennahouse.co.jp/
     xmlns:svg="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns:l="http://www.antennahouse.com/names/XSLT/Document/Layout"
-	exclude-result-prefixes="xs ahf"
+	exclude-result-prefixes="xs ahf svg l xlink"
 >
 	<!-- 
 	    ============================================
@@ -52,13 +52,13 @@ URL : http://www.antennahouse.co.jp/
 	
 	<!-- Original variable definition -->
 	<xsl:variable name="glOrgVarDefs">
-		<l:variables file="{$styleDefFile}">
+		<variables file="{$styleDefFile}">
 			<xsl:apply-templates select="document($styleDefFile)/*" mode="GET_VARIABLE"/>
-		</l:variables>
+		</variables>
 		<xsl:if test="string($altStyleDefFile)" >
-			<l:variables file="{$altStyleDefFile}">
+			<variables file="{$altStyleDefFile}">
 				<xsl:apply-templates select="document($altStyleDefFile)/*" mode="GET_VARIABLE"/>
-			</l:variables>
+			</variables>
 		</xsl:if>
 	</xsl:variable>
 	
@@ -71,20 +71,20 @@ URL : http://www.antennahouse.co.jp/
 	</xsl:template> 
 	
 	<xsl:template match="l:include[string(@href)]" mode="GET_VARIABLE">
-		<l:variables file="{string(@href)}">
+		<variables file="{string(@href)}">
 			<xsl:apply-templates select="document(string(@href),.)" mode="#current"/>
-		</l:variables>
+		</variables>
 	</xsl:template>
 		
 	<!-- Original style definition -->
 	<xsl:variable name="glOrgStyleDefs">
-		<l:attribute-sets file="{$styleDefFile}">
+		<attribute-sets file="{$styleDefFile}">
 			<xsl:apply-templates select="document($styleDefFile)/*" mode="GET_ATTRIBUTE"/>
-		</l:attribute-sets>
+		</attribute-sets>
 		<xsl:if test="string($altStyleDefFile)">
-			<l:attribute-sets file="{$altStyleDefFile}">
+			<attribute-sets file="{$altStyleDefFile}">
 				<xsl:apply-templates select="document($altStyleDefFile)/*" mode="GET_ATTRIBUTE"/>
-			</l:attribute-sets>
+			</attribute-sets>
 		</xsl:if>
 	</xsl:variable>
 	
@@ -97,20 +97,20 @@ URL : http://www.antennahouse.co.jp/
 	</xsl:template> 
 	
 	<xsl:template match="l:include[string(@href)]" mode="GET_ATTRIBUTE">
-		<l:attribute-sets file="{string(@href)}">
+		<attribute-sets file="{string(@href)}">
 			<xsl:apply-templates select="document(string(@href),.)" mode="#current"/>
-		</l:attribute-sets>
+		</attribute-sets>
 	</xsl:template>
 	
 	<!-- Original instream objects -->
 	<xsl:variable name="glOrgInstreamObjects">
-		<l:instream-objects file="{$styleDefFile}">
+		<instream-objects file="{$styleDefFile}">
 			<xsl:apply-templates select="document($styleDefFile)/*" mode="GET_INSTREAM_OBJECTS"/>
-		</l:instream-objects>
+		</instream-objects>
 		<xsl:if test="string($altStyleDefFile)" >
-			<l:instream-objects file="{$altStyleDefFile}">
+			<instream-objects file="{$altStyleDefFile}">
 				<xsl:apply-templates select="document($altStyleDefFile)/*" mode="GET_INSTREAM_OBJECTS"/>
-			</l:instream-objects>
+			</instream-objects>
 		</xsl:if>
 	</xsl:variable>
 	
@@ -123,20 +123,20 @@ URL : http://www.antennahouse.co.jp/
 	</xsl:template> 
 	
 	<xsl:template match="l:include[string(@href)]" mode="GET_INSTREAM_OBJECTS">
-		<l:instream-objects file="{string(@href)}">
+		<instream-objects file="{string(@href)}">
 			<xsl:apply-templates select="document(string(@href),.)" mode="#current"/>
-		</l:instream-objects>
+		</instream-objects>
 	</xsl:template>
 	
 	<!-- Original formatting objects -->
 	<xsl:variable name="glOrgFormattingObjects">
-		<l:formatting-objects file="{$styleDefFile}">
+		<formatting-objects file="{$styleDefFile}">
 			<xsl:apply-templates select="document($styleDefFile)/*" mode="GET_FORMATTING_OBJECTS"/>
-		</l:formatting-objects>
+		</formatting-objects>
 		<xsl:if test="string($altStyleDefFile)" >
-			<l:formatting-objects file="{$altStyleDefFile}">
+			<formatting-objects file="{$altStyleDefFile}">
 				<xsl:apply-templates select="document($altStyleDefFile)/*" mode="GET_FORMATTING_OBJECTS"/>
-			</l:formatting-objects>
+			</formatting-objects>
 		</xsl:if>
 	</xsl:variable>
 	
@@ -149,9 +149,9 @@ URL : http://www.antennahouse.co.jp/
 	</xsl:template> 
 	
 	<xsl:template match="l:include[string(@href)]" mode="GET_FORMATTING_OBJECTS">
-		<l:formatting-objects file="{string(@href)}">
+		<formatting-objects file="{string(@href)}">
 			<xsl:apply-templates select="document(string(@href),.)" mode="#current"/>
-		</l:formatting-objects>
+		</formatting-objects>
 	</xsl:template>
 	
 	<!-- Resolved variable, style, instream-object definition -->
@@ -348,7 +348,7 @@ URL : http://www.antennahouse.co.jp/
 	
 	<!-- Instream svg object -->
 	<xsl:template match="svg:*" mode="PROCESS_INSTREAM_OBJECT">
-		<xsl:element name="{name()}">
+		<xsl:copy>
 			<xsl:for-each select="attribute::node()">
 				<xsl:variable name="attName" select="name()"/>
 				<xsl:variable name="attValue" select="string(self::node())"/>
@@ -368,7 +368,7 @@ URL : http://www.antennahouse.co.jp/
 				</xsl:attribute>
 			</xsl:for-each>
 			<xsl:apply-templates mode="PROCESS_INSTREAM_OBJECT"/>
-		</xsl:element>
+		</xsl:copy>
 	</xsl:template>
 	
 	<xsl:template match="text()" mode="PROCESS_INSTREAM_OBJECT">
