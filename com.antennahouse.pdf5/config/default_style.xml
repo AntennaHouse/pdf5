@@ -395,6 +395,16 @@ URL : http://www.antennahouse.com/
         <attribute-set name="atsCoverRegionAfter" use-attribute-sets="atsCommonRegionAfter"/>
         <attribute-set name="atsCoverRegionStart" use-attribute-sets="atsCommonRegionStart"/>
 
+        <!-- Cover page for print -->
+        <attribute-set name="atsCoverPageForPrint" use-attribute-sets="atsCommonPage"/>
+        <attribute-set name="atsCoverRegionBodyForPrint">
+            <attribute name="margin-top">0mm</attribute>
+            <attribute name="margin-right">0mm</attribute>
+            <attribute name="margin-bottom">0mm</attribute>
+            <attribute name="margin-left">0mm</attribute>
+            <attribute name="overflow">error-if-overflow</attribute>
+        </attribute-set>
+
         <!-- Frontmatter page -->
         <attribute-set name="atsFrontmatterPage" use-attribute-sets="atsCommonPage"/>
         <attribute-set name="atsFrontmatterRegionBody" use-attribute-sets="atsCommonRegionBody"/>
@@ -513,6 +523,28 @@ URL : http://www.antennahouse.com/
         </attribute-set>
     
     </cover-attribute>
+     
+    <cover-print-attribute>
+        <!-- Blcok container for page N -->
+        <attribute-set name="atsCoverBlockContainer">
+            <attribute name="width">$General_Paper_Width</attribute>
+            <attribute name="height">$General_Paper_Height</attribute>
+            <attribute name="position">absolute</attribute>
+            <attribute name="left">0mm</attribute>
+            <attribute name="top">0mm</attribute>
+        </attribute-set>
+        
+        <!-- Barcode fo:external-graphic/@src
+             Add barcode text after this text
+         -->
+        <variable name="cBarCodeSrc">data:application/vnd.ah-barcode;type=Code39;scale=1;text=none;qz=0;w=0.25mm;h=9.075mm;r=2.5;cd=none,</variable>
+        
+        <!--QR code fo:external-graphic/@src
+             Add barcode text after this text
+         -->
+        <variable name="cQrCodeSrc">data:application/vnd.ah-barcode;type=QR;scale=1,</variable>
+        
+    </cover-print-attribute>
     
     <frontmatter-atribute>
         <!-- page sequence -->

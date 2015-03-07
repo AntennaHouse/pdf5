@@ -39,6 +39,7 @@ E-mail : info@antennahouse.com
     <xsl:template name="genSimplePageMaster">
         <xsl:call-template name="genSpmCommon"/>
         <xsl:call-template name="genSpmCover"/>
+        <xsl:call-template name="genSpmCoverForPrint"/>
         <xsl:call-template name="genSpmFrontmatter"/>
         <xsl:call-template name="genSpmChapter"/>
         <xsl:call-template name="genSpmGlossaryList"/>
@@ -88,7 +89,17 @@ E-mail : info@antennahouse.com
         </fo:simple-page-master>
     
     </xsl:template>
-    
+
+    <xsl:template name="genSpmCoverForPrint">
+        <!-- Cover Page for Print-->
+        <fo:simple-page-master master-name="pmsCoverForPrint">
+            <xsl:copy-of select="ahf:getAttributeSet('atsCoverPageForPrint')"/>
+            <fo:region-body>
+                <xsl:copy-of select="ahf:getAttributeSet('atsCoverRegionBodyForPrint')"/>
+            </fo:region-body>
+        </fo:simple-page-master>
+    </xsl:template>
+
     <xsl:template name="genSpmFrontmatter">
         <!-- Front matter Page -->
         <fo:simple-page-master master-name="pmsFrontmatterLeft">
@@ -342,6 +353,7 @@ E-mail : info@antennahouse.com
     -->
     <xsl:template name="genPageSequenceMaster">
         <xsl:call-template name="genPsmCover"/>
+        <xsl:call-template name="genPsmCoverForPrint"/>
         <xsl:call-template name="genPsmFrontmatter"/>
         <xsl:call-template name="genPsmChapter"/>
         <xsl:call-template name="genPsmGlossaryList"/>
@@ -364,7 +376,15 @@ E-mail : info@antennahouse.com
         	</fo:repeatable-page-master-alternatives>
         </fo:page-sequence-master>
     </xsl:template>
+
+    <xsl:template name="genPsmCoverForPrint">
+        <!-- Cover For Print-->
+        <fo:page-sequence-master master-name="pmsPageSeqCoverForPrint">
+            <fo:single-page-master-reference master-reference="pmsCoverForPrint"/>
+        </fo:page-sequence-master>
+    </xsl:template>
     
+
     <xsl:template name="genPsmFrontmatter">
         <!-- Front matter -->
         <fo:page-sequence-master master-name="pmsPageSeqFrontmatter">
