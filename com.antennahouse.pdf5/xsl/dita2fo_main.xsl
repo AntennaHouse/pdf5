@@ -56,7 +56,9 @@ E-mail : info@antennahouse.com
        		<xsl:call-template name="genBookmarkTree"/>
             
             <!-- Make cover -->
-            <xsl:call-template name="genCover"/>
+    	    <xsl:if test="not($hasCover)">
+    	        <xsl:call-template name="genCover"/>
+    	    </xsl:if>
             
             <!-- Process main contents -->
             <xsl:choose>

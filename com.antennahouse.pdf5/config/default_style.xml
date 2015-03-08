@@ -525,6 +525,13 @@ URL : http://www.antennahouse.com/
     </cover-attribute>
      
     <cover-print-attribute>
+        <!-- page sequence -->
+        <attribute-set name="atsPageSeqCoverForPrint" use-attribute-sets="atsPageSeqBase">
+            <attribute name="master-reference">pmsPageSeqCoverForPrint</attribute>
+            <attribute name="initial-page-number">auto</attribute>
+            <attribute name="force-page-count">1</attribute>
+        </attribute-set>
+
         <!-- Blcok container for page N -->
         <attribute-set name="atsCoverBlockContainer">
             <attribute name="width">$General_Paper_Width</attribute>

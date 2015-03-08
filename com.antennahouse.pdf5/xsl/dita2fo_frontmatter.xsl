@@ -79,7 +79,7 @@ E-mail : info@antennahouse.com
     </xsl:template>
 
     <!-- 
-        function:	Front matter's cover template
+        function:	Frontmatter's cover template
         param:		none
         return:	    none
         note:		Call cover generation template
