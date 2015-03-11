@@ -26,8 +26,8 @@ E-mail : info@antennahouse.com
      note:		
      -->
     <xsl:function name="ahf:isCoverTopicRef" as="xs:boolean">
-        <xsl:param name="prmTopicRef" as="element()"/>
-        <xsl:variable name="outputClass" as="xs:string" select="string($prmTopicRef/@outputclass)"/>
+        <xsl:param name="prmTopicRef" as="element()?"/>
+        <xsl:variable name="outputClass" as="xs:string" select="if (exists($prmTopicRef)) then string($prmTopicRef/@outputclass) else ''"/>
         <xsl:sequence select="matches($outputClass,'cover[1-4]')"/>
     </xsl:function>
     
