@@ -179,9 +179,7 @@ E-mail : info@antennahouse.com
                             <fo:block start-indent="0mm">
                                 <xsl:copy-of select="ahf:getImageBlockAttr(.)"/>
                                 <!-- Image processing -->
-                                <xsl:call-template name="ahf:processImage">
-                                    <xsl:with-param name="prmImage" select="."/>
-                                </xsl:call-template>
+                                <xsl:call-template name="ahf:processImage"/>
                                 <xsl:apply-templates/>
                             </fo:block>
                         </fo:block-container>                    
@@ -190,9 +188,7 @@ E-mail : info@antennahouse.com
                         <fo:block>
                             <xsl:copy-of select="ahf:getImageBlockAttr(.)"/>
                             <!-- Image processing -->
-                            <xsl:call-template name="ahf:processImage">
-                                <xsl:with-param name="prmImage" select="."/>
-                            </xsl:call-template>
+                            <xsl:call-template name="ahf:processImage"/>
                             <xsl:apply-templates/>
                         </fo:block>
                     </xsl:otherwise>

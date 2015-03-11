@@ -789,11 +789,24 @@ E-mail : info@antennahouse.com
         <xsl:choose>
             <xsl:when test="@placement='break'">
                 <!-- block level image -->
-                <fo:block>
-                    <xsl:copy-of select="ahf:getImageBlockAttr(.)"/>
-                    <xsl:call-template name="ahf:processImage"/>
-                    <xsl:apply-templates/>
-                </fo:block>
+                <xsl:choose>
+                    <xsl:when test="$pAutoScallDownToFit">
+                        <fo:block-container>
+                            <fo:block start-indent="0mm">
+                                <xsl:copy-of select="ahf:getImageBlockAttr(.)"/>
+                                <xsl:call-template name="ahf:processImage"/>
+                                <xsl:apply-templates/>
+                            </fo:block>
+                        </fo:block-container>                    
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <fo:block>
+                            <xsl:copy-of select="ahf:getImageBlockAttr(.)"/>
+                            <xsl:call-template name="ahf:processImage"/>
+                            <xsl:apply-templates/>
+                        </fo:block>
+                    </xsl:otherwise>
+                </xsl:choose>
             </xsl:when>
             <xsl:otherwise>
                 <!-- inline level image -->
@@ -849,6 +862,7 @@ E-mail : info@antennahouse.com
         <xsl:variable name="height" select="ahf:getLength(string($prmImage/@height))"/>
         <xsl:variable name="width"  select="ahf:getLength(string($prmImage/@width))"/>
         <xsl:variable name="scale"  select="normalize-space($prmImage/@scale)"/>
+        <xsl:variable name="placement" select="string($prmImage/@placement)"/>
         
         <xsl:choose>
             <xsl:when test="string($width) or string($height)">
@@ -862,8 +876,21 @@ E-mail : info@antennahouse.com
                     <xsl:attribute name="scaling" select="'non-uniform'"/>
                 </xsl:if>
             </xsl:when>
+            <xsl:when test="$placement eq 'break'">
+                <xsl:choose>
+                    <xsl:when test="$pAutoScallDownToFit">
+                        <xsl:attribute name="scaling" select="'uniform'"/>
+                        <xsl:attribute name="content-width" select="'scale-down-to-fit'"/>
+                        <xsl:attribute name="width" select="'100%'"/>
+                    </xsl:when>
+                    <xsl:when test="string($scale)">
+                        <xsl:attribute name="scaling" select="'uniform'"/>
+                        <xsl:attribute name="content-width" select="concat(normalize-space($scale),'%')"/>
+                    </xsl:when>
+                </xsl:choose>
+            </xsl:when>
             <xsl:when test="string($scale)">
-                <xsl:attribute name="scaling" select="'uniform'"/><!-- XSL default -->
+                <xsl:attribute name="scaling" select="'uniform'"/>
                 <xsl:attribute name="content-width" select="concat(normalize-space($scale),'%')"/>
             </xsl:when>
         </xsl:choose>
