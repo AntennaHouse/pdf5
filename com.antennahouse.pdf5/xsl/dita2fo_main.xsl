@@ -60,6 +60,11 @@ E-mail : info@antennahouse.com
     	        <xsl:call-template name="genCover"/>
     	    </xsl:if>
             
+            <!-- Make toc for map -->
+    	    <xsl:if test="$isMap and $pMakeTocForMap">
+    	        <xsl:call-template name="genMapToc"/>
+    	    </xsl:if>
+            
             <!-- Process main contents -->
             <xsl:choose>
                 <xsl:when test="$isBookMap">
@@ -74,8 +79,10 @@ E-mail : info@antennahouse.com
                 </xsl:otherwise>
             </xsl:choose>
             
-            <!-- Generate index -->
-       		<!--xsl:call-template name="genIndex"/-->
+    	    <!-- Make index for map -->
+    	    <xsl:if test="$isMap and $pMakeIndexForMap">
+    	        <xsl:call-template name="genMapIndex"/>
+    	    </xsl:if>
     
     		<!--xsl:call-template name="makeDummyContents"/-->
             

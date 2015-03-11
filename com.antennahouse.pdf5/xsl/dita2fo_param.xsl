@@ -140,7 +140,7 @@ E-mail : info@antennahouse.com
          2013-09-30 t.makita
       -->
     <xsl:param name="PRM_OUTPUT_START_MESSAGE" select="$cYes"/>
-  <xsl:variable name="pOutputStartMessage" select="boolean($PRM_OUTPUT_START_MESSAGE=$cYes)" as="xs:boolean"/>
+    <xsl:variable name="pOutputStartMessage" select="boolean($PRM_OUTPUT_START_MESSAGE=$cYes)" as="xs:boolean"/>
   
     
     <!-- Map directory
@@ -160,5 +160,17 @@ E-mail : info@antennahouse.com
      -->
     <xsl:param name="PRM_AUTO_SCALL_DOWN_TO_FIT" select="$cYes"/>
     <xsl:variable name="pAutoScallDownToFit" select="boolean($PRM_AUTO_SCALL_DOWN_TO_FIT eq $cYes)" as="xs:boolean"/>
+
+    <!-- Make toc for simple map (not for bookmap)
+         2015-03-11 t.makita
+     -->
+    <xsl:param name="PRM_MAKE_TOC_FOR_MAP" select="$cYes"/>
+    <xsl:variable name="pMakeTocForMap" select="boolean($PRM_MAKE_TOC_FOR_MAP eq $cYes)" as="xs:boolean"/>
+
+    <!-- Make index for simple map (not for bookmap)
+           2015-03-11 t.makita
+       -->
+    <xsl:param name="PRM_MAKE_INDEX_FOR_MAP" select="$cYes"/>
+    <xsl:variable name="pMakeIndexForMap" select="boolean($PRM_MAKE_INDEX_FOR_MAP eq $cYes)" as="xs:boolean"/>
 
 </xsl:stylesheet>

@@ -34,7 +34,7 @@ E-mail : info@antennahouse.com
     <xsl:variable name="cFigureListId"   select="'__FIGURE_LIST'"   as="xs:string"/>
     <xsl:variable name="cTableListId"    select="'__TABLE_LIST'"    as="xs:string"/>
     <!--xsl:variable name="cGlossaryListId" select="'__GLOSSARY_LIST'" as="xs:string"/-->
-    <!--xsl:variable name="cIndexId"        select="'__INDEX'"         as="xs:string"/-->
+    <xsl:variable name="cIndexId"        select="'__INDEX'"         as="xs:string"/>
     
     <!-- *************************************** 
             Marker class name
@@ -250,8 +250,8 @@ E-mail : info@antennahouse.com
         </xsl:choose>
     </xsl:variable>
     
-    <xsl:variable name="isMap"     select="boolean($ditamapClass=$classMap)" as="xs:boolean"/>
-    <xsl:variable name="isBookMap" select="boolean($ditamapClass=$classBookMap)" as="xs:boolean"/>
+    <xsl:variable name="isMap"     select="boolean($ditamapClass eq $classMap)" as="xs:boolean"/>
+    <xsl:variable name="isBookMap" select="boolean($ditamapClass eq $classBookMap)" as="xs:boolean"/>
     
     <!-- Document language -->
     <xsl:variable name="defaultLang" select="'en'" as="xs:string"/>

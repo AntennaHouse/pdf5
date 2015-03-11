@@ -120,12 +120,66 @@ E-mail : info@antennahouse.com
         </psmi:page-sequence>
     </xsl:template>
     
-    
+    <!-- 
+     function:	Generate TOC template for map
+     param:		none
+     return:	fo:page-sequence
+     note:		
+     -->
+    <xsl:template name="genMapToc" >
+        <fo:page-sequence>
+            <xsl:choose>
+                <xsl:when test="$pOnlinePdf">
+                    <xsl:copy-of select="ahf:getAttributeSet('atsPageSeqFrontmatterOnline')"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:copy-of select="ahf:getAttributeSet('atsPageSeqFrontmatter')"/>
+                </xsl:otherwise>
+            </xsl:choose>
+            <xsl:if test="not(preceding-sibling::*) and 
+                not(parent::*/preceding-sibling::*[contains(@class,' map/topicref ')])">
+                <xsl:attribute name="initial-page-number" select="'1'"/>
+            </xsl:if>
+            <fo:static-content flow-name="rgnFrontmatterBeforeLeft">
+                <xsl:choose>
+                    <xsl:when test="$pOnlinePdf">
+                        <xsl:call-template name="frontmatterBeforeRight"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:call-template name="frontmatterBeforeLeft"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </fo:static-content>
+            <fo:static-content flow-name="rgnFrontmatterBeforeRight">
+                <xsl:call-template name="frontmatterBeforeRight"/>
+            </fo:static-content>
+            <fo:static-content flow-name="rgnFrontmatterAfterLeft">
+                <xsl:choose>
+                    <xsl:when test="$pOnlinePdf">
+                        <xsl:call-template name="frontmatterAfterRight"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:call-template name="frontmatterAfterLeft"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </fo:static-content>
+            <fo:static-content flow-name="rgnFrontmatterAfterRight">
+                <xsl:call-template name="frontmatterAfterRight"/>
+            </fo:static-content>
+            <fo:static-content flow-name="rgnFrontmatterBlankBody">
+                <xsl:call-template name="makeBlankBlock"/>
+            </fo:static-content>
+            <fo:flow flow-name="xsl-region-body">
+                <xsl:call-template name="genMapTocMain"/>
+            </fo:flow>
+        </fo:page-sequence>
+    </xsl:template>
+
     <!-- 
      function:	TOC's main template
      param:		none
      return:	none
-     note:		Current is booklists/toc
+     note:		Current is booklists/toc or map
                 2012-04-02 t.makita
      -->
     <xsl:template name="genTocMain">
@@ -162,7 +216,30 @@ E-mail : info@antennahouse.com
     		<xsl:apply-templates select="$map" mode="MAKE_TOC"/>
         </fo:block>
     </xsl:template>
-     
+
+    <!-- 
+     function:	TOC's main template for simple map
+     param:		none
+     return:	none
+     note:		Context item is root
+     -->
+    <xsl:template name="genMapTocMain">
+        <fo:block>
+            <xsl:copy-of select="ahf:getAttributeSet('atsBase')"/>
+            <!-- Title -->
+            <fo:block>
+                <xsl:copy-of select="ahf:getAttributeSet('atsFmHeader1')"/>
+                <xsl:attribute name="id" select="$cTocId"/>
+                <fo:marker marker-class-name="{$cTitleBody}">
+                    <fo:inline><xsl:value-of select="$cTocTitle"/></fo:inline>
+                </fo:marker>
+                <xsl:value-of select="$cTocTitle"/>
+            </fo:block>
+            <!-- Make contents -->
+            <xsl:apply-templates select="$map" mode="MAKE_TOC"/>
+        </fo:block>
+    </xsl:template>
+
     <!-- 
      function:	General templates for TOC
      param:		none

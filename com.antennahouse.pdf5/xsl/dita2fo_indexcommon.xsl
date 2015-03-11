@@ -547,7 +547,105 @@ E-mail : info@antennahouse.com
         </xsl:if>
     </xsl:template>
     
-    
+    <!-- 
+         Function: Make index page sequence for simple map
+         Param:    none.
+         Return:   fo:page-sequence 
+         Note:     
+      -->
+    <xsl:template name="genMapIndex">
+        
+        <!-- debug -->
+        <xsl:if test="$indextermOriginCount != $indextermSortedCount">
+            <xsl:call-template name="errorExit">
+                <xsl:with-param name="prmMes" 
+                    select="ahf:replace($stMes600,('%before','%after'),(string($indextermOriginCount),string($indextermSortedCount)))"/>
+            </xsl:call-template>
+        </xsl:if>
+        
+        <xsl:if test="$PRM_DEBUG_INDEX_SORT_RESULT=$cYes">
+            <xsl:call-template name="warningContinue">
+                <xsl:with-param name="prmMes" select="$stMes601"/>
+            </xsl:call-template>
+            <xsl:result-document href="indexInput.xml" encoding="UTF-8" byte-order-mark="no" indent="yes">
+                <index-input>
+                    <xsl:copy-of select="$indextermOrigin"/>
+                </index-input>
+            </xsl:result-document>
+            <xsl:result-document href="indexOutput.xml" encoding="UTF-8" byte-order-mark="no" indent="yes">
+                <index-output>
+                    <xsl:copy-of select="$indextermSorted"/>
+                </index-output>
+            </xsl:result-document>
+            <xsl:call-template name="warningContinue">
+                <xsl:with-param name="prmMes" select="$stMes602"/>
+            </xsl:call-template>
+        </xsl:if>
+        
+        <xsl:if test="$indextermSortedCount &gt; 0">
+            <fo:page-sequence>
+                <xsl:choose>
+                    <xsl:when test="$pOnlinePdf">
+                        <xsl:copy-of select="ahf:getAttributeSet('atsPageSeqIndexOnline')"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:copy-of select="ahf:getAttributeSet('atsPageSeqIndex')"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <fo:static-content flow-name="rgnIndexBeforeLeft">
+                    <xsl:choose>
+                        <xsl:when test="$pOnlinePdf">
+                            <xsl:call-template name="indexBeforeRight"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:call-template name="indexBeforeLeft"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </fo:static-content>
+                <fo:static-content flow-name="rgnIndexBeforeRight">
+                    <xsl:call-template name="indexBeforeRight"/>
+                </fo:static-content>
+                <fo:static-content flow-name="rgnIndexAfterLeft">
+                    <xsl:choose>
+                        <xsl:when test="$pOnlinePdf">
+                            <xsl:call-template name="indexAfterRight"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:call-template name="indexAfterLeft"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </fo:static-content>
+                <fo:static-content flow-name="rgnIndexAfterRight">
+                    <xsl:call-template name="indexAfterRight"/>
+                </fo:static-content>
+                <fo:static-content flow-name="rgnIndexEndRight">
+                    <xsl:call-template name="indexEndRight"/>
+                </fo:static-content>
+                <fo:static-content flow-name="rgnIndexEndLeft">
+                    <xsl:call-template name="indexEndLeft"/>
+                </fo:static-content>
+                <fo:static-content flow-name="rgnIndexBlankBody">
+                    <xsl:call-template name="makeBlankBlock"/>
+                </fo:static-content>
+                
+                <!-- INDEX main flow -->
+                <fo:flow flow-name="xsl-region-body">
+                    <!-- Make "INDEX" title  -->
+                    <fo:block>
+                        <xsl:copy-of select="ahf:getAttributeSet('atsIndexHeader')"/>
+                        <xsl:attribute name="id" select="$cIndexId"/>
+                        <fo:marker marker-class-name="{$cTitleBody}">
+                            <fo:inline><xsl:copy-of select="$cIndexTitle"/></fo:inline>
+                        </fo:marker>
+                        <xsl:value-of select="$cIndexTitle"/>
+                    </fo:block>
+                    <!-- Make index content main -->
+                    <xsl:call-template name="makeIndexContentControl"/>
+                </fo:flow>
+            </fo:page-sequence>
+        </xsl:if>
+    </xsl:template>
+
     <!-- 
      function: Making index content main control template. 
      param:    None

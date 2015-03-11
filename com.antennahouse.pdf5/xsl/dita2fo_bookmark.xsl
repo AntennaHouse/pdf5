@@ -24,10 +24,46 @@ E-mail : info@antennahouse.com
      -->
     <xsl:template name="genBookmarkTree">
     	<fo:bookmark-tree>
+    	    <xsl:if test="$isMap and $pMakeTocForMap">
+    	        <xsl:call-template name="genMapTocBookmark"/>
+    	    </xsl:if>
     		<xsl:apply-templates select="$map" mode="MAKE_BOOKMARK"/>
+    	    <xsl:if test="$isMap and $pMakeIndexForMap">
+    	        <xsl:call-template name="genMapIndexBookmark"/>
+    	    </xsl:if>
     	</fo:bookmark-tree>
     </xsl:template>
     
+    <!-- 
+     function:	Generate toc bookmark for simple map
+     param:		none
+     return:	
+     note:		none
+     -->
+    <xsl:template name="genMapTocBookmark">
+        <fo:bookmark>
+            <xsl:attribute name="internal-destination" select="$cTocId"/>
+            <fo:bookmark-title>
+                <xsl:value-of select="$cTocTitle"/>
+            </fo:bookmark-title>
+        </fo:bookmark>
+    </xsl:template>
+
+    <!-- 
+     function:	Generate index bookmark for simple map
+     param:		none
+     return:	
+     note:		none
+     -->
+    <xsl:template name="genMapIndexBookmark">
+        <fo:bookmark>
+            <xsl:attribute name="internal-destination" select="$cIndexId"/>
+            <fo:bookmark-title>
+                <xsl:value-of select="$cIndexTitle"/>
+            </fo:bookmark-title>
+        </fo:bookmark>
+    </xsl:template>
+
     <!-- 
      function:	General templates for bookmark
      param:		none
