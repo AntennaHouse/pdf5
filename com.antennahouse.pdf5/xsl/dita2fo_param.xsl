@@ -158,8 +158,8 @@ E-mail : info@antennahouse.com
     <!-- Auto scall down to fit for block level image
          2015-03-08 t.makita
      -->
-    <xsl:param name="PRM_AUTO_SCALL_DOWN_TO_FIT" select="$cYes"/>
-    <xsl:variable name="pAutoScallDownToFit" select="boolean($PRM_AUTO_SCALL_DOWN_TO_FIT eq $cYes)" as="xs:boolean"/>
+    <xsl:param name="PRM_AUTO_SCALE_DOWN_TO_FIT" select="$cYes"/>
+    <xsl:variable name="pAutoScaleDownToFit" select="boolean($PRM_AUTO_SCALE_DOWN_TO_FIT eq $cYes)" as="xs:boolean"/>
 
     <!-- Make toc for simple map (not for bookmap)
          2015-03-11 t.makita

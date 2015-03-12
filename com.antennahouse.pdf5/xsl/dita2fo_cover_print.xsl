@@ -174,7 +174,7 @@ E-mail : info@antennahouse.com
             <xsl:when test="string(@placement) eq 'break'">
                 <!-- block level image -->
                 <xsl:choose>
-                    <xsl:when test="$pAutoScallDownToFit">
+                    <xsl:when test="$pAutoScaleDownToFit">
                         <fo:block-container>
                             <fo:block start-indent="0mm">
                                 <xsl:copy-of select="ahf:getImageBlockAttr(.)"/>
