@@ -45,14 +45,14 @@ This folder contains PDF files made from test data using DITA Open Toolkit.
 
 Copyright
 ---------
-Copyright (C) 2009-2013 Antenna House, Inc. All rights reserved.  
+Copyright (C) 2009-2015 Antenna House, Inc. All rights reserved.  
 Antenna House is a trademark of [Antenna House, Inc.] [2]
 
 License
 -------
-This software is licenced under the [Common Public License v1.0] [1].
+This software is licenced under the [Apache License, Version 2.0] [1].
 
-[1]: http://opensource.org/licenses/cpl1.0.php "Common Public License v1.0"
+[1]: http://www.apache.org/licenses/LICENSE-2.0 "Apache License, Version 2.0"
 [2]: http://www.antennahouse.com/ "Antenna House, Inc."
 [3]: http://sourceforge.net/projects/dita-ot/ "DITA Open Toolkit"
 [4]: http://antennahouse.com/product.htm "Antenna House Formatter"
