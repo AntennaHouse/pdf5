@@ -220,7 +220,7 @@ E-mail : info@antennahouse.com
             <fo:list-item-label end-indent="label-end()"> 
                 <fo:block>
                     <xsl:copy-of select="ahf:getAttributeSet('atsOlLabel')"/>
-                    <xsl:number format="{$prmNumberFormat}" count="*[contains(@class,' topic/li ')][not(contains(@class,' task/stepsection '))]" level="single"/>
+                    <xsl:number format="{$prmNumberFormat}" value="count(preceding-sibling::*[contains(@class,' topic/li ')][not(contains(@class,' task/stepsection '))]) + 1"/>
                 </fo:block>
             </fo:list-item-label>
             <fo:list-item-body start-indent="body-start()">
