@@ -235,7 +235,7 @@ E-mail : info@antennahouse.com
                 <xsl:variable name="olFormat" as="xs:string" select="ahf:getOlNumberFormat($prmDestElement)"/>
                 <fo:inline>
                     <xsl:number format="{$olFormat}" 
-                        value="count($prmDestElement/preceding-sibling::*[contains(@class, ' topic/li ')])+1"/>
+                        value="count($prmDestElement/preceding-sibling::*[contains(@class, ' topic/li ')][not(contains(@class,' task/stepsection '))]) + 1"/>
                 </fo:inline>
             </xsl:when>
             
