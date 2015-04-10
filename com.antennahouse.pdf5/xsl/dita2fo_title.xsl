@@ -52,8 +52,7 @@ E-mail : info@antennahouse.com
                         <xsl:with-param name="prmTopicContent" select="$prmTopicContent"/>
                     </xsl:call-template>
                     <xsl:apply-templates select="$titleElement">
-                        <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                        <xsl:with-param name="prmNeedId"   select="true()"/>
+                        <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
                     </xsl:apply-templates>
                 </fo:block>
             </xsl:when>
@@ -79,8 +78,7 @@ E-mail : info@antennahouse.com
                     <xsl:choose>
                         <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
                             <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
-                                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                                <xsl:with-param name="prmNeedId"   select="true()"/>
+                                <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
                             </xsl:apply-templates>
                         </xsl:when>
                         <xsl:when test="$prmTopicRef/@navtitle">
@@ -184,8 +182,7 @@ E-mail : info@antennahouse.com
                         <xsl:text> </xsl:text>
                     </xsl:if>
                     <xsl:apply-templates select="$titleElement">
-                        <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                        <xsl:with-param name="prmNeedId"   select="true()"/>
+                        <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
                     </xsl:apply-templates>
                 </fo:block>
             </xsl:when>
@@ -232,8 +229,7 @@ E-mail : info@antennahouse.com
                     <xsl:choose>
                         <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
                             <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
-                                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                                <xsl:with-param name="prmNeedId"   select="true()"/>
+                                <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
                             </xsl:apply-templates>
                         </xsl:when>
                         <xsl:when test="$prmTopicRef/@navtitle">
@@ -283,7 +279,6 @@ E-mail : info@antennahouse.com
                     <xsl:apply-templates select="$titleElement" mode="GET_CONTENTS"/>
                 </xsl:variable>
                 <fo:block>
-                    <xsl:copy-of select="ahf:getAttributeSet('atsAppendixHead1')"/>
                     <xsl:choose>
                         <xsl:when test="$level eq 1">
                             <xsl:copy-of select="ahf:getAttributeSet('atsAppendixHead1')"/>
@@ -325,8 +320,7 @@ E-mail : info@antennahouse.com
                         <xsl:text> </xsl:text>
                     </xsl:if>
                     <xsl:apply-templates select="$titleElement">
-                        <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                        <xsl:with-param name="prmNeedId"   select="true()"/>
+                        <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
                     </xsl:apply-templates>
                 </fo:block>
             </xsl:when>
@@ -373,8 +367,7 @@ E-mail : info@antennahouse.com
                     <xsl:choose>
                         <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
                             <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
-                                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                                <xsl:with-param name="prmNeedId"   select="true()"/>
+                                <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
                             </xsl:apply-templates>
                         </xsl:when>
                         <xsl:when test="$prmTopicRef/@navtitle">
@@ -475,8 +468,7 @@ E-mail : info@antennahouse.com
                                 <xsl:copy-of select="ahf:getAttributeSet('atsHeader4Body')"/>
                                 <xsl:copy-of select="ahf:getFoStyleAndProperty($titleElement)"/>
                                 <xsl:apply-templates select="$titleElement">
-                                <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                                <xsl:with-param name="prmNeedId"   select="true()"/>
+                                    <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
                                 </xsl:apply-templates>
                             </fo:block>
                         </fo:list-item-body>
@@ -509,8 +501,7 @@ E-mail : info@antennahouse.com
                                 <xsl:choose>
                                     <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
                                         <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
-                                            <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                                            <xsl:with-param name="prmNeedId"   select="true()"/>
+                                            <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
                                         </xsl:apply-templates>
                                     </xsl:when>
                                     <xsl:when test="$prmTopicRef/@navtitle">
@@ -562,8 +553,7 @@ E-mail : info@antennahouse.com
                                 <xsl:copy-of select="ahf:getAttributeSet('atsHeader5Body')"/>
                                 <xsl:copy-of select="ahf:getFoStyleAndProperty($titleElement)"/>
                                 <xsl:apply-templates select="$titleElement">
-                                    <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                                    <xsl:with-param name="prmNeedId"   select="true()"/>
+                                    <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
                                 </xsl:apply-templates>
                             </fo:block>
                         </fo:list-item-body>
@@ -596,8 +586,7 @@ E-mail : info@antennahouse.com
                                 <xsl:choose>
                                     <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
                                         <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
-                                            <xsl:with-param name="prmTopicRef" select="$prmTopicRef"/>
-                                            <xsl:with-param name="prmNeedId"   select="true()"/>
+                                            <xsl:with-param name="prmTopicRef" tunnel="yes" select="$prmTopicRef"/>
                                         </xsl:apply-templates>
                                     </xsl:when>
                                     <xsl:when test="$prmTopicRef/@navtitle">
