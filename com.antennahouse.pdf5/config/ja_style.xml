@@ -85,11 +85,11 @@ URL : http://www.antennahouse.co.jp/
 
         <!-- Layout related variables -->
         <!-- Related Link: Use U+201C, U+201D if you prefer surrounding title. -->
-        <variable name="Relatedlink_Prefix">(</variable>
+        <variable name="Relatedlink_Prefix"> (</variable>
         <variable name="Relatedlink_Suffix">ページ)</variable>
 
         <!-- Xref -->
-        <variable name="Xref_Prefix">(</variable>
+        <variable name="Xref_Prefix"> (</variable>
         <variable name="Xref_Suffix">ページ)</variable>
 
         <!-- Index related -->

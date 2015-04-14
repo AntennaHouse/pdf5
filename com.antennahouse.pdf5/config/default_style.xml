@@ -593,7 +593,7 @@ URL : http://www.antennahouse.com/
         </attribute-set>
 
         <attribute-set name="atsBlankPageInlineTextBlock">
-            <attribute name="baseline-shift">-$Blank_Page_Border_Width</attribute>
+            <attribute name="baseline-shift">-1 * $Blank_Page_Border_Width</attribute>
         </attribute-set>
     </frontmatter-atribute>
     
