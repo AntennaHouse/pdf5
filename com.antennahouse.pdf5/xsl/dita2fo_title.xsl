@@ -69,8 +69,8 @@ E-mail : info@antennahouse.com
                 	        <xsl:copy-of select="ahf:getAttributeSet('atsFmHeader3')"/>
                 	    </xsl:otherwise>
                 	</xsl:choose>
-                    <xsl:copy-of select="ahf:getIdAtts($prmTopicRef,$prmTopicRef,true())"/>
-                    <xsl:copy-of select="ahf:getLocalizationAtts($prmTopicRef)"/>
+                    <!--xsl:copy-of select="ahf:getIdAtts($prmTopicRef,$prmTopicRef,true())"/>
+                    <xsl:copy-of select="ahf:getLocalizationAtts($prmTopicRef)"/-->
                     <xsl:call-template name="processIndextermInMetadata">
                         <xsl:with-param name="prmTopicRef"      select="$prmTopicRef"/>
                         <xsl:with-param name="prmTopicContent"  select="$prmTopicContent"/>
@@ -199,8 +199,8 @@ E-mail : info@antennahouse.com
                             <xsl:copy-of select="ahf:getAttributeSet('atsChapterHead3')"/>
                         </xsl:otherwise>
                     </xsl:choose>
-                    <xsl:copy-of select="ahf:getIdAtts($prmTopicRef,$prmTopicRef,true())"/>
-                    <xsl:copy-of select="ahf:getLocalizationAtts($prmTopicRef)"/>
+                    <!--xsl:copy-of select="ahf:getIdAtts($prmTopicRef,$prmTopicRef,true())"/>
+                    <xsl:copy-of select="ahf:getLocalizationAtts($prmTopicRef)"/-->
                     <xsl:choose>
                         <xsl:when test="($level eq 1) or ($level eq 2)">
                             <xsl:if test="$pAddNumberingTitlePrefix">
@@ -337,8 +337,8 @@ E-mail : info@antennahouse.com
                             <xsl:copy-of select="ahf:getAttributeSet('atsAppendixHead3')"/>
                         </xsl:otherwise>
                     </xsl:choose>
-                    <xsl:copy-of select="ahf:getIdAtts($prmTopicRef,$prmTopicRef,true())"/>
-                    <xsl:copy-of select="ahf:getLocalizationAtts($prmTopicRef)"/>
+                    <!--xsl:copy-of select="ahf:getIdAtts($prmTopicRef,$prmTopicRef,true())"/>
+                    <xsl:copy-of select="ahf:getLocalizationAtts($prmTopicRef)"/-->
                     <xsl:choose>
                         <xsl:when test="($level eq 1) or ($level eq 2)">
                             <xsl:if test="$pAddNumberingTitlePrefix">
@@ -478,8 +478,8 @@ E-mail : info@antennahouse.com
             <xsl:otherwise>
                 <fo:list-block>
                     <xsl:copy-of select="ahf:getAttributeSet('atsHeader4List')"/>
-                    <xsl:copy-of select="ahf:getIdAtts($prmTopicRef,$prmTopicRef,true())"/>
-                    <xsl:copy-of select="ahf:getLocalizationAtts($prmTopicRef)"/>
+                    <!--xsl:copy-of select="ahf:getIdAtts($prmTopicRef,$prmTopicRef,true())"/>
+                    <xsl:copy-of select="ahf:getLocalizationAtts($prmTopicRef)"/-->
                     <fo:list-item>
                         <xsl:copy-of select="ahf:getAttributeSet('atsHeader4ListItem')"/>
                         <fo:list-item-label end-indent="label-end()">
@@ -563,8 +563,8 @@ E-mail : info@antennahouse.com
             <xsl:otherwise>
                 <fo:list-block>
                     <xsl:copy-of select="ahf:getAttributeSet('atsHeader5List')"/>
-                    <xsl:copy-of select="ahf:getIdAtts($prmTopicRef,$prmTopicRef,true())"/>
-                    <xsl:copy-of select="ahf:getLocalizationAtts($prmTopicRef)"/>
+                    <!--xsl:copy-of select="ahf:getIdAtts($prmTopicRef,$prmTopicRef,true())"/>
+                    <xsl:copy-of select="ahf:getLocalizationAtts($prmTopicRef)"/-->
                     <fo:list-item>
                         <xsl:copy-of select="ahf:getAttributeSet('atsHeader5ListItem')"/>
                         <fo:list-item-label end-indent="label-end()">

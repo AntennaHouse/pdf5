@@ -414,6 +414,7 @@ E-mail : info@antennahouse.com
         
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsBase')"/>
+            <xsl:copy-of select="ahf:getIdAtts($topicRef,$topicRef,true())"/>
             <xsl:copy-of select="ahf:getLocalizationAtts($topicRef)"/>
             <xsl:call-template name="getFrontmatterTopicBreakAttr">
                 <xsl:with-param name="prmTopicRef" select="$topicRef"/>

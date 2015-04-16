@@ -169,7 +169,8 @@ E-mail : info@antennahouse.com
     		    <xsl:variable name="titleMode" select="ahf:getTitleMode($topicRef,())" as="xs:integer"/>
     		    <fo:block>
     		        <xsl:copy-of select="ahf:getAttributeSet('atsBase')"/>
-    		        <xsl:call-template name="ahf:getLocalizationAtts"/>
+    		        <xsl:copy-of select="ahf:getIdAtts($topicRef,$topicRef,true())"/>
+    		        <xsl:copy-of select="ahf:getLocalizationAtts($topicRef)"/>
     		        <xsl:call-template name="getChapterTopicBreakAttr">
     		            <xsl:with-param name="prmTopicRef" select="$topicRef"/>
     		            <xsl:with-param name="prmTopicContent" select="()"/>
