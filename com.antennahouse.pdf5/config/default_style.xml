@@ -1233,7 +1233,7 @@ URL : http://www.antennahouse.com/
         <attribute-set name="atsHeader4List">
             <attribute name="start-indent">0mm</attribute>
             <attribute name="provisional-distance-between-starts">6mm</attribute>
-            <attribute name="provisional-label-separation">2mm</attribute>
+            <attribute name="provisional-label-separation">1mm</attribute>
             <attribute name="space-before">6mm</attribute>
             <attribute name="space-after">2.5mm</attribute>
             <attribute name="space-before.conditionality">retain</attribute>
@@ -1263,7 +1263,7 @@ URL : http://www.antennahouse.com/
         <!-- Header 5: Round Bullet Title -->
         <attribute-set name="atsHeader5List">
             <attribute name="start-indent">0mm</attribute>
-            <attribute name="provisional-distance-between-starts">7mm</attribute>
+            <attribute name="provisional-distance-between-starts">6mm</attribute>
             <attribute name="provisional-label-separation">1mm</attribute>
             <attribute name="space-before">4mm</attribute>
             <attribute name="space-after">2.5mm</attribute>
