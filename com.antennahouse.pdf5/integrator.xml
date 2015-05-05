@@ -8,13 +8,23 @@
     </not>
   </condition>
 
-  <!-- Set property not to copy image -->
-  <condition property="preprocess.copy-image.skip" value="true">
+  <!-- Set property not to copy image unless ${copy.image.to.output.folder} = "yes" -->
+  <condition property="preprocess.copy-image.skip">
+    <and>
+      <not>
+        <equals arg1="${copy.image.to.output.folder}" arg2="yes" casesensitive="false"/>
+      </not>
       <equals arg1="${transtype}" arg2="pdf5" casesensitive="false"/>
+    </and>
   </condition>
 
-  <condition property="preprocess.copy-html.skip" value="true">
+  <condition property="preprocess.copy-html.skip">
+    <and>
+      <not>
+        <equals arg1="${copy.image.to.output.folder}" arg2="yes" casesensitive="false"/>
+      </not>
       <equals arg1="${transtype}" arg2="pdf5" casesensitive="false"/>
+    </and>
   </condition>
   
   <target name="dita2pdf5" depends="build-init, preprocess, map2pdf5, topic2pdf5"/> 

@@ -170,22 +170,28 @@ E-mail : info@antennahouse.com
     <!-- Auto scall down to fit for block level image
          2015-03-08 t.makita
      -->
-    <xsl:param name="PRM_AUTO_SCALE_DOWN_TO_FIT" select="$cYes"/>
+    <xsl:param name="PRM_AUTO_SCALE_DOWN_TO_FIT" required="no" as="xs:string" select="$cYes"/>
     <xsl:variable name="pAutoScaleDownToFit" select="boolean($PRM_AUTO_SCALE_DOWN_TO_FIT eq $cYes)"
         as="xs:boolean"/>
 
     <!-- Make toc for simple map (not for bookmap)
          2015-03-11 t.makita
      -->
-    <xsl:param name="PRM_MAKE_TOC_FOR_MAP" select="$cYes"/>
+    <xsl:param name="PRM_MAKE_TOC_FOR_MAP" required="no" as="xs:string" select="$cYes"/>
     <xsl:variable name="pMakeTocForMap" select="boolean($PRM_MAKE_TOC_FOR_MAP eq $cYes)"
         as="xs:boolean"/>
 
     <!-- Make index for simple map (not for bookmap)
            2015-03-11 t.makita
        -->
-    <xsl:param name="PRM_MAKE_INDEX_FOR_MAP" select="$cYes"/>
+    <xsl:param name="PRM_MAKE_INDEX_FOR_MAP" required="no" as="xs:string" select="$cYes"/>
     <xsl:variable name="pMakeIndexForMap" select="boolean($PRM_MAKE_INDEX_FOR_MAP eq $cYes)"
         as="xs:boolean"/>
-
+    
+    <!-- Copy image to output folder
+         2015-05-05 t.makita
+     -->
+    <xsl:param name="PRM_IMAGE_IN_OUTPUT_FOLDER" required="no" as="xs:string" select="$cNo"/>
+    <xsl:variable name="pImageInOutputFolder" select="boolean($PRM_IMAGE_IN_OUTPUT_FOLDER eq $cYes)" as="xs:boolean"/>
+    
 </xsl:stylesheet>

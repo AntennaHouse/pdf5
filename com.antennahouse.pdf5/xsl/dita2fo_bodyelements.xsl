@@ -850,6 +850,9 @@ E-mail : info@antennahouse.com
                     <xsl:when test="string($prmImage/@scope) eq 'external'">
                         <xsl:sequence select="concat('url(',string($prmImage/@href),')')"/>
                     </xsl:when>
+                    <xsl:when test="$pImageInOutputFolder">
+                        <xsl:sequence select="concat('url(',string($prmImage/@href),')')"/>
+                    </xsl:when>
                     <xsl:otherwise>
                         <xsl:sequence select="concat('url(',$pMapDirUrl,string($prmImage/@href),')')"/>
                     </xsl:otherwise>
