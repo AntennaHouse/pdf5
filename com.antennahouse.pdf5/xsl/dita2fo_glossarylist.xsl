@@ -449,13 +449,13 @@ E-mail : info@antennahouse.com
                 <xsl:copy-of select="ahf:getAttributeSet('atsGlossEntry')"/>
                 
                 <!-- glossterm -->
-                <xsl:apply-templates select="child::*[contains(@class, ' glossentry/glossterm ')]"/>
+                <xsl:apply-templates select="child::*[contains(@class, ' glossentry/glossterm ')]" mode="#current"/>
                 
                 <!-- Inline padding -->
                 <xsl:text>&#x00A0;&#x00A0;</xsl:text>
                 
                 <!-- glossdef -->
-                <xsl:apply-templates select="child::*[contains(@class, ' glossentry/glossdef ')]"/>
+                <xsl:apply-templates select="child::*[contains(@class, ' glossentry/glossdef ')]" mode="#current"/>
                 
                 <!-- glossBody -->
                 <!--xsl:apply-templates select="child::*[contains(@class, ' glossentry/glossBody ')]">
@@ -509,7 +509,7 @@ E-mail : info@antennahouse.com
         return:	    fo:block or descendant generated fo objects
         note:		Apply priority="6" to this template.
     -->
-    <xsl:template match="*[contains(@class, ' glossentry/glossterm ')]" priority="6">
+    <xsl:template match="*[contains(@class, ' glossentry/glossterm ')]"  mode="PROCESS_GLOSSARYLIST_CONTENT">
         <xsl:param name="prmTopicRef" tunnel="yes" required="yes" as="element()?"/>
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsGlossTerm')"/>
@@ -529,7 +529,7 @@ E-mail : info@antennahouse.com
         return:	    fo:block or descendant generated fo objects
         note:		Apply priority="6" to this template.
     -->
-    <xsl:template match="*[contains(@class, ' glossentry/glossdef ')]" priority="6">
+    <xsl:template match="*[contains(@class, ' glossentry/glossdef ')]"  mode="PROCESS_GLOSSARYLIST_CONTENT">
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsGlossDef')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
