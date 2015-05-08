@@ -61,7 +61,7 @@ E-mail : info@antennahouse.com
                                               /*[contains(@class,$CLASS_KEYWORDS)]
                                               /*[contains(@class,$CLASS_INDEXTERM)]"
                              mode="MAKE_INDEX_ORIGIN">
-            <xsl:with-param name="prmTopicRef"      select="()"/>
+            <xsl:with-param name="prmTopicRef"      tunnel="yes" select="()"/>
             <xsl:with-param name="prmFoIndexKey"    select="''"/>
             <xsl:with-param name="prmLevel"         select="0"/>
             <xsl:with-param name="prmIndextermElem" select="()"/>
@@ -84,7 +84,7 @@ E-mail : info@antennahouse.com
         <xsl:apply-templates select="descendant::*[contains(@class,$CLASS_INDEXTERM)]
                                                   [not(ancestor::*[contains(@class,$CLASS_INDEXTERM)])]"
                              mode="MAKE_INDEX_ORIGIN">
-            <xsl:with-param name="prmTopicRef"      select="$prmTopicRef"/>
+            <xsl:with-param name="prmTopicRef"      tunnel="yes" select="$prmTopicRef"/>
             <xsl:with-param name="prmFoIndexKey"    select="''"/>
             <xsl:with-param name="prmLevel"         select="0"/>
             <xsl:with-param name="prmIndextermElem" select="()"/>
