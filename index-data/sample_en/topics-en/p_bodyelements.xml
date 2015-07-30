@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
-<topic id="topic_09874FCDAD4565FC9812">
+<topic id="topic_09874FCDAD4565FC9812" xml:lang="en-US">
 	<title>Bodyelements testing</title>
 	<shortdesc>The body elements support the most common types of content authoring for topics: paragraphs, lists, phrases, figures, and other common types of exhibits in a document.</shortdesc>
 
@@ -214,7 +214,7 @@ href attribute; the href value may point to a DITA topic.</p>
             Abraham Lincoln delivered on November 19, 1863 for the dedication
             of the cemetery at Gettysburg, Pennsylvania.</p>
             <lq reftitle="Gettysburg, Pennsylvania November 19, 1863"
-             href="http://showcase.netins.net/web/creative/lincoln/speeches/gettysburg.htm">
+             href="http://showcase.netins.net/web/creative/lincoln/speeches/gettysburg.htm" scope="external" format="html">
              Four score and seven years ago our fathers 
              brought forth on this continent
              a new nation, conceived in liberty, and dedicated to the proposition that all men

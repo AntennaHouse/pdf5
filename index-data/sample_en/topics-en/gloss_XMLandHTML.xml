@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE glossgroup PUBLIC "-//OASIS//DTD DITA Glossary Group//EN" "glossgroup.dtd">
 <!-- Created with XMetaL (http://www.xmetal.com) -->
-<glossgroup id="glossgroup_C806F5C6DAC94414A98C2B1709C2D350"> 
+<glossgroup id="glossgroup_C806F5C6DAC94414A98C2B1709C2D350" xml:lang="en-US"> 
 <title>HTML &amp; XML</title> 
-<glossentry id="glossentry_78F506EC56484C3D873E5DB1138495C5"> 
+	<glossentry id="glossentry_78F506EC56484C3D873E5DB1138495C5" xml:lang="en-US"> 
   <glossterm>XML 
   </glossterm> 
   <glossdef>Extensible Markup Language (XML) is a set of rules for encoding
@@ -16,7 +16,7 @@
 		scope="external" format="html">"W3C DOCUMENT LICENSE".</xref></fn> 
   </glossdef> 
 </glossentry> 
-<glossentry id="glossentry_BE814B2EF5EF459EA76F349C6327AED1"> 
+	<glossentry id="glossentry_BE814B2EF5EF459EA76F349C6327AED1" xml:lang="en-US"> 
   <glossterm>HTML 
   </glossterm> 
   <glossdef>Hypertext Markup Language (HTML) is the predominant markup language for

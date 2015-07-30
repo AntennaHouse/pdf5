@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
 <!--topic-->
-<topic id="__TOPIC_23AD567C1FDADC7F32AD7431CF73">
+<topic id="__TOPIC_23AD567C1FDADC7F32AD7431CF73" xml:lang="en-US">
 	<title><ph><sup>Weird</sup> <sub>title</sub> <tt>testing</tt> <tm tmtype="tm"/> (2)</ph></title>
 	<body>
         <p>The &lt;title&gt; element contains a heading or label for the main parts of a topic, 

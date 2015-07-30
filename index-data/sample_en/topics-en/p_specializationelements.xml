@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
-<topic id="topic_89CD34EDAC4076FF">
+<topic id="topic_89CD34EDAC4076FF" xml:lang="en-US">
 	<title>Specialization elements testing</title>
 	<shortdesc>Several DITA elements exist either for architectural reasons or for support of specialized markup yet to be designed. Although there is little need to use these elements unless you are directed to, some of them,
 such as &lt;state&gt;, can be used if your content makes use of these semantic distinctions. A discussion of

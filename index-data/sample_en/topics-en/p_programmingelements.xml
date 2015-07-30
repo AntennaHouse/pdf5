@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
-<topic id="topic_0987ABCD1234FFDC56ABCC4098ED">
+<topic id="topic_0987ABCD1234FFDC56ABCC4098ED" xml:lang="en-US">
 	<title>Programming elements testing</title>
 	<shortdesc>The programming domains elements are used to define the syntax and to give examples of programming
 languages.</shortdesc>
@@ -170,7 +170,7 @@ command to update the field value.</p>
             
             <draft-comment author="toshi">Stylesheet does not apply special formatting for synph.</draft-comment>
             
-            <p>Synph sample: <synph xml:lang="en" id="synph_2240EDF545AC96FC"><kwd>format</kwd> <var>volumename</var></synph></p>
+            <p>Synph sample: <synph id="synph_2240EDF545AC96FC"><kwd>format</kwd> <var>volumename</var></synph></p>
         </section>
 
         <section>

@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
-<concept id="concept_7FCFF8FD66F44819A8F4F03810EB6840"> 
+<concept id="concept_7FCFF8FD66F44819A8F4F03810EB6840" xml:lang="en-US"> 
   <title>Preface</title> 
   
   <conbody> 
   <p><i>This test data contains the excerpts and the samples from DITA 1.1 specifications
-   (<xref href="http://docs.oasis-open.org/dita/v1.1/OS/langspec/ditaref-type.html" scope="external">http://docs.oasis-open.org/dita/v1.1/OS/langspec/ditaref-type.html</xref>).
-   Also contains the excerpts from Wikipedia (<xref href="http://en.wikipedia.org/" scope="external">http://en.wikipedia.org/</xref>) 
-   The Wikipedia text content is available under the <xref href="http://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License" scope="external">Creative Commons Attribution-ShareAlike License</xref>.</i></p>
+   (<xref href="http://docs.oasis-open.org/dita/v1.1/OS/langspec/ditaref-type.html" scope="external" format="html">http://docs.oasis-open.org/dita/v1.1/OS/langspec/ditaref-type.html</xref>).
+   Also contains the excerpts from Wikipedia (<xref href="http://en.wikipedia.org/" scope="external" format="html">http://en.wikipedia.org/</xref>) 
+   The Wikipedia text content is available under the <xref href="http://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License" scope="external" format="html">Creative Commons Attribution-ShareAlike License</xref>.</i></p>
      <section>
      <title>Safety Precaution</title>
 	 <ul id="ul_B771764F004245B799D5E425D9D85C76">

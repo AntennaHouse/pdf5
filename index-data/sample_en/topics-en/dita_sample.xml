@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dita PUBLIC "-//OASIS//DTD DITA Composite//EN" "ditabase.dtd">
 <dita>
-	<concept id="batintro">
+	<concept id="batintro" xml:lang="en-US">
 		<title>Test data title</title>
 		<prolog>
 			<metadata>
@@ -17,16 +17,16 @@
 			<p>The test data begins from here!</p>
 		</conbody>
 	</concept>
-	<reference id="batparts">
-		<title>Referencet title</title>
+	<reference id="batparts" xml:lang="en-US">
+		<title>Reference title</title>
 	</reference>
-	<task id="batfeeding">
+	<task id="batfeeding" xml:lang="en-US">
 		<title>Task title</title>
 	</task>
-	<task id="battraining">
+	<task id="battraining" xml:lang="en-US">
 		<title>Task title</title>
 	</task>
-	<task id="batcleanup">
+	<task id="batcleanup" xml:lang="en-US">
 		<title>Task title</title>
 	</task>
 </dita>

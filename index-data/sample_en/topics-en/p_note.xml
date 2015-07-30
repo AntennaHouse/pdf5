@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
 <!--topic-->
-<topic id="__TOPIC_C990AED0F3C5EC">
+<topic id="__TOPIC_C990AED0F3C5EC" xml:lang="en-US">
 	<title>Note testing<ph><indexterm>Indexterm of Note Title</indexterm><indexterm start="NOTE_TITLE_RANGE">Range indexterm of Note title</indexterm></ph></title>
 	<shortdesc>A &lt;note&gt; element contains information, differentiated from the main text, which expands on or calls attention to a particular point.<ph><indexterm>Indexterm of Note Shortdesc</indexterm><indexterm start="NOTE_SHORTDESC_RANGE">Range indexterm of Note Shortdesc</indexterm></ph></shortdesc>
 

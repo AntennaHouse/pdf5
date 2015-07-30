@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
-<topic id="__TOPIC_AB12CD569C4576FDEEC4BC4098DF">
+<topic id="__TOPIC_AB12CD569C4576FDEEC4BC4098DF" xml:lang="en-US">
 	<title>Xref testing</title>
 	<shortdesc>Xref is cross-reference element to link a diffrent location within the  current topc, or a diffrent topic within the same help system, or to external source such as Web pages, or to a location in another topic. </shortdesc>
 

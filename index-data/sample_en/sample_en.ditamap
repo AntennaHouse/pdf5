@@ -90,7 +90,7 @@
         </chapter>
         <chapter href="topics-en/c_test_introduction.xml" type="concept">
             <topicref href="topics-en/p_abstract.xml" type="topic"/>
-            <topicref href="topics-en/p_abstract.xml" type="topic"/>
+            <!--topicref href="topics-en/p_abstract.xml" type="topic"/-->
             <topicref href="topics-en/p_xref.xml" type="topic"/>
             <topicref href="topics-en/p_note.xml" type="topic"/>
             <topicref href="topics-en/p_bodyelements.xml" type="topic"/>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="urn:oasis:names:tc:dita:xsd:topic.xsd"
-       id="topic_9940DF80A456CF4C97AB5560">
+       id="topic_9940DF80A456CF4C97AB5560" xml:lang="en-US">
 	<title>Foreign testing</title>
 	<shortdesc>The foeign (&lt;foreign&gt;) element allows the introduction of non-DITA content, for example, MathML, SVG, or Rich Text Format (RTF). This test data is made for fig/foreign elements.</shortdesc>
 	<body>

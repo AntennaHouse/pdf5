@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
-<topic id="topic_CDA0FDC098A0A456CF4C97AB5560">
+<topic id="topic_CDA0FDC098A0A456CF4C97AB5560" xml:lang="en-US">
 	<title>Sectiondiv testing</title>
 	<shortdesc>The &lt;sectiondiv&gt; element allows logical grouping of content within a section. There is no additional meaning
 		associated with the sectiondiv element, aside from its function as a container for other content. The sectiondiv

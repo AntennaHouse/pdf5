@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
-<topic id="topic_55762342DAC09974FDC8">
+<topic id="topic_55762342DAC09974FDC8" xml:lang="en-US">
 	<title>Typographic elements testing</title>
 	<shortdesc>The typographic elements are used to highlight text with styles (such as bold, italic, and monospace). Never use these elements when a semantically specific element is available. These elements are not
 intended for use by specializers, and are intended solely for use by authors when no semantically
