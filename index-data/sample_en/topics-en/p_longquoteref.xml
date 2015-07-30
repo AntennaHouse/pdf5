@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
-<topic id="topic_FDC098A0A456CF4C97AB5560">
+<topic id="topic_FDC098A0A456CF4C97AB5560" xml:lang="en-US">
 	<title>Longquoteref testing</title>
 	<abstract><p>The &lt;longquoteref&gt; element provides a reference to the source of a long quote. The long quote (&lt;lq&gt;) element
 		itself allows an href attribute to specify the source of a quote, but it does not allow other standard linking

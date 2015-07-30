@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
-<topic id="topic_BAFD65FAEFDE0029CF54AF40BAC30987ABCD1234FFDC56AB">
+<topic id="topic_BAFD65FAEFDE0029CF54AF40BAC30987ABCD1234FFDC56AB" xml:lang="en-US">
 	<title>Utility elements testing</title>
 	<shortdesc>The utilities domain elements represent common features of a language that may not necessarily be
 semantic, such as image maps.</shortdesc>

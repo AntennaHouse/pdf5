@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE reference PUBLIC "-//OASIS//DTD DITA Reference//EN" "reference.dtd">
-<reference id="reference_0987BC4F7654A21FC9FA44DBAED49371D619C236"> 
+<reference id="reference_0987BC4F7654A21FC9FA44DBAED49371D619C236" xml:lang="en-US"> 
     <title><ph>XSL Transformations<indexterm>XSL Transformations (in title)</indexterm></ph></title> 
     <prolog>
         <metadata>
@@ -99,7 +99,7 @@
 
         <p><!--indexterm>XSLT<indexterm start="XSLT-Performance">Performance</indexterm></indexterm-->The performance of XSLT processors has steadily improved as the technology has become more mature, although the very first processor, James Clark's xt, was unbeaten for several years.
         </p>
-        <p>Most of the earlier XSLT processors were interpreters; in more recent products, code generation is increasingly common, using portable intermediate languages such as Java bytecode or .NET Common Intermediate Language as the target. However, even the interpretive products generally offer separate analysis and execution phases, allowing an optimized expression tree to be created in memory and reused to perform multiple transformations: this gives substantial performance benefits in online publishing applications where the same transformation is applied many times per second to different source documents. This separation is reflected in the design of XSLT processing APIs such as JAXP (Java API for XML Processing).
+        <p>Most of the earlier XSLT processors were interpreters; in more recent products, code generation is increasingly common, using portable intermediate languages such as Java bytecode or .NET Common Intermediate Language as the target. However, even the interpretive products generally offer separate analysis and execution phases, allowing an optimized expression tree to be created in memory and reused to perform multiple transformations: this gives substantial performance benefits in online publishing applications where the same transformation is applied many times per second to different source documents. This separation is reflected in the design of XSLT processing APIs such as JAXP (Java API for XML Processing<indexterm>Java API for XML Processing</indexterm>).
         </p>
         <p>Early XSLT processors had very few optimizations; stylesheet documents were read into Document Object Models and the processor would act on them directly. XPath engines were also not optimized. Increasingly, however, XSLT processors use the kind of optimization techniques found in functional programming languages and database query languages, notably static rewriting of the expression tree for example to move calculations out of loops, and lazy pipelined evaluation to reduce the use of memory for intermediate results and allow "early exit" when the processor can evaluate an expression such as <codeph>following-sibling::*[1]</codeph> without a complete evaluation of all subexpressions. Many processors also use tree representations that are much more efficient (in both space and time) than general purpose DOM implementations.<indexterm end="XSLT-Performance"/>
         </p>
@@ -138,7 +138,7 @@
         <p>The XSLT 1.0 Recommendation (1999) says "The MIME media types text/xml and application/xml should be used for XSLT stylesheets. It is possible that a media type will be registered specifically for XSLT stylesheets; if and when it is, that media type may also be used." It goes on to use text/xml in an example of how to embed a stylesheet with the xml-stylesheet processing instruction.</p>
         <p>RFC 3023 points out potential technical problems with text/* types in general, and proposes application/xslt+xml as an ideal media type for XSLT. The XSLT 2.0 Recommendation (January 2007) includes a formal application to register this media type. However, at the time of writing (January 2009) the process of registration has not yet been completed, and RFC 3023 warns that "... this media type should not be used until such registration has been completed."</p>
         <p>Pre-1.0 working drafts of XSLT used text/xsl in their embedding examples, and this type was implemented and continues to be promoted by Microsoft in Internet Explorer and MSXML. It is also widely recognized in the xml-stylesheet processing instruction by other browsers. In practice, therefore, users wanting to control transformation in the browser using this processing instruction are obliged to use this unregistered media type.</p>
-        <p><i>Above contents are the excerpts from Wikipedia to test range indexterm. (<xref href="http://en.wikipedia.org/wiki/XSLT" scope="external">http://en.wikipedia.org/wiki/XSLT</xref>)</i></p>
+        <p><i>Above contents are the excerpts from Wikipedia to test range indexterm. (<xref href="http://en.wikipedia.org/wiki/XSLT" scope="external" format="html">http://en.wikipedia.org/wiki/XSLT</xref>)</i></p>
         </section>
         </refbody>
     </reference>

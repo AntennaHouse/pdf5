@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
-<topic id="topic_A456CF4C97AB5560">
+<topic id="topic_A456CF4C97AB5560" xml:lang="en-US">
 	<title>Fig testing</title>
 	<shortdesc>The figure (&lt;fig&gt;) element is a display context (sometimes called an “exhibit”) with an optional title for a
 wide variety of content. Most commonly, the figure element contains an image element (a graphic or

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
-<topic id="topic_22407CF4ED67BA2132A1">
+<topic id="topic_22407CF4ED67BA2132A1" xml:lang="en-US">
 	<title>Miscellaneous elements testing</title>
 	<shortdesc>Most DITA elements represent discourse, or information that is placed exactly as entered. However, there are also types of information that are usually authored in context with a thought or issue, but upon output, the content might be relocated, suppressed, or used only for purposes such as inline annotations for drafts. These elements include footnotes, index entries, draft comments, and special cleanup containers that can hold migrated data that still needs a writer’s intervention to get into the right place.</shortdesc>
 
@@ -34,7 +34,7 @@ may be enforced by authoring policy and by specific processing.</p>
         
         <section>
             <title>data-about &amp; data
-                <data-about href="urn:isbn:0156983508">
+                <data-about href="urn:isbn:0156983508" format="isbn" scope="external">
                     <data name="title">The World Doesn’t End</data>
                     <data name="author">
                         <data name="firstname">Charles</data>
@@ -46,7 +46,7 @@ may be enforced by authoring policy and by specific processing.</p>
             <p>The &lt;data-about&gt; element identifies the subject of a property when the subject isn't associated with the context in which the property is specified. The property itself is expressed by the &lt;data&gt; element. The &lt;data-about&gt; element handles exception cases where a property must be expressed somewhere other than inside the actual subject of the property. The &lt;data-about&gt; element is particularly useful as a basis for specialization in combination with the &lt;data&gt; element.</p>
         
             <p>The &lt;data&gt; element represents a property within a DITA topic or map. While the &lt;data&gt; element can be used directly to capture properties, it is particularly useful as a basis for specialization. Default processing treats the property values as an unknown kind of metadata, but custom processing can match the name attribute or specialized element to format properties as sidebars or other adornments or to harvest properties for automated processing<data name="exampleOf">
-    <data name="library" href="ajaxLibrary.js"/>
+    <data name="library" href="http://www.some-organization.org/javascript/ajaxLibrary.js" format="javascript" scope="external"/>
     <data name="version" value="2006-6-19"/>
     </data>.</p>
         </section>

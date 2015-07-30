@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE concept PUBLIC "-//OASIS//DTD DITA Concept//EN" "concept.dtd">
 <!--concept-->
-<concept id="concept__introduction">
+<concept id="concept__introduction" xml:lang="en-US">
 	<title> Testing examples</title>
 	<shortdesc>[Short desc] This part contains DITA element testing examples. </shortdesc>
     <prolog>

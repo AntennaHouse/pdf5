@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE task PUBLIC "-//OASIS//DTD DITA Task//EN" "task.dtd">
-<task id="task_2C8A3D1A966544A58013075B77CB9022"> 
+<task id="task_2C8A3D1A966544A58013075B77CB9022" xml:lang="en-US"> 
   <title>Logging in to DB3 Client</title> 
   <shortdesc> You must log in to the DB3 Client to access any DB3 functions.
   </shortdesc> 
