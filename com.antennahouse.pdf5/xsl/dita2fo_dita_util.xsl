@@ -48,11 +48,20 @@ URL : http://www.antennahouse.co.jp/
      function:	Check @toc="no" 
      param:		prmTopicRef
      return:	xs:boolean
-     note:		
+     note:		Remove the reference to $pApplyTocAttr.
+                2015-08-06 t.makita
      -->
     <xsl:function name="ahf:isTocNo" as="xs:boolean">
         <xsl:param name="prmTopicRef" as="element()"/>
         <xsl:choose>
+            <xsl:when test="$prmTopicRef/@toc='no'">
+                <xsl:sequence select="true()"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:sequence select="false()"/>
+            </xsl:otherwise>
+        </xsl:choose>
+        <!--xsl:choose>
             <xsl:when test="$pApplyTocAttr">
                 <xsl:choose>
                     <xsl:when test="$prmTopicRef/@toc='no'">
@@ -66,7 +75,7 @@ URL : http://www.antennahouse.co.jp/
             <xsl:otherwise>
                 <xsl:sequence select="false()"/>
             </xsl:otherwise>
-        </xsl:choose>
+        </xsl:choose-->
     </xsl:function>
 
     <!-- 

@@ -32,9 +32,9 @@ E-mail : info@antennahouse.com
             <xsl:if test="not(@id) and child::*[contains(@class, ' topic/title ')]">
                 <xsl:call-template name="ahf:generateIdAttr"/>
             </xsl:if>
-            <xsl:if test="$pUseOutputClassNoHyphenate and (string(@outputclass) eq 'nohyphenate')">
+            <!--xsl:if test="$pUseOutputClassNoHyphenate and (string(@outputclass) eq 'nohyphenate')">
             	<xsl:copy-of select="ahf:getAttributeSet('atsNoHyphenate')"/>
-            </xsl:if>
+            </xsl:if-->
             <xsl:if test="not($pOutputTableTitleAfter)">
                 <xsl:apply-templates select="*[contains(@class, ' topic/title ')]"/>
             </xsl:if>

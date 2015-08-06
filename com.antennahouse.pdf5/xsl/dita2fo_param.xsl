@@ -86,7 +86,12 @@ E-mail : info@antennahouse.com
     <xsl:variable name="pFormatDlAsBlock" select="boolean($PRM_FORMAT_DL_AS_BLOCK=$cYes)"
         as="xs:boolean"/>
 
-    <!-- Honor toc="no" or not -->
+    <!-- Honor toc="no" or not
+         Treat as deprecated because DITA 1.2 spec explicitly says as following:
+         "Specifies whether a topic appears in the table of contents (TOC)."
+         It should be honored in any case.
+         2015-08-06 t.makita
+      -->
     <xsl:param name="PRM_APPLY_TOC_ATTR" select="$cYes"/>
     <xsl:variable name="pApplyTocAttr" select="boolean($PRM_APPLY_TOC_ATTR=$cYes)" as="xs:boolean"/>
 
@@ -102,17 +107,21 @@ E-mail : info@antennahouse.com
 
     <!-- Use outputclass="deprecated" 
          2011-09-05 t.makita
+         Deprecated use fo:prop instead.
+         2015-08-06 t.makita
      -->
-    <xsl:param name="PRM_USE_OUTPUT_CLASS_DEPRECATED" select="$cNo"/>
+    <!--xsl:param name="PRM_USE_OUTPUT_CLASS_DEPRECATED" select="$cNo"/>
     <xsl:variable name="pUseOutputClassDeprecated"
-        select="boolean($PRM_USE_OUTPUT_CLASS_DEPRECATED=$cYes)" as="xs:boolean"/>
+        select="boolean($PRM_USE_OUTPUT_CLASS_DEPRECATED=$cYes)" as="xs:boolean"/-->
 
     <!-- Use outputclass="nohyphenation" 
          2011-09-05 t.makita
+         Deprecated use fo:prop instead.
+         2015-08-06 t.makita
      -->
-    <xsl:param name="PRM_USE_OUTPUT_CLASS_NOHYPHENATE" select="$cNo"/>
+    <!--xsl:param name="PRM_USE_OUTPUT_CLASS_NOHYPHENATE" select="$cNo"/>
     <xsl:variable name="pUseOutputClassNoHyphenate"
-        select="boolean($PRM_USE_OUTPUT_CLASS_NOHYPHENATE=$cYes)" as="xs:boolean"/>
+        select="boolean($PRM_USE_OUTPUT_CLASS_NOHYPHENATE=$cYes)" as="xs:boolean"/-->
 
     <!-- Sort glossentry according to the xml:lang of map
          2011-10-11 t.makita

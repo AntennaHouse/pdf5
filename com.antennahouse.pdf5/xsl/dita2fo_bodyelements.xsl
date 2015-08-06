@@ -30,9 +30,9 @@ E-mail : info@antennahouse.com
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsP')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
-            <xsl:if test="$pUseOutputClassNoHyphenate and (string(@outputclass) eq 'nohyphenate')">
+            <!--xsl:if test="$pUseOutputClassNoHyphenate and (string(@outputclass) eq 'nohyphenate')">
             	<xsl:copy-of select="ahf:getAttributeSet('atsNoHyphenate')"/>
-            </xsl:if>
+            </xsl:if-->
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates/>
         </fo:block>
@@ -144,9 +144,9 @@ E-mail : info@antennahouse.com
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsPh')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
-            <xsl:if test="$pUseOutputClassDeprecated and (string(@outputclass) eq 'deprecated')">
+            <!--xsl:if test="$pUseOutputClassDeprecated and (string(@outputclass) eq 'deprecated')">
             	<xsl:copy-of select="ahf:getAttributeSet('atsDeprecated')"/>
-            </xsl:if>
+            </xsl:if-->
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:apply-templates/>
         </fo:inline>
