@@ -783,13 +783,14 @@ E-mail : info@antennahouse.com
      function:	Get preceding-sibling topicref count
      param:		prmTopicRef
      return:	xs:string* 
-     note:		1. topicref/@toc="no" is not counted.
-                2. All topicrefs must be @toc="yes".
+     note:		topicref/@toc="no" is not counted.
+                Fix topicref counting bug.
+                2015-08-07 t.makita
      -->
     <xsl:function name="ahf:getSibilingTopicrefCount" as="xs:string*">
         <xsl:param name="prmTopicRefs" as="element()*"/>
         <xsl:choose>
-            <xsl:when test="exists($prmTopicRefs[1]) and empty($prmTopicRefs[ahf:isTocNo(.)])">
+            <xsl:when test="exists($prmTopicRefs[1])">
                 <xsl:variable name="topicRef" as="element()" select="$prmTopicRefs[1]"/>
                 <xsl:variable name="precedingCountStr" as="xs:string">
                     <xsl:choose>
@@ -814,10 +815,10 @@ E-mail : info@antennahouse.com
                     </xsl:choose>
                 </xsl:variable>
                 <xsl:sequence select="$precedingCountStr"/>
-                <xsl:if test="exists($prmTopicRefs[2])">
+                <xsl:if test="exists($prmTopicRefs[2][ahf:isToc(.)])">
                     <xsl:sequence select="$cTitlePrefixSeparator"/>
+                    <xsl:sequence select="ahf:getSibilingTopicrefCount($prmTopicRefs[position() gt 1])"/>
                 </xsl:if>
-                <xsl:sequence select="ahf:getSibilingTopicrefCount($prmTopicRefs[position() gt 1])"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:sequence select="''"/>
