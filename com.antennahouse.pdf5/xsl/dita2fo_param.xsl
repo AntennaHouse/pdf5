@@ -101,9 +101,11 @@ E-mail : info@antennahouse.com
 
     <!-- Adopt topicref/@navtitle for topicref/[not(@href)] 
          2011-07-26 t.makita
+         Deprecated.
+         2015-08-08 t.makita
      -->
-    <xsl:param name="PRM_ADOPT_NAVTITLE" select="$cYes"/>
-    <xsl:variable name="pAdoptNavtitle" select="boolean($PRM_ADOPT_NAVTITLE=$cYes)" as="xs:boolean"/>
+    <!--xsl:param name="PRM_ADOPT_NAVTITLE" select="$cYes"/>
+    <xsl:variable name="pAdoptNavtitle" select="boolean($PRM_ADOPT_NAVTITLE=$cYes)" as="xs:boolean"/-->
 
     <!-- Use outputclass="deprecated" 
          2011-09-05 t.makita

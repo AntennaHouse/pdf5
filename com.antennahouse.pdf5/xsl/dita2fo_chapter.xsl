@@ -161,66 +161,61 @@ E-mail : info@antennahouse.com
                 2011-07-26 t.makita
                 Add page-break control.
                 2014-09-13 t.makita
+                Remove $pAdoptNavTitle.
+                2015-08-08 t,makita
      -->
     <xsl:template match="*[contains(@class,' map/topicref ')][not(@href)]" mode="PROCESS_TOPICREF">
         <xsl:variable name="topicRef" select="." as="element()"/>
-        <xsl:choose>
-    		<xsl:when test="$pAdoptNavtitle">
-    		    <xsl:variable name="titleMode" select="ahf:getTitleMode($topicRef,())" as="xs:integer"/>
-    		    <fo:block>
-    		        <xsl:copy-of select="ahf:getAttributeSet('atsBase')"/>
-    		        <xsl:copy-of select="ahf:getIdAtts($topicRef,$topicRef,true())"/>
-    		        <xsl:copy-of select="ahf:getLocalizationAtts($topicRef)"/>
-    		        <xsl:call-template name="getChapterTopicBreakAttr">
-    		            <xsl:with-param name="prmTopicRef" select="$topicRef"/>
-    		            <xsl:with-param name="prmTopicContent" select="()"/>
-    		        </xsl:call-template>
-    		        <xsl:call-template name="ahf:getFoStyleAndProperty"/>
-    		        
-    		        <xsl:choose>
-    		            <xsl:when test="$titleMode eq $cRoundBulletTitleMode">
-    		                <!-- Make round bullet title -->
-    		                <xsl:call-template name="genRoundBulletTitle">
-    		                    <xsl:with-param name="prmTopicRef" select="$topicRef"/>
-    		                    <xsl:with-param name="prmTopicContent" select="()"/>
-    		                </xsl:call-template>
-    		            </xsl:when>
-    		            <xsl:when test="$titleMode eq $cSquareBulletTitleMode">
-    		                <!-- Make round bullet title -->
-    		                <xsl:call-template name="genSquareBulletTitle">
-    		                    <xsl:with-param name="prmTopicRef" select="$topicRef"/>
-    		                    <xsl:with-param name="prmTopicContent" select="()"/>
-    		                </xsl:call-template>
-    		            </xsl:when>
-    		            <xsl:when test="$topicRef/ancestor-or-self::*[contains(@class, ' bookmap/appendix ')]">
-    		                <!-- appendix content -->
-    		                <xsl:call-template name="genAppendixTitle">
-    		                    <xsl:with-param name="prmTopicRef" select="$topicRef"/>
-    		                    <xsl:with-param name="prmTopicContent" select="()"/>
-    		                </xsl:call-template>
-    		            </xsl:when>
-    		            <!--xsl:when test="$topicRef[contains(@class, ' bookmap/appendices ')]">
-    		                <!-\- appendices content -\->
-    		                <xsl:call-template name="genAppendicesTitle">
-    		                    <xsl:with-param name="prmTopicRef" tunnel="yes" select="$topicRef"/>
-    		                    <xsl:with-param name="prmTopicContent" select="()"/>
-    		                </xsl:call-template>
-    		            </xsl:when-->
-    		            <xsl:otherwise>
-    		                <!-- Pointed from bookmap contents -->
-    		                <xsl:call-template name="genChapterTitle">
-    		                    <xsl:with-param name="prmTopicRef" select="$topicRef"/>
-    		                    <xsl:with-param name="prmTopicContent" select="()"/>
-    		                </xsl:call-template>
-    		            </xsl:otherwise>
-    		        </xsl:choose>
-    		    </fo:block>
-    		    <xsl:apply-templates select="child::*[contains(@class,' map/topicref ')]" mode="PROCESS_TOPICREF"/>
-    		</xsl:when>
-    		<xsl:otherwise>
-    		    <xsl:apply-templates select="child::*[contains(@class,' map/topicref ')]" mode="PROCESS_TOPICREF"/>
-    		</xsl:otherwise>
-    	</xsl:choose>
+        <xsl:variable name="titleMode" select="ahf:getTitleMode($topicRef,())" as="xs:integer"/>
+        <fo:block>
+            <xsl:copy-of select="ahf:getAttributeSet('atsBase')"/>
+            <xsl:copy-of select="ahf:getIdAtts($topicRef,$topicRef,true())"/>
+            <xsl:copy-of select="ahf:getLocalizationAtts($topicRef)"/>
+            <xsl:call-template name="getChapterTopicBreakAttr">
+                <xsl:with-param name="prmTopicRef" select="$topicRef"/>
+                <xsl:with-param name="prmTopicContent" select="()"/>
+            </xsl:call-template>
+            <xsl:call-template name="ahf:getFoStyleAndProperty"/>
+            
+            <xsl:choose>
+                <xsl:when test="$titleMode eq $cRoundBulletTitleMode">
+                    <!-- Make round bullet title -->
+                    <xsl:call-template name="genRoundBulletTitle">
+                        <xsl:with-param name="prmTopicRef" select="$topicRef"/>
+                        <xsl:with-param name="prmTopicContent" select="()"/>
+                    </xsl:call-template>
+                </xsl:when>
+                <xsl:when test="$titleMode eq $cSquareBulletTitleMode">
+                    <!-- Make round bullet title -->
+                    <xsl:call-template name="genSquareBulletTitle">
+                        <xsl:with-param name="prmTopicRef" select="$topicRef"/>
+                        <xsl:with-param name="prmTopicContent" select="()"/>
+                    </xsl:call-template>
+                </xsl:when>
+                <xsl:when test="$topicRef/ancestor-or-self::*[contains(@class, ' bookmap/appendix ')]">
+                    <!-- appendix content -->
+                    <xsl:call-template name="genAppendixTitle">
+                        <xsl:with-param name="prmTopicRef" select="$topicRef"/>
+                        <xsl:with-param name="prmTopicContent" select="()"/>
+                    </xsl:call-template>
+                </xsl:when>
+                <!--xsl:when test="$topicRef[contains(@class, ' bookmap/appendices ')]">
+                    <!-\- appendices content -\->
+                    <xsl:call-template name="genAppendicesTitle">
+                        <xsl:with-param name="prmTopicRef" tunnel="yes" select="$topicRef"/>
+                        <xsl:with-param name="prmTopicContent" select="()"/>
+                    </xsl:call-template>
+                </xsl:when-->
+                <xsl:otherwise>
+                    <!-- Pointed from bookmap contents -->
+                    <xsl:call-template name="genChapterTitle">
+                        <xsl:with-param name="prmTopicRef" select="$topicRef"/>
+                        <xsl:with-param name="prmTopicContent" select="()"/>
+                    </xsl:call-template>
+                </xsl:otherwise>
+            </xsl:choose>
+        </fo:block>
+        <xsl:apply-templates select="child::*[contains(@class,' map/topicref ')]" mode="PROCESS_TOPICREF"/>
     
         <!-- generate fo:index-range-end for metadata -->
         <xsl:call-template name="processIndextermInMetadataEnd">
