@@ -88,6 +88,7 @@
     <property name="online.pdf" value="yes"/>
     <!--property name="use.output.class.deprecated" value="no"/-->
     <!--property name="use.output.class.nohyphenate" value="no"/-->
+    <property name="sort.glossentry" value="yes"/>
     <property name="output.start.message" value="yes"/>
     <property name="auto.scale.down.to.fit" value="yes"/>
     <property name="make.toc.for.map" value="yes"/>
@@ -263,6 +264,7 @@
             <arg line='"PRM_ONLINE_PDF=${online.pdf}"'/>
             <!--arg line='"PRM_USE_OUTPUT_CLASS_DEPRECATED=${use.output.class.deprecated}"'/-->
             <!--arg line='"PRM_USE_OUTPUT_CLASS_NOHYPHENATE=${use.output.class.nohyphenate}"'/-->
+            <arg line='"PRM_SORT_GLOSSENTRY=${sort.glossentry}"'/>
             <arg line='"PRM_OUTPUT_START_MESSAGE=${output.start.message}"'/>
             <arg line='"PRM_AUTO_SCALE_DOWN_TO_FIT=${auto.scale.down.to.fit}"'/>
             <arg line='"PRM_MAKE_TOC_FOR_MAP=${make.toc.for.map}"'/>
