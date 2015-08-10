@@ -134,10 +134,12 @@ E-mail : info@antennahouse.com
 
     <!-- Supress first page-break for first child of part,chapter,appendix in bookmap
          2012-04-02 t.makita
+         Deprecated. This parameter is not used in anywhere.
+         2015-08-10 t.makita
     -->
-    <xsl:param name="PRM_SUPRESS_FIRST_CHILD_PAGE_BREAK" select="$cYes"/>
+    <!--xsl:param name="PRM_SUPRESS_FIRST_CHILD_PAGE_BREAK" select="$cYes"/>
     <xsl:variable name="pSupressFirstChildPageBreak"
-        select="boolean($PRM_SUPRESS_FIRST_CHILD_PAGE_BREAK=$cYes)" as="xs:boolean"/>
+        select="boolean($PRM_SUPRESS_FIRST_CHILD_PAGE_BREAK=$cYes)" as="xs:boolean"/-->
 
     <!-- Compatibility parameter.
          Display footnote at the end of topic.
