@@ -54,28 +54,13 @@ URL : http://www.antennahouse.co.jp/
     <xsl:function name="ahf:isTocNo" as="xs:boolean">
         <xsl:param name="prmTopicRef" as="element()"/>
         <xsl:choose>
-            <xsl:when test="$prmTopicRef/@toc='no'">
+            <xsl:when test="string($prmTopicRef/@toc) eq 'no'">
                 <xsl:sequence select="true()"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:sequence select="false()"/>
             </xsl:otherwise>
         </xsl:choose>
-        <!--xsl:choose>
-            <xsl:when test="$pApplyTocAttr">
-                <xsl:choose>
-                    <xsl:when test="$prmTopicRef/@toc='no'">
-                        <xsl:sequence select="true()"/>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:sequence select="false()"/>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:sequence select="false()"/>
-            </xsl:otherwise>
-        </xsl:choose-->
     </xsl:function>
 
     <!-- 

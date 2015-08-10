@@ -92,8 +92,8 @@ E-mail : info@antennahouse.com
          It should be honored in any case.
          2015-08-06 t.makita
       -->
-    <xsl:param name="PRM_APPLY_TOC_ATTR" select="$cYes"/>
-    <xsl:variable name="pApplyTocAttr" select="boolean($PRM_APPLY_TOC_ATTR=$cYes)" as="xs:boolean"/>
+    <!--xsl:param name="PRM_APPLY_TOC_ATTR" select="$cYes"/>
+    <xsl:variable name="pApplyTocAttr" select="boolean($PRM_APPLY_TOC_ATTR=$cYes)" as="xs:boolean"/-->
 
     <!-- Online or pre-press PDF -->
     <xsl:param name="PRM_ONLINE_PDF" select="$cYes"/>
