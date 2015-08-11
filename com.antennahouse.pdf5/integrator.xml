@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <property name="pdf5.plugin.folder" value="com.antennahouse.pdf5"/>
-  <available file="${dita.dir}/plugins/${pdf5.plugin.folder}/build.xml" property="pdf5.dir" value="plugins"/>
-  <condition property="pdf5.dir" value="demo">
-    <not>
-      <isset property="pdf5.dir"/>
-    </not>
-  </condition>
+  <property name="pdf5.dir" value="plugins"/>
 
   <!-- Set property not to copy image unless ${copy.image.to.output.folder} = "yes" -->
   <condition property="preprocess.copy-image.skip">
