@@ -76,34 +76,6 @@ E-mail : info@antennahouse.com
     </xsl:template>
 
     <!-- 
-        function:	Backmatter's cover template
-        param:		none
-        return:	    none
-        note:		Call cover generation template
-    -->
-    <xsl:template match="*[contains(@class, ' bookmap/backmatter ')]//*[contains(@class,' map/topicref ')][ahf:isCoverTopicRef(.)]" mode="PROCESS_BACKMATTER" priority="6">
-        <xsl:variable name="topicRef" select="."/>
-        <xsl:variable name="topicContent"  as="element()?" select="ahf:getTopicFromTopicRef($topicRef)"/>
-        
-        <xsl:choose>
-            <xsl:when test="exists($topicContent)">
-                <xsl:call-template name="outputCoverN">
-                    <xsl:with-param name="prmTopicContent" select="$topicContent"/>
-                    <xsl:with-param name="prmTopicRef" select="$topicRef" tunnel="yes"/>
-                </xsl:call-template>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:call-template name="warningContinue">
-                    <xsl:with-param name="prmMes" 
-                        select="ahf:replace($stMes070,('%href','%file'),(string(@href),string(@xtrf)))"/>
-                </xsl:call-template>
-            </xsl:otherwise>
-        </xsl:choose>
-        
-    </xsl:template>
-    
-
-    <!-- 
         function:	Back matter's child template
         param:		none
         return:	    none

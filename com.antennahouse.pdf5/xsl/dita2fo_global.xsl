@@ -280,10 +280,6 @@ E-mail : info@antennahouse.com
     <!-- Chapter existence (bookmap only) -->
     <xsl:variable name="isChapterExist" select="boolean($root/*[1][contains(@class, ' bookmap/bookmap ')]/*[contains(@class, ' bookmap/chapter ')])" as="xs:boolean"/>
 
-    <!-- Cover existence (bookmap only)-->
-    <xsl:variable name="hasCover" as="xs:boolean" select="exists($map/*[contains(@class, ' bookmap/frontmatter ')]//*[contains(@class,' map/topicref ')][ahf:isCoverTopicRef(.)]) or
-        exists($map/*[contains(@class, ' bookmap/backmatter ')]//*[contains(@class,' map/topicref ')][ahf:isCoverTopicRef(.)])"></xsl:variable>
-
     <!-- Keys -->
     <!-- topic content by id (topics that is referenced from topicref only)-->
     <xsl:key name="topicById"  match="/*//*[contains(@class, ' topic/topic')]" use="@id"/>
