@@ -392,7 +392,24 @@ URL : http://www.antennahouse.co.jp/
     <xsl:variable name="stMes700">
         <xsl:text>[makeChapterMap 700W] Illegal class is found in topicref. class='%class' file=%file.</xsl:text>
     </xsl:variable>
+
+    <xsl:variable name="stMes800">
+        <xsl:text>[getFoProperty 800F] Missing ':' in style description. @fo:prop='%foAttr' @xtrc='%xtrc' @xtrf='%xtrf'</xsl:text>
+    </xsl:variable>
+
+    <xsl:variable name="stMes802">
+        <xsl:text>[getFoProperty 802F] Property value is invalid. Property='%propName' @xtrc='%xtrc' @xtrf='%xtrf'</xsl:text>
+    </xsl:variable>
+
+    <xsl:variable name="stMes804">
+        <xsl:text>[getFoPropertyReplacing 804F] Missing ':' in style description. @fo:prop='%foAttr' @xtrc='%xtrc' @xtrf='%xtrf'</xsl:text>
+    </xsl:variable>
     
+    <xsl:variable name="stMes806">
+        <xsl:text>[getFoPropertyReplacing 806F] Property value is invalid. Property='%propName' @xtrc='%xtrc' @xtrf='%xtrf'</xsl:text>
+    </xsl:variable>
+    
+
     <xsl:variable name="stMes900">
         <xsl:text>[attribute-set 900F] Illegal attribute found in attribute-set element in style definition. attribute-set-name='%attribute-set-name' attribute='%attribute'.</xsl:text>
     </xsl:variable>

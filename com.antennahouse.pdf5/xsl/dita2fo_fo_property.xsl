@@ -91,12 +91,16 @@
                                     <xsl:attribute name="{$propName}" select="$propValue"/>
                                 </xsl:when>
                                 <xsl:otherwise>
-                                    <xsl:message select="'[getFoAttribute 002F] Property value is invalid. Property=''',$propName,''' @xtrc=',string($prmElem/@xtrc),' @xtrf=',string($prmElem/@xtrf)"/>
+                                    <xsl:call-template name="warningContinue">
+                                        <xsl:with-param name="prmMes" select="ahf:replace($stMes802,('%propName','%xtrc','%xtrf'),($propName,string($prmElem/@xtrc),string($prmElem/@xtrf)))"/>
+                                    </xsl:call-template>
                                 </xsl:otherwise>
                             </xsl:choose>                            
                         </xsl:when>
                         <xsl:otherwise>
-                            <xsl:message select="'[getFoAttribute 001F] Missing '':'' in style description. @fo:prop=''',$foAttr,''' @xtrc=',string($prmElem/@xtrc),' @xtrf=',string($prmElem/@xtrf)"/>
+                            <xsl:call-template name="warningContinue">
+                                <xsl:with-param name="prmMes" select="ahf:replace($stMes800,('%foAttr','%xtrc','%xtrf'),($foAttr,string($prmElem/@xtrc),string($prmElem/@xtrf)))"/>
+                            </xsl:call-template>
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:for-each>
@@ -152,12 +156,16 @@
                                     <xsl:attribute name="{$propName}" select="$propReplaceResult"/>
                                 </xsl:when>
                                 <xsl:otherwise>
-                                    <xsl:message select="'[getFoPropertyReplacing 002F] Property value is invalid. Property=''',$propName,''' @xtrc=',string($prmElem/@xtrc),' @xtrf=',string($prmElem/@xtrf)"/>
+                                    <xsl:call-template name="warningContinue">
+                                        <xsl:with-param name="prmMes" select="ahf:replace($stMes806,('%propName','%xtrc','%xtrf'),($propName,string($prmElem/@xtrc),string($prmElem/@xtrf)))"/>
+                                    </xsl:call-template>
                                 </xsl:otherwise>
                             </xsl:choose>                            
                         </xsl:when>
                         <xsl:otherwise>
-                            <xsl:message select="'[getFoPropertyReplacing 001F] Missing '':'' in style description. @fo:prop=''',$foAttr,''' @xtrc=',string($prmElem/@xtrc),' @xtrf=',string($prmElem/@xtrf)"/>
+                            <xsl:call-template name="warningContinue">
+                                <xsl:with-param name="prmMes" select="ahf:replace($stMes804,('%foAttr','%xtrc','%xtrf'),($foAttr,string($prmElem/@xtrc),string($prmElem/@xtrf)))"/>
+                            </xsl:call-template>
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:for-each>
