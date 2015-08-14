@@ -895,7 +895,14 @@ E-mail : info@antennahouse.com
             <xsl:choose>
                 <xsl:when test="$pAddNumberingTitlePrefix">
                     <xsl:variable name="titlePrefixPart" select="ahf:genLevelTitlePrefixByCount($prmTopicRef,$cTableGroupingLevelMax)"/>
-                    <xsl:sequence select="concat($titlePrefixPart,$cTitleSeparator)"/>
+                    <xsl:choose>
+                        <xsl:when test="string($titlePrefixPart)">
+                            <xsl:sequence select="concat($titlePrefixPart,$cTitleSeparator)"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:sequence select="$titlePrefixPart"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:sequence select="''"/>
