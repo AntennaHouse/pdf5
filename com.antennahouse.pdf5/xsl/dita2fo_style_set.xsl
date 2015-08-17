@@ -22,6 +22,11 @@ URL : http://www.antennahouse.co.jp/
     xmlns:l="http://www.antennahouse.com/names/XSLT/Document/Layout"
 	exclude-result-prefixes="xs ahf svg l xlink"
 >
+	<!--============================================
+	     External dependencies:
+	     $styleDefFile (dita2fo_global.xsl)
+	     $altStyleDefFile (dita2fo_global.xsl)
+	    ============================================-->
 	<!-- 
 	    ============================================
 	     Constants
@@ -42,6 +47,15 @@ URL : http://www.antennahouse.co.jp/
 	-->
 	<xsl:variable name="pluginUri" as="xs:string" select="string(resolve-uri('../', static-base-uri()))"/>
 	<xsl:variable name="cPluginPath" as="xs:string" select="'%plug-in-path%'"/>	
+
+	<!-- 
+	    ========================================================
+	     Style definition file URI
+	     Defined as stylesheet relative.
+	    ========================================================
+	-->
+	<xsl:variable name="styleDefFileUri" as="xs:string" select="string(resolve-uri($styleDefFile,static-base-uri()))"/>
+	<xsl:variable name="altStyleDefFileUri" as="xs:string" select="string(resolve-uri($altStyleDefFile,static-base-uri()))"/>
 	
 	<!-- 
 	    ========================================================
@@ -53,11 +67,11 @@ URL : http://www.antennahouse.co.jp/
 	<!-- Original variable definition -->
 	<xsl:variable name="glOrgVarDefs">
 		<variables file="{$styleDefFile}">
-			<xsl:apply-templates select="document($styleDefFile)/*" mode="GET_VARIABLE"/>
+			<xsl:apply-templates select="document($styleDefFileUri)/*" mode="GET_VARIABLE"/>
 		</variables>
 		<xsl:if test="string($altStyleDefFile)" >
 			<variables file="{$altStyleDefFile}">
-				<xsl:apply-templates select="document($altStyleDefFile)/*" mode="GET_VARIABLE"/>
+				<xsl:apply-templates select="document($altStyleDefFileUri)/*" mode="GET_VARIABLE"/>
 			</variables>
 		</xsl:if>
 	</xsl:variable>
@@ -79,11 +93,11 @@ URL : http://www.antennahouse.co.jp/
 	<!-- Original style definition -->
 	<xsl:variable name="glOrgStyleDefs">
 		<attribute-sets file="{$styleDefFile}">
-			<xsl:apply-templates select="document($styleDefFile)/*" mode="GET_ATTRIBUTE"/>
+			<xsl:apply-templates select="document($styleDefFileUri)/*" mode="GET_ATTRIBUTE"/>
 		</attribute-sets>
 		<xsl:if test="string($altStyleDefFile)">
 			<attribute-sets file="{$altStyleDefFile}">
-				<xsl:apply-templates select="document($altStyleDefFile)/*" mode="GET_ATTRIBUTE"/>
+				<xsl:apply-templates select="document($altStyleDefFileUri)/*" mode="GET_ATTRIBUTE"/>
 			</attribute-sets>
 		</xsl:if>
 	</xsl:variable>
@@ -105,11 +119,11 @@ URL : http://www.antennahouse.co.jp/
 	<!-- Original instream objects -->
 	<xsl:variable name="glOrgInstreamObjects">
 		<instream-objects file="{$styleDefFile}">
-			<xsl:apply-templates select="document($styleDefFile)/*" mode="GET_INSTREAM_OBJECTS"/>
+			<xsl:apply-templates select="document($styleDefFileUri)/*" mode="GET_INSTREAM_OBJECTS"/>
 		</instream-objects>
 		<xsl:if test="string($altStyleDefFile)" >
 			<instream-objects file="{$altStyleDefFile}">
-				<xsl:apply-templates select="document($altStyleDefFile)/*" mode="GET_INSTREAM_OBJECTS"/>
+				<xsl:apply-templates select="document($altStyleDefFileUri)/*" mode="GET_INSTREAM_OBJECTS"/>
 			</instream-objects>
 		</xsl:if>
 	</xsl:variable>
@@ -131,11 +145,11 @@ URL : http://www.antennahouse.co.jp/
 	<!-- Original formatting objects -->
 	<xsl:variable name="glOrgFormattingObjects">
 		<formatting-objects file="{$styleDefFile}">
-			<xsl:apply-templates select="document($styleDefFile)/*" mode="GET_FORMATTING_OBJECTS"/>
+			<xsl:apply-templates select="document($styleDefFileUri)/*" mode="GET_FORMATTING_OBJECTS"/>
 		</formatting-objects>
 		<xsl:if test="string($altStyleDefFile)" >
 			<formatting-objects file="{$altStyleDefFile}">
-				<xsl:apply-templates select="document($altStyleDefFile)/*" mode="GET_FORMATTING_OBJECTS"/>
+				<xsl:apply-templates select="document($altStyleDefFileUri)/*" mode="GET_FORMATTING_OBJECTS"/>
 			</formatting-objects>
 		</xsl:if>
 	</xsl:variable>
