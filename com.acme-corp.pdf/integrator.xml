@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <property name="com.acme-corp.pdf.plugin.folder" value="com.acme-corp.pdf"/>
+    <property name="com.acme-corp.pdf.dir" value="plugins"/>
+    
+    <!-- Set property not to copy image -->
+    <condition property="preprocess.copy-image.skip" value="true">
+        <equals arg1="${transtype}" arg2="acme-corp.pdf" casesensitive="false"/>
+    </condition>
+    
+    <condition property="preprocess.copy-html.skip" value="true">
+        <equals arg1="${transtype}" arg2="acme-corp.pdf" casesensitive="false"/>
+    </condition>
+    
+    <target name="dita2acme-corp.pdf" depends="build-init, preprocess, map2acme-corp.pdf, topic2acme-corp.pdf"/> 
+    
+    <target name="topic2acme-corp.pdf" if="noMap" depends="preprocess">
+        <echo message="[acme.pdf] This plugin does not support topic formatting. Use map or bookmap!"/>
+    </target>
+    
+    <target name="map2acme-corp.pdf" unless="noMap" depends="preprocess">
+        <!-- Call Java TopicMerge -->
+        <echo message="Start generating merged middle file."/>
+        <dirname property="dita.temp.dir.fullpath" file="${dita.temp.dir}${file.separator}dummy.file"/>
+        <pipeline message="topicmerge" 
+            inputmap="${dita.temp.dir.fullpath}${file.separator}${user.input.file}"
+            tempdir="${dita.temp.dir.fullpath}">
+            <module class="org.dita.dost.module.TopicMergeModule">
+                <param name="output" location="${dita.temp.dir.fullpath}${file.separator}${dita.map.filename.root}_MERGED.xml"></param>
+            </module>
+        </pipeline>
+        
+        <!-- Merged middle file to PDF -->
+        <ant dir="${dita.dir}${file.separator}${com.acme-corp.pdf.dir}${file.separator}${com.acme-corp.pdf.plugin.folder}" target="merged2pdf">
+            <property name="caller.basedir" value="${basedir}"/>
+        </ant>
+    </target>
+</project>
+
