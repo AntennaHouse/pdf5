@@ -1296,7 +1296,7 @@ E-mail : info@antennahouse.com
                                 count="*[contains(@class,' topic/fn ')][not(contains(@class,' pr-d/synnote '))][not(@callout)]"
                                 from="*[. is $parentElement]"/>
                         </xsl:variable>
-                        <xsl:sequence select="concat($cFootnoteTagPrefix,string($fnNumber))"/>
+                        <xsl:sequence select="concat($cFootnoteTagPrefix,string($fnNumber),$cFootnoteTagSuffix)"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:otherwise>
@@ -1328,7 +1328,7 @@ E-mail : info@antennahouse.com
                         count="*[contains(@class,' topic/fn ')][not(contains(@class,' pr-d/synnote '))][not(@callout)]"
                         from="*[. is $prmParentElem]"/>
                 </xsl:variable>
-                <xsl:sequence select="concat($cFootnoteTagPrefix,$fnNumber)"/>
+                <xsl:sequence select="concat($cFootnoteTagPrefix,string($fnNumber),$cFootnoteTagSuffix)"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
