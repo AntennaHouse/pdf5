@@ -375,9 +375,14 @@ E-mail : info@antennahouse.com
      return:	descendant topic contents
      note:		Add page-break control.
                 2014-09-13 t.makita
+                Newly added "processTopicrefWoHrefInFrontmatter" for easy customization.
+                2015-05-25 t.makita
      -->
     <xsl:template match="*[contains(@class,' map/topicref ')][not(@href)]" mode="PROCESS_FRONTMATTER">
+        <xsl:call-template name="processTopicRefWoHrefInFrontmatter"/>
+    </xsl:template>
     
+    <xsl:template name="processTopicRefWoHrefInFrontmatter">
         <xsl:variable name="topicRef" as="element()" select="."/>
         <xsl:variable name="level" 
             as="xs:integer"
@@ -433,7 +438,10 @@ E-mail : info@antennahouse.com
      note:		none
      -->
     <xsl:template match="*[contains(@class,' map/topicref ')][@href]" mode="PROCESS_FRONTMATTER">
-        
+        <xsl:call-template name="processTopicRefWithHrefInFrontmatter"/>    
+    </xsl:template>
+    
+    <xsl:template name="processTopicRefWithHrefInFrontmatter">
         <xsl:variable name="topicRef" select="."/>
         <!-- get topic from @href -->
         <xsl:variable name="topicContent" as="element()?" select="ahf:getTopicFromTopicRef($topicRef)"/>

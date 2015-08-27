@@ -303,7 +303,11 @@ E-mail : info@antennahouse.com
      note:		
      -->
     <xsl:template match="*[contains(@class,' map/topicref ')][not(@href)]" mode="PROCESS_BACKMATTER">
+        <xsl:call-template name="processTopicRefWoHrefInBackmatter"/>
+    </xsl:template>
     
+    <xsl:template name="processTopicRefWoHrefInBackmatter">
+        
         <xsl:variable name="topicRef" as="element()" select="."/>
         <xsl:variable name="level" 
             as="xs:integer"
@@ -355,6 +359,10 @@ E-mail : info@antennahouse.com
      note:		none
      -->
     <xsl:template match="*[contains(@class,' map/topicref ')][@href]" mode="PROCESS_BACKMATTER">
+        <xsl:call-template name="processTopicRefWithHrefInBackmatter"/>    
+    </xsl:template>
+    
+    <xsl:template name="processTopicRefWithHrefInBackmatter">
         <xsl:variable name="topicRef" select="."/>
         <!-- get topic from @href -->
         <xsl:variable name="topicContent" as="element()?" select="ahf:getTopicFromTopicRef($topicRef)"/>
