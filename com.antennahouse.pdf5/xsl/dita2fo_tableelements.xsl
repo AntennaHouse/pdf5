@@ -117,8 +117,17 @@ E-mail : info@antennahouse.com
      function:	tgroup template
      param:	    prmTopicRef, prmNeedId, prmTableAttr
      return:	fo:table
-     note:		
+     note:		Added template of @pgwide eq '1' 2015-08-27 k.ichinose
      -->
+    <xsl:template match="*[contains(@class, ' topic/tgroup ')][string(parent::*/@pgwide) eq '1']" priority="2">
+        <xsl:param name="prmTableAttr" required="yes" as="element()"/>
+        <fo:block start-indent="0mm" end-indent="0mm">
+            <xsl:next-match>
+                <xsl:with-param name="prmTableAttr" select="$prmTableAttr"/>
+            </xsl:next-match>
+        </fo:block>
+    </xsl:template>
+
     <xsl:template match="*[contains(@class, ' topic/tgroup ')]">
         <xsl:param name="prmTableAttr" required="yes" as="element()"/>
     
@@ -128,9 +137,6 @@ E-mail : info@antennahouse.com
                 <xsl:with-param name="prmTgroupAttr" select="$tgroupAttr"/>
             </xsl:apply-templates>
         </xsl:variable>
-        <xsl:if test="$tgroupAttr/@pgwide='1'">
-            <xsl:text disable-output-escaping="yes">&lt;fo:block start-indent="0mm" end-indent="0mm"&gt;</xsl:text>
-        </xsl:if>
         <fo:wrapper>
             <xsl:copy-of select="ahf:getAttribute('atsTable','font-size')"/>
             <fo:table-and-caption>
@@ -154,9 +160,6 @@ E-mail : info@antennahouse.com
                 </fo:table>
             </fo:table-and-caption>
     	</fo:wrapper>
-        <xsl:if test="$tgroupAttr/@pgwide='1'">
-            <xsl:text disable-output-escaping="yes">&lt;/fo:block&gt;</xsl:text>
-        </xsl:if>
     </xsl:template>
     
     <!-- 
