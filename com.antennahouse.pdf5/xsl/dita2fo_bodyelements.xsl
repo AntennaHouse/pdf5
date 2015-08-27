@@ -268,6 +268,9 @@ E-mail : info@antennahouse.com
             <xsl:when test="$prmElement[contains(@class, ' topic/entry ')]">
                 <xsl:sequence select="$count"/>
             </xsl:when>
+            <xsl:when test="$prmElement[contains(@class, ' topic/note ')]">
+                <xsl:sequence select="$count"/>
+            </xsl:when>
             <xsl:when test="$prmElement/parent::*">
                 <xsl:sequence select="ahf:countOl($prmElement/parent::*, $count)"/>
             </xsl:when>
