@@ -52,6 +52,7 @@ E-mail : info@antennahouse.com
     <xsl:variable name="rememberIconObject" select="ahf:getInstreamObject('Remember_Icon')"/>
     <xsl:variable name="attentionText" select="ahf:getVarValue('Note_Attention')"/>
     <xsl:variable name="cautionText" select="ahf:getVarValue('Note_Caution')"/>
+    <xsl:variable name="noticeText" select="ahf:getVarValue('Note_Notice')"/>
     <xsl:variable name="warningText" select="ahf:getVarValue('Note_Warning')"/>
     <xsl:variable name="dangerText" select="ahf:getVarValue('Note_Danger')"/>
     <xsl:variable name="otherText" select="ahf:getVarValue('Note_Other')"/>
@@ -59,6 +60,7 @@ E-mail : info@antennahouse.com
     <xsl:variable name="cautionIconObject" select="ahf:getInstreamObjectTextReplace('Caution_Icon','@Caution',$cautionText)"/>
     <xsl:variable name="warningIconObject" select="ahf:getInstreamObjectTextReplace('Caution_Icon','@Caution',$warningText)"/>
     <xsl:variable name="dangerIconObject" select="ahf:getInstreamObjectTextReplace('Caution_Icon','@Caution',$dangerText)"/>
+    <xsl:variable name="noticeIconObject" select="ahf:getInstreamObjectTextReplace('Caution_Icon','@Caution',$noticeText)"/>
     
     <xsl:template match="*[contains(@class, ' topic/note ')]">
         <fo:block>
@@ -102,6 +104,12 @@ E-mail : info@antennahouse.com
                 <xsl:when test="@type='caution'">
                     <fo:instream-foreign-object>
                         <xsl:copy-of select="$cautionIconObject"/>
+                    </fo:instream-foreign-object>
+                </xsl:when>
+                <!-- added @type='notice' 2015-08-17 k.ichinose -->
+                <xsl:when test="@type='notice'">
+                    <fo:instream-foreign-object>
+                        <xsl:copy-of select="$noticeIconObject"/>
                     </fo:instream-foreign-object>
                 </xsl:when>
                 <xsl:when test="@type='warning'">

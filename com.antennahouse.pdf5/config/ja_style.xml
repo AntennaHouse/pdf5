@@ -80,7 +80,9 @@ URL : http://www.antennahouse.co.jp/
         <variable name="Note_Remember">留意事項</variable>
         <variable name="Note_Attention">注目事項</variable>
         <variable name="Note_Caution">注意事項</variable>
+        <variable name="Note_Notice">通知事項</variable>
         <variable name="Note_Danger">危険事項</variable>
+        <variable name="Note_Warning">警告事項</variable>
         <variable name="Note_Other">その他</variable>
 
         <!-- Layout related variables -->
