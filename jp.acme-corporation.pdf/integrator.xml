@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-    <property name="com.acme-corp.pdf.plugin.folder" value="com.acme-corp.pdf"/>
-    <property name="com.acme-corp.pdf.dir" value="plugins"/>
+    <property name="jp.acme-corporation.pdf.plugin.folder" value="jp.acme-corporation.pdf"/>
+    <property name="jp.acme-corporation.pdf.dir" value="plugins"/>
     
     <!-- Set property not to copy image -->
     <condition property="preprocess.copy-image.skip" value="true">
-        <equals arg1="${transtype}" arg2="acme-corp.pdf" casesensitive="false"/>
+        <equals arg1="${transtype}" arg2="acme-corporation.pdf" casesensitive="false"/>
     </condition>
     
     <condition property="preprocess.copy-html.skip" value="true">
-        <equals arg1="${transtype}" arg2="acme-corp.pdf" casesensitive="false"/>
+        <equals arg1="${transtype}" arg2="acme-corporation.pdf" casesensitive="false"/>
     </condition>
     
-    <target name="dita2acme-corp.pdf" depends="build-init, preprocess, map2acme-corp.pdf, topic2acme-corp.pdf"/> 
+    <target name="dita2acme-corporation.pdf" depends="build-init, preprocess, map2acme-corporation.pdf, topic2acme-corporation.pdf"/> 
     
-    <target name="topic2acme-corp.pdf" if="noMap" depends="preprocess">
+    <target name="topic2acme-corporation.pdf" if="noMap" depends="preprocess">
         <echo message="[acme.pdf] This plugin does not support topic formatting. Use map or bookmap!"/>
     </target>
     
-    <target name="map2acme-corp.pdf" unless="noMap" depends="preprocess">
+    <target name="map2acme-corporation.pdf" unless="noMap" depends="preprocess">
         <!-- Call Java TopicMerge -->
         <echo message="Start generating merged middle file."/>
         <dirname property="dita.temp.dir.fullpath" file="${dita.temp.dir}${file.separator}dummy.file"/>
@@ -31,7 +31,7 @@
         </pipeline>
         
         <!-- Merged middle file to PDF -->
-        <ant dir="${dita.dir}${file.separator}${com.acme-corp.pdf.dir}${file.separator}${com.acme-corp.pdf.plugin.folder}" target="merged2pdf">
+        <ant dir="${dita.dir}${file.separator}${jp.acme-corporation.pdf.dir}${file.separator}${jp.acme-corporation.pdf.plugin.folder}" target="merged2pdf">
             <property name="caller.basedir" value="${basedir}"/>
         </ant>
     </target>

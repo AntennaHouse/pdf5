@@ -24,6 +24,21 @@
                         <scenarioAssociation-array>
                             <scenarioAssociation>
                                 <field name="url">
+                                    <String>../../../../My_Documents/pdf5/testdata/index-data/sample_en/sample_en.ditamap</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>DITA Map PDF - ACME - dita-ot-2.1.0</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>DITAMAP</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
                                     <String>../../../../SVN/pdf5/testdata/index-data/sample_en/sample_en.ditamap</String>
                                 </field>
                                 <field name="scenarioIds">
@@ -168,7 +183,7 @@
                                                 <null/>
                                             </field>
                                             <field name="value">
-                                                <String>acme-corp.pdf</String>
+                                                <String>acme-corporation.pdf</String>
                                             </field>
                                             <field name="defaultValue">
                                                 <null/>
@@ -440,7 +455,7 @@
                                                 <String>Transformation type.</String>
                                             </field>
                                             <field name="value">
-                                                <String>acme-corp.pdf</String>
+                                                <String>acme-corporation.pdf</String>
                                             </field>
                                             <field name="defaultValue">
                                                 <null/>
@@ -1133,7 +1148,7 @@
             </serialized>
         </options>
     </meta>
-    <projectTree name="com.acme-corp.pdf.xpr">
+    <projectTree name="jp.acme-corporation.pdf.xpr">
         <folder masterFiles="true" name="Master Files">
             <file name="xsl/dita2fo_shell.xsl"/>
         </folder>

@@ -17,8 +17,8 @@ URL : http://www.antennahouse.co.jp/
     <include href="../../com.antennahouse.pdf5/config/en_style.xml"/>
     
     <!-- Sample customization of font-family -->
-    <variable name="General_Serif_Font">Century Schoolbook</variable>
-    <variable name="General_Sans_Serif_Font">Century Gothic</variable>
+    <variable name="General_Serif_Font">Georgia</variable>
+    <variable name="General_Sans_Serif_Font">Microsoft Sans Serif</variable>
     
 </style-definition>
 
