@@ -187,8 +187,6 @@ E-mail : info@antennahouse.com
      return:	Numbered list (fo:list-block)
      note:		none
      -->
-    <xsl:variable name="liSpacingAttr" select="ahf:getVarValue('Li_Spacing_Attr')"/> 
-     
     <xsl:template match="*[contains(@class,' topic/ol ')]">
         <xsl:variable name="numberFormat" select="ahf:getOlNumberFormat(.)" as="xs:string"/>
         <fo:list-block>
@@ -220,10 +218,6 @@ E-mail : info@antennahouse.com
             <!-- Set list-item attribute. -->
             <xsl:copy-of select="ahf:getAttributeSet('atsOlItem')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
-            <!-- Discard first space-before -->
-            <xsl:if test="not(preceding-sibling::*[contains(@class,' topic/li ')])">
-                <xsl:attribute name="{$liSpacingAttr}" select="'0mm'"/>
-            </xsl:if>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <fo:list-item-label end-indent="label-end()"> 
                 <fo:block>
@@ -313,10 +307,6 @@ E-mail : info@antennahouse.com
         <fo:list-item>
             <xsl:copy-of select="ahf:getAttributeSet('atsUlItem')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
-            <!-- Discard first space-before -->
-            <xsl:if test="not(preceding-sibling::*[contains(@class,' topic/li ')])">
-                <xsl:attribute name="{$liSpacingAttr}" select="'0mm'"/>
-            </xsl:if>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <fo:list-item-label end-indent="label-end()"> 
                 <fo:block>
@@ -363,10 +353,6 @@ E-mail : info@antennahouse.com
             <xsl:copy-of select="ahf:getAttributeSet('atsSlItem')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:choose>
-                <!-- Discard first space-before -->
-                <xsl:when test="not(preceding-sibling::*[contains(@class,' topic/sli ')])">
-                    <xsl:attribute name="{$liSpacingAttr}" select="'0mm'"/>
-                </xsl:when>
                 <!-- Apply compact spacing -->
                 <xsl:when test="string($compactAttrVal) and $prmDoCompact">
                     <xsl:attribute name="{$slCompactAttrName}" 
