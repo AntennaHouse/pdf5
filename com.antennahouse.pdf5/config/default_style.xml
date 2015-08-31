@@ -2259,6 +2259,7 @@ URL : http://www.antennahouse.com/
         <attribute-set name="atsTableBorderBottom">
             <attribute name="border-top">$Table_Outer_Border_Width hidden black</attribute>
             <attribute name="border-bottom">$Table_Outer_Border_Width solid black</attribute>
+                <attribute name="border-after-width.conditionality">retain</attribute>
             <attribute name="border-left">$Table_Outer_Border_Width hidden black</attribute>
             <attribute name="border-right">$Table_Outer_Border_Width hidden black</attribute>
         </attribute-set>
@@ -2267,6 +2268,7 @@ URL : http://www.antennahouse.com/
             <attribute name="border-top">$Table_Outer_Border_Width solid black</attribute>
             <attribute name="border-before-width.conditionality">retain</attribute>
             <attribute name="border-bottom">$Table_Outer_Border_Width solid black</attribute>
+                <attribute name="border-after-width.conditionality">retain</attribute>
             <attribute name="border-left">$Table_Outer_Border_Width hidden black</attribute>
             <attribute name="border-right">$Table_Outer_Border_Width hidden black</attribute>
         </attribute-set>
@@ -2275,6 +2277,7 @@ URL : http://www.antennahouse.com/
             <attribute name="border-top">$Table_Outer_Border_Width solid black</attribute>
             <attribute name="border-before-width.conditionality">retain</attribute>
             <attribute name="border-bottom">$Table_Outer_Border_Width solid black</attribute>
+                <attribute name="border-after-width.conditionality">retain</attribute>
             <attribute name="border-left">$Table_Outer_Border_Width solid black</attribute>
             <attribute name="border-right">$Table_Outer_Border_Width solid black</attribute>
         </attribute-set>
