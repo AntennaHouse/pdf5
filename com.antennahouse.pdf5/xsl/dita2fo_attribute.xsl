@@ -315,17 +315,19 @@ E-mail : info@antennahouse.com
      function:	Process scale attribute
      param:		prmElement, prmStyleName
      return:	attribute node
-     note:		
+     note:		Fix: Nothing is done when @scale="100" is set.
+                               Avoid error when @font-size="inherit" is set.
+                2015-09-01 k.ichinose 
      -->
     <xsl:function name="ahf:getScaleAtts" as="attribute()*">
         <xsl:param name="prmElement" as="element()"/>
         <xsl:param name="prmStyleName" as="xs:string"/>
     
-        <xsl:if test="$prmElement/@scale">
+        <xsl:if test="exists($prmElement/@scale) and (string($prmElement/@scale) ne '100')">
             <xsl:variable name="scale" select="ahf:percentToNumber($prmElement/@scale,$prmElement)" as="xs:double"/>
             <xsl:variable name="fontSize" select="ahf:getAttributeValue($prmStyleName, 'font-size')" as="xs:string"/>
             <xsl:choose>
-                <xsl:when test="string($fontSize)">
+                <xsl:when test="string($fontSize) and (string($fontSize) ne 'inherit')">
                     <xsl:variable name="fontSizeNu" select="ahf:getPropertyNu($fontSize)" as="xs:double"/>
                     <xsl:variable name="fontSizeUnit" select="ahf:getPropertyUnit($fontSize)" as="xs:string"/>
                     <xsl:variable name="fontSizeScaled" select="$fontSizeNu * $scale" as="xs:double"/>
