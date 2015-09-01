@@ -93,16 +93,16 @@ E-mail : info@antennahouse.com
      function:	table/title template
      param:	    prmTopicRef, prmNeedId
      return:	fo:block
-     note:		
+     note:		separate a template for placement of table title. 2015-09-01 k.ichinose
      -->
-    <xsl:template match="*[contains(@class, ' topic/table ')]/*[contains(@class, ' topic/title ')]" priority="2">
+    <xsl:template match="*[contains(@class, ' topic/table ')]/*[contains(@class, ' topic/title ')][$pOutputTableTitleAfter]" priority="2">
         <xsl:variable name="tableTitlePrefix" as="xs:string">
             <xsl:call-template name="ahf:getTableTitlePrefix">
                 <xsl:with-param name="prmTable" select="parent::*[1]"/>
             </xsl:call-template>
         </xsl:variable>
         <fo:block>
-            <xsl:copy-of select="ahf:getAttributeSet('atsTableTitle')"/>
+            <xsl:copy-of select="ahf:getAttributeSet('atsTableTitleAfter')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:value-of select="$tableTitlePrefix"/>
@@ -110,8 +110,22 @@ E-mail : info@antennahouse.com
             <xsl:apply-templates/>
         </fo:block>
     </xsl:template>
-    
-    
+
+    <xsl:template match="*[contains(@class, ' topic/table ')]/*[contains(@class, ' topic/title ')][not($pOutputTableTitleAfter)]" priority="2">
+        <xsl:variable name="tableTitlePrefix" as="xs:string">
+            <xsl:call-template name="ahf:getTableTitlePrefix">
+                <xsl:with-param name="prmTable" select="parent::*[1]"/>
+            </xsl:call-template>
+        </xsl:variable>
+        <fo:block>
+            <xsl:copy-of select="ahf:getAttributeSet('atsTableTitleBefore')"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
+            <xsl:value-of select="$tableTitlePrefix"/>
+            <xsl:text>&#x00A0;</xsl:text>
+            <xsl:apply-templates/>
+        </fo:block>
+    </xsl:template>
     
     <!-- 
      function:	tgroup template

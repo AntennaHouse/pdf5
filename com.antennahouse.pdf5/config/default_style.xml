@@ -1669,10 +1669,19 @@ URL : http://www.antennahouse.com/
             <attribute name="font-size">$Table_Font_Size</attribute>
         </attribute-set>
 
-        <attribute-set name="atsTableTitle" >
+	 <!-- change attribute set name 2015-09-01 k.ichinose -->
+        <attribute-set name="atsTableTitleAfter" >
             <attribute name="font-size">$Little_Title_Font_Size</attribute>
             <attribute name="space-before">1.5mm</attribute>
             <attribute name="keep-with-previous.within-page">always</attribute>
+        </attribute-set>
+
+	 <!-- add attribute set 2015-09-01 k.ichinose -->
+        <attribute-set name="atsTableTitleBefore">
+        	<attribute name="font-size">$Little_Title_Font_Size</attribute>
+            <attribute name="space-before">3mm</attribute>
+            <attribute name="space-after">1.5mm</attribute>
+            <attribute name="keep-with-next.within-column">always</attribute>
         </attribute-set>
 
         <attribute-set name="atsTableColumn">
