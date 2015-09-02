@@ -1653,6 +1653,23 @@ URL : http://www.antennahouse.com/
             <attribute name="font-style">italic</attribute>
         </attribute-set>
         
+            <!-- image: auto scalling
+                 2015-09-02 k.ichinose
+             -->
+            <attribute-set name="atsImageAutoScallDownToFitBlock">
+                <attribute name="start-indent">0mm</attribute>
+                <attribute name="line-height">1</attribute>
+                <attribute name="font-size">0mm</attribute>
+            </attribute-set>
+            
+            <attribute-set name="atsImageAutoScallDownToFit">
+                <attribute name="scaling">uniform</attribute>
+                <attribute name="content-width">scale-down-to-fit</attribute>
+                <attribute name="max-width">100%</attribute>
+                <attribute name="content-height">scale-down-to-fit</attribute>
+                <attribute name="max-height">100vh</attribute>
+            </attribute-set>
+
     </body-elements-attribute>
 
     <table-elements-attribute>

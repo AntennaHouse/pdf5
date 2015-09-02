@@ -168,4 +168,11 @@ E-mail : info@antennahouse.com
     <xsl:param name="PRM_OT_VERSION" required="yes" as="xs:string"/>
     <xsl:variable name="pOtVersion" as="xs:string" select="$PRM_OT_VERSION"/>
 
+    <!-- Auto scale down to fit for block level image
+         2015-09-01 k.ichinose
+     -->
+    <xsl:param name="PRM_AUTO_SCALE_DOWN_TO_FIT" required="no" as="xs:string" select="$cYes"/>
+    <xsl:variable name="pAutoScaleDownToFit" select="boolean($PRM_AUTO_SCALE_DOWN_TO_FIT eq $cYes)"
+        as="xs:boolean"/>
+
 </xsl:stylesheet>

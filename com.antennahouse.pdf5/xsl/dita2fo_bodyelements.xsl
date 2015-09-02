@@ -780,17 +780,32 @@ E-mail : info@antennahouse.com
      function:	image template
      param:	    
      return:	fo:external-graphic (fo:block)
-     note:		
+     note:	correspond PRM_AUTO_SCALE_DOWN_TO_FIT parameter 2015-09-01 k.ichinose
      -->
     <xsl:template match="*[contains(@class, ' topic/image ')]">
         <xsl:choose>
             <xsl:when test="@placement='break'">
                 <!-- block level image -->
-                <fo:block>
-                    <xsl:copy-of select="ahf:getImageBlockAttr(.)"/>
-                    <xsl:call-template name="ahf:processImage"/>
-                    <xsl:apply-templates/>
-                </fo:block>
+		    <!-- modify 2015-09-01 k.ichinose -->
+                <xsl:choose>
+                    <xsl:when test="$pAutoScaleDownToFit">
+                        <fo:block-container>
+                            <fo:block>
+                                <xsl:copy-of select="ahf:getAttributeSet('atsImageAutoScallDownToFitBlock')"/>
+                                <xsl:copy-of select="ahf:getImageBlockAttr(.)"/>
+                                <xsl:call-template name="ahf:processImage"/>
+                                <xsl:apply-templates/>
+                            </fo:block>
+                        </fo:block-container>                    
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <fo:block>
+                            <xsl:copy-of select="ahf:getImageBlockAttr(.)"/>
+                            <xsl:call-template name="ahf:processImage"/>
+                            <xsl:apply-templates/>
+                        </fo:block>
+                    </xsl:otherwise>
+                </xsl:choose>
             </xsl:when>
             <xsl:otherwise>
                 <!-- inline level image -->
@@ -846,6 +861,8 @@ E-mail : info@antennahouse.com
         <xsl:variable name="height" select="ahf:getLength(string($prmImage/@height))"/>
         <xsl:variable name="width"  select="ahf:getLength(string($prmImage/@width))"/>
         <xsl:variable name="scale"  select="normalize-space($prmImage/@scale)"/>
+        <!-- add 2015-09-01 k.ichinose -->
+        <xsl:variable name="placement" select="string($prmImage/@placement)"/>
         
         <xsl:choose>
             <xsl:when test="string($width) or string($height)">
@@ -859,6 +876,19 @@ E-mail : info@antennahouse.com
                     <xsl:attribute name="scaling" select="'non-uniform'"/>
                 </xsl:if>
             </xsl:when>
+		<!-- add 2015-09-01 k.ichinose -->
+            <xsl:when test="$placement eq 'break'">
+                <xsl:choose>
+                    <xsl:when test="$pAutoScaleDownToFit">
+                        <xsl:copy-of select="ahf:getAttributeSet('atsImageAutoScallDownToFit')"/>
+                    </xsl:when>
+                    <xsl:when test="string($scale)">
+                        <xsl:attribute name="scaling" select="'uniform'"/>
+                        <xsl:attribute name="content-width" select="concat(normalize-space($scale),'%')"/>
+                    </xsl:when>
+                </xsl:choose>
+            </xsl:when>
+		
             <xsl:when test="string($scale)">
                 <xsl:attribute name="scaling" select="'uniform'"/><!-- XSL default -->
                 <xsl:attribute name="content-width" select="concat(normalize-space($scale),'%')"/>
