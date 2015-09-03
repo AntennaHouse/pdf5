@@ -23,9 +23,10 @@ E-mail : info@antennahouse.com
      param:		none
      return:	related-links fo objects
      note:		As noted in DITA specification, this stylesheet adopts links that have @role='friend'.
+				"@role = 'sibling'" is excluded from process target. 2015-09-03 k.ichinose 
      -->
     <xsl:template match="*[contains(@class, ' topic/related-links ')]">
-        <xsl:variable name="linkCount" select="count(descendant::*[contains(@class,' topic/link ')][(@role='friend') or (@role='sibling') or (not(@role))])" as="xs:integer"/>
+        <xsl:variable name="linkCount" select="count(descendant::*[contains(@class,' topic/link ')][ahf:isTargetLink(.)])" as="xs:integer"/>
         <xsl:if test="$linkCount &gt; 0">
             <xsl:call-template name="makeRelatedLink">
                 <xsl:with-param name="prmRelatedLinks" select="."/>
@@ -33,6 +34,10 @@ E-mail : info@antennahouse.com
         </xsl:if>
     </xsl:template>
     
+    <xsl:function name="ahf:isTargetLink" as="xs:boolean">
+        <xsl:param name="prmLink" as="element()"/>
+        <xsl:sequence select="(string($prmLink/@role) = ('friend','other')) or empty($prmLink/@role)"/>
+    </xsl:function>
     
     <!-- 
      function:	Make related-links block
@@ -78,12 +83,13 @@ E-mail : info@antennahouse.com
      param:		prmRelatedLinks
      return:	reference line contentes
      note:		none
+				"@role = 'sibling'" is excluded from process target. 2015-09-03 k.ichinose
      -->
     <xsl:template name="processLink">
         <xsl:param name="prmRelatedLinks" required="yes" as="element()"/>
         
         <xsl:for-each select="$prmRelatedLinks/descendant::*[contains(@class,' topic/link ')]
-                                                            [(@role='friend') or (@role='sibling') or (not(@role))]">
+                                                               [ahf:isTargetLink(.)]">
             <xsl:variable name="link" select="." as="element()"/>
             <xsl:variable name="href" select="string($link/@href)" as="xs:string"/>
             <xsl:variable name="ohref" select="string($link/@ohref)" as="xs:string"/>
