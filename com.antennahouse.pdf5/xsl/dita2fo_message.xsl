@@ -178,8 +178,10 @@ URL : http://www.antennahouse.co.jp/
     <xsl:variable name="stMes090">
         <xsl:text>[Glossarylist 090W] Element:%elem should be written in backmatter otherwise all of indexterm after the %elem will be automatically ignored. file=%file</xsl:text>
     </xsl:variable>
-        
-    
+     
+    <xsl:variable name="stMes092">
+        <xsl:text>[abbreviated-form 092W] Referenced glossentry not found. @keyref=%keyref @heref=%href file=%file</xsl:text>
+    </xsl:variable>
     
     <xsl:variable name="stMes100">
         <xsl:text>[ditamapClass 100F] Undefined ditamap class. class=%class file=%file</xsl:text>
