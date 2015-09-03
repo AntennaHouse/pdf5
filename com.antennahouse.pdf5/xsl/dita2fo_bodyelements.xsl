@@ -1216,18 +1216,25 @@ E-mail : info@antennahouse.com
         function:	fn template
         param:      
         return:	    fo:basic-link(fo:footnote)
-        note:		none
+        note:        BUG-FIX: Don't generate any element if @id exists.
+                    2015-09-02 k.ichinose
     -->
     <xsl:template match="*[contains(@class,' topic/fn ')]">
         <xsl:param name="prmMakeCover" required="no" as="xs:boolean" select="false()"/>
+        <xsl:param name="prmGetContent" required="no" tunnel="yes" as="xs:boolean" select="false()"/>
         
         <xsl:variable name="fn" select="."/>
         
         <!-- This stylesheet outputs footnote as postnote -->
         <xsl:choose>
             <xsl:when test="$prmMakeCover"/>
+            <xsl:when test="$prmGetContent"/>
             <xsl:when test="@id">
-                <fo:inline/>
+                <xsl:comment>
+                    <xsl:text>fn/@id="</xsl:text>
+                    <xsl:value-of select="string(@id)"/>
+                    <xsl:text>"</xsl:text>
+                </xsl:comment>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:variable name="fnPrefix" as="xs:string">
