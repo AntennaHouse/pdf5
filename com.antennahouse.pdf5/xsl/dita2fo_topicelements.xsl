@@ -54,8 +54,14 @@ E-mail : info@antennahouse.com
      return:	
      note:		xsl:strip-space is applied for this element.
                 Make fo:block unconditionally. (2011-09-07 t.makita)
+                Call "processAbstarct" for easy override.
+                2015-09-04 k.ichinose
      -->
     <xsl:template match="*[contains(@class, ' topic/abstract ')]">
+        <xsl:call-template name="processAbstract"/>
+    </xsl:template>
+
+    <xsl:template name="processAbstract">
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsAbstract')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
