@@ -21,31 +21,30 @@ E-mail : info@antennahouse.com
      function:	required-cleanup template
      param:	    
      return:	fo:block
-     note:		none
+     note:		remove the condition judgment of PRM_OUTPUT_REQUIRED_CLEANUP param.
+				2015-09-04 k.ichinose
      -->
     <xsl:variable name="requiredCleanupTitlePrefix" select="ahf:getVarValue('Required_Cleanup_Title_Prefix')"/>
     <xsl:variable name="requiredCleanupRemap"       select="ahf:getVarValue('Required_Cleanup_Remap')"/>
     <xsl:variable name="requiredCleanupTitleSuffix" select="ahf:getVarValue('Required_Cleanup_Title_Suffix')"/>
     
     <xsl:template match="*[contains(@class,' topic/required-cleanup ')]">
-        <xsl:if test="$pOutputRequiredCleanup">
+        <fo:block>
+            <xsl:copy-of select="ahf:getAttributeSet('atsRequiredCleanup')"/>
+            <xsl:call-template name="ahf:getIdAtts"/>
+            <xsl:call-template name="ahf:getLocalizationAtts"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <fo:block>
-                <xsl:copy-of select="ahf:getAttributeSet('atsRequiredCleanup')"/>
-                <xsl:call-template name="ahf:getIdAtts"/>
-                <xsl:call-template name="ahf:getLocalizationAtts"/>
-                <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-                <fo:block>
-                    <xsl:copy-of select="ahf:getAttributeSet('atsRequiredCleanupTitle')"/>
-                    <xsl:value-of select="$requiredCleanupTitlePrefix"/>
-                    <xsl:if test="string(@remap)">
-                        <xsl:value-of select="$requiredCleanupRemap"/>
-                        <xsl:value-of select="@remap"/>
-                    </xsl:if>
-                    <xsl:value-of select="$requiredCleanupTitleSuffix"/>
-                </fo:block>
-                <xsl:apply-templates/>
+                <xsl:copy-of select="ahf:getAttributeSet('atsRequiredCleanupTitle')"/>
+                <xsl:value-of select="$requiredCleanupTitlePrefix"/>
+                <xsl:if test="string(@remap)">
+                    <xsl:value-of select="$requiredCleanupRemap"/>
+                    <xsl:value-of select="@remap"/>
+                </xsl:if>
+                <xsl:value-of select="$requiredCleanupTitleSuffix"/>
             </fo:block>
-        </xsl:if>
+            <xsl:apply-templates/>
+        </fo:block>
     </xsl:template>
 
 </xsl:stylesheet>

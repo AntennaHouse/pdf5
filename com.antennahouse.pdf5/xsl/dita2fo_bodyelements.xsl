@@ -1175,7 +1175,8 @@ E-mail : info@antennahouse.com
         function:	draft-comment template
         param:      none
         return:	    fo:block
-        note:		none
+     note:		remove the condition judgment of PRM_OUTPUT_DRAFT_COMMENT param.
+				2015-09-04 k.ichinose
     -->
     <xsl:variable name="draftCommentTitlePrefix" select="ahf:getVarValue('Draft_Comment_Title_Prefix')"/>
     <xsl:variable name="draftCommentAuthor"      select="ahf:getVarValue('Draft_Comment_Author')"/>
@@ -1184,32 +1185,30 @@ E-mail : info@antennahouse.com
     <xsl:variable name="draftCommentTitleSuffix" select="ahf:getVarValue('Draft_Comment_Title_Suffix')"/>
     
     <xsl:template match="*[contains(@class,' topic/draft-comment ')]">
-        <xsl:if test="$pOutputDraftComment">
+        <fo:block>
+            <xsl:copy-of select="ahf:getAttributeSet('atsDraftComment')"/>
+            <xsl:call-template name="ahf:getIdAtts"/>
+            <xsl:call-template name="ahf:getLocalizationAtts"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <fo:block>
-                <xsl:copy-of select="ahf:getAttributeSet('atsDraftComment')"/>
-                <xsl:call-template name="ahf:getIdAtts"/>
-                <xsl:call-template name="ahf:getLocalizationAtts"/>
-                <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-                <fo:block>
-                    <xsl:copy-of select="ahf:getAttributeSet('atsDraftCommentTitle')"/>
-                    <xsl:value-of select="$draftCommentTitlePrefix"/>
-                    <xsl:if test="string(@author)">
-                        <xsl:value-of select="$draftCommentAuthor"/>
-                        <xsl:value-of select="@author"/>
-                    </xsl:if>
-                    <xsl:if test="string(@time)">
-                        <xsl:value-of select="$draftCommentTime"/>
-                        <xsl:value-of select="@time"/>
-                    </xsl:if>
-                    <xsl:if test="string(@disposition)">
-                        <xsl:value-of select="$draftCommentDisposition"/>
-                        <xsl:value-of select="@disposition"/>
-                    </xsl:if>
-                    <xsl:value-of select="$draftCommentTitleSuffix"/>
-                </fo:block>
-                <xsl:apply-templates/>
+                <xsl:copy-of select="ahf:getAttributeSet('atsDraftCommentTitle')"/>
+                <xsl:value-of select="$draftCommentTitlePrefix"/>
+                <xsl:if test="string(@author)">
+                    <xsl:value-of select="$draftCommentAuthor"/>
+                    <xsl:value-of select="@author"/>
+                </xsl:if>
+                <xsl:if test="string(@time)">
+                    <xsl:value-of select="$draftCommentTime"/>
+                    <xsl:value-of select="@time"/>
+                </xsl:if>
+                <xsl:if test="string(@disposition)">
+                    <xsl:value-of select="$draftCommentDisposition"/>
+                    <xsl:value-of select="@disposition"/>
+                </xsl:if>
+                <xsl:value-of select="$draftCommentTitleSuffix"/>
             </fo:block>
-        </xsl:if>
+            <xsl:apply-templates/>
+        </fo:block>
     </xsl:template>
         
     <!-- 

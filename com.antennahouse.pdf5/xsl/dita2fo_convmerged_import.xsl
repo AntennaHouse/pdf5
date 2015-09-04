@@ -14,6 +14,7 @@ E-mail : info@antennahouse.com
  xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
    <xsl:include href="dita2fo_constants.xsl"/>
+   <xsl:include href="dita2fo_param.xsl"/>
    <xsl:include href="dita2fo_flag_ditaval.xsl"/>
    <xsl:include href="dita2fo_message.xsl"/>
    <xsl:include href="dita2fo_util.xsl"/>
