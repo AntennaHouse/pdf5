@@ -34,8 +34,14 @@ E-mail : info@antennahouse.com
      param:	    
      return:	none
      note:		ignore descendant-or-self
+                Call "processData" for overriding from other plug-ins.
+                2015-09-04 k.ichinose
      -->
     <xsl:template match="*[contains(@class,' topic/data ')]">
+        <xsl:call-template name="processData"/>
+    </xsl:template>
+
+    <xsl:template name="processData">
     </xsl:template>
     
     <!-- 

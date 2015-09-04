@@ -146,9 +146,14 @@ E-mail : info@antennahouse.com
      function:	ph template
      param:	    
      return:	fo:inline
-     note:		no special formatting
+                Call "processPh" for overriding from other plug-ins.
+                2015-09-04 k.ichinose
      -->
     <xsl:template match="*[contains(@class, ' topic/ph ')]">
+        <xsl:call-template name="processPh"/>
+    </xsl:template>
+    
+    <xsl:template name="processPh">
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsPh')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
@@ -185,9 +190,14 @@ E-mail : info@antennahouse.com
      function:	ol template
      param:	    
      return:	Numbered list (fo:list-block)
-     note:		none
+     note:		Call "processOl" for overriding from other plug-ins.
+                2015-09-04 k.ichinose
      -->
     <xsl:template match="*[contains(@class,' topic/ol ')]">
+        <xsl:call-template name="processOl"/>
+    </xsl:template>
+    
+    <xsl:template name="processOl">
         <xsl:variable name="numberFormat" select="ahf:getOlNumberFormat(.)" as="xs:string"/>
         <fo:list-block>
             <xsl:copy-of select="ahf:getAttributeSet('atsOl')"/>
@@ -210,8 +220,18 @@ E-mail : info@antennahouse.com
      return:	Numbered list (fo:list-block)
      note:		Add consideration for stepsection.
                 (2011-10-24 t.makita)
+                Call "processOlLi" for overriding from other plug-ins.
+                2015-09-04 k.ichinose
      -->
     <xsl:template match="*[contains(@class,' topic/ol ')]/*[contains(@class,' topic/li ')]">
+        <xsl:param name="prmNumberFormat" required="yes" as="xs:string"/>
+
+        <xsl:call-template name="processOlLi">
+            <xsl:with-param name="prmNumberFormat" select="$prmNumberFormat"/>
+        </xsl:call-template>
+    </xsl:template>
+    
+    <xsl:template name="processOlLi">
         <xsl:param name="prmNumberFormat" required="yes" as="xs:string"/>
     
         <fo:list-item>
@@ -287,9 +307,14 @@ E-mail : info@antennahouse.com
      function:	ul template
      param:	    
      return:	Unordered list (fo:list-block)
-     note:		none
+     note:		Call "processUl" for overriding from other plug-ins.
+                2015-09-04 k.ichinose
      -->
     <xsl:template match="*[contains(@class,' topic/ul ')]">
+        <xsl:call-template name="processUl"/>
+    </xsl:template>
+
+    <xsl:template name="processUl">
         <fo:list-block>
             <xsl:copy-of select="ahf:getAttributeSet('atsUl')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
@@ -303,7 +328,18 @@ E-mail : info@antennahouse.com
         </xsl:if>
     </xsl:template>
     
+    <!-- 
+     function:	ul/li template
+     param:	    
+     return:	Unordered list (fo:list-item)
+     note:		Call "processUlLi" for overriding from other plug-ins.
+                2015-09-04 k.ichinose
+     -->
     <xsl:template match="*[contains(@class,' topic/ul ')]/*[contains(@class,' topic/li ')]">
+        <xsl:call-template name="processUlLi"/>
+    </xsl:template>
+    
+    <xsl:template name="processUlLi">
         <fo:list-item>
             <xsl:copy-of select="ahf:getAttributeSet('atsUlItem')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
@@ -596,9 +632,14 @@ E-mail : info@antennahouse.com
         function:	Section template
         param:	    
         return:	    Section contents
-        note:		
+        note:		Call "processSection" for overriding from other plug-ins.
+                    2015-09-04 k.ichinose
     -->
     <xsl:template match="*[contains(@class, ' topic/section ')]">
+        <xsl:call-template name="processSection"/>
+    </xsl:template>
+    
+    <xsl:template name="processSection">
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsSection')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
@@ -978,9 +1019,14 @@ E-mail : info@antennahouse.com
      function:	pre template
      param:	    none
      return:	fo:block
-     note:		
+     note:		Call "processPre" for overriding from other plug-ins.
+                2015-09-04 k.ichinose
      -->
     <xsl:template match="*[contains(@class, ' topic/pre ')]">
+        <xsl:call-template name="processPre"/>
+    </xsl:template>
+    
+    <xsl:template name="processPre">
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsPre')"/>
             <xsl:copy-of select="ahf:getDisplayAtts(.,'atsPre')"/>
@@ -1368,9 +1414,14 @@ E-mail : info@antennahouse.com
         function:	term template
         param:	    
         return:	fo:inline
-        note:		
+        note:   Call "processTerm" for overriding from other plug-ins.
+                2015-09-04 k.ichinose
     -->
     <xsl:template match="*[contains(@class,' topic/term ')]">
+        <xsl:call-template name="processTerm"/>
+    </xsl:template>
+    
+    <xsl:template name="processTerm">
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsTerm')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
