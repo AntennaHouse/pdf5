@@ -32,7 +32,8 @@ URL : http://www.antennahouse.co.jp/
 	<xsl:variable name="varRefEscapeChar" select="'\'"/>
 	<xsl:variable name="styleRefChar" select="'%'"/>
 	<!-- Default delimiter: space and colon(for SVG) -->
-	<xsl:variable name="defaultDelimChar" select="' ;'"/>
+	<xsl:variable name="defaultDelimChar"  select="' ()*+'"/>
+	<xsl:variable name="cssDefaultDelimChar" select="' ;'"/>
 	
 	<!-- 
 	    ========================================================
@@ -530,7 +531,7 @@ URL : http://www.antennahouse.co.jp/
 	            <xsl:otherwise>
 	        		<xsl:call-template name="getToken">
 	        			<xsl:with-param name="srcString" select="$restOfRef"/>
-	        			<xsl:with-param name="delimChar" select="$defaultDelimChar"/>
+	        			<xsl:with-param name="delimChar" select="$cssDefaultDelimChar"/>
 	        		</xsl:call-template>
 	            </xsl:otherwise>
 	        </xsl:choose>
