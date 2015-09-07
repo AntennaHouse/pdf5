@@ -191,4 +191,22 @@ E-mail : info@antennahouse.com
         <xsl:copy/>
     </xsl:template>
 
+    <!-- 
+     function:	required-cleanup template
+     param:		none
+     return:	none or itself 
+     note:		If not output required-cleanup, remove it at this template.
+				added 2015-09-04 k.ichinose
+     -->
+    <xsl:template match="*[contains(@class,' topic/required-cleanup ')][not($pOutputRequiredCleanup)]"/>
+    
+    <!-- 
+     function:	draft-comment template
+     param:		none
+     return:	none or itself 
+     note:		If not output draft-comment, remove it at this template.
+				added 2015-09-04 k.ichinose
+     -->
+    <xsl:template match="*[contains(@class,' topic/draft-comment ')][not($pOutputDraftComment)]"/>
+
 </xsl:stylesheet>

@@ -52,6 +52,7 @@ E-mail : info@antennahouse.com
     <xsl:variable name="rememberIconObject" select="ahf:getInstreamObject('Remember_Icon')"/>
     <xsl:variable name="attentionText" select="ahf:getVarValue('Note_Attention')"/>
     <xsl:variable name="cautionText" select="ahf:getVarValue('Note_Caution')"/>
+    <xsl:variable name="noticeText" select="ahf:getVarValue('Note_Notice')"/>
     <xsl:variable name="warningText" select="ahf:getVarValue('Note_Warning')"/>
     <xsl:variable name="dangerText" select="ahf:getVarValue('Note_Danger')"/>
     <xsl:variable name="otherText" select="ahf:getVarValue('Note_Other')"/>
@@ -59,6 +60,7 @@ E-mail : info@antennahouse.com
     <xsl:variable name="cautionIconObject" select="ahf:getInstreamObjectTextReplace('Caution_Icon','@Caution',$cautionText)"/>
     <xsl:variable name="warningIconObject" select="ahf:getInstreamObjectTextReplace('Caution_Icon','@Caution',$warningText)"/>
     <xsl:variable name="dangerIconObject" select="ahf:getInstreamObjectTextReplace('Caution_Icon','@Caution',$dangerText)"/>
+    <xsl:variable name="noticeIconObject" select="ahf:getInstreamObjectTextReplace('Caution_Icon','@Caution',$noticeText)"/>
     
     <xsl:template match="*[contains(@class, ' topic/note ')]">
         <fo:block>
@@ -104,6 +106,12 @@ E-mail : info@antennahouse.com
                         <xsl:copy-of select="$cautionIconObject"/>
                     </fo:instream-foreign-object>
                 </xsl:when>
+                <!-- added @type='notice' 2015-08-17 k.ichinose -->
+                <xsl:when test="@type='notice'">
+                    <fo:instream-foreign-object>
+                        <xsl:copy-of select="$noticeIconObject"/>
+                    </fo:instream-foreign-object>
+                </xsl:when>
                 <xsl:when test="@type='warning'">
                     <fo:instream-foreign-object>
                         <xsl:copy-of select="$warningIconObject"/>
@@ -138,9 +146,14 @@ E-mail : info@antennahouse.com
      function:	ph template
      param:	    
      return:	fo:inline
-     note:		no special formatting
+                Call "processPh" for overriding from other plug-ins.
+                2015-09-04 k.ichinose
      -->
     <xsl:template match="*[contains(@class, ' topic/ph ')]">
+        <xsl:call-template name="processPh"/>
+    </xsl:template>
+    
+    <xsl:template name="processPh">
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsPh')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
@@ -177,11 +190,14 @@ E-mail : info@antennahouse.com
      function:	ol template
      param:	    
      return:	Numbered list (fo:list-block)
-     note:		none
+     note:		Call "processOl" for overriding from other plug-ins.
+                2015-09-04 k.ichinose
      -->
-    <xsl:variable name="liSpacingAttr" select="ahf:getVarValue('Li_Spacing_Attr')"/> 
-     
     <xsl:template match="*[contains(@class,' topic/ol ')]">
+        <xsl:call-template name="processOl"/>
+    </xsl:template>
+    
+    <xsl:template name="processOl">
         <xsl:variable name="numberFormat" select="ahf:getOlNumberFormat(.)" as="xs:string"/>
         <fo:list-block>
             <xsl:copy-of select="ahf:getAttributeSet('atsOl')"/>
@@ -204,18 +220,24 @@ E-mail : info@antennahouse.com
      return:	Numbered list (fo:list-block)
      note:		Add consideration for stepsection.
                 (2011-10-24 t.makita)
+                Call "processOlLi" for overriding from other plug-ins.
+                2015-09-04 k.ichinose
      -->
     <xsl:template match="*[contains(@class,' topic/ol ')]/*[contains(@class,' topic/li ')]">
+        <xsl:param name="prmNumberFormat" required="yes" as="xs:string"/>
+
+        <xsl:call-template name="processOlLi">
+            <xsl:with-param name="prmNumberFormat" select="$prmNumberFormat"/>
+        </xsl:call-template>
+    </xsl:template>
+    
+    <xsl:template name="processOlLi">
         <xsl:param name="prmNumberFormat" required="yes" as="xs:string"/>
     
         <fo:list-item>
             <!-- Set list-item attribute. -->
             <xsl:copy-of select="ahf:getAttributeSet('atsOlItem')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
-            <!-- Discard first space-before -->
-            <xsl:if test="not(preceding-sibling::*[contains(@class,' topic/li ')])">
-                <xsl:attribute name="{$liSpacingAttr}" select="'0mm'"/>
-            </xsl:if>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <fo:list-item-label end-indent="label-end()"> 
                 <fo:block>
@@ -268,6 +290,9 @@ E-mail : info@antennahouse.com
             <xsl:when test="$prmElement[contains(@class, ' topic/entry ')]">
                 <xsl:sequence select="$count"/>
             </xsl:when>
+            <xsl:when test="$prmElement[contains(@class, ' topic/note ')]">
+                <xsl:sequence select="$count"/>
+            </xsl:when>
             <xsl:when test="$prmElement/parent::*">
                 <xsl:sequence select="ahf:countOl($prmElement/parent::*, $count)"/>
             </xsl:when>
@@ -282,9 +307,14 @@ E-mail : info@antennahouse.com
      function:	ul template
      param:	    
      return:	Unordered list (fo:list-block)
-     note:		none
+     note:		Call "processUl" for overriding from other plug-ins.
+                2015-09-04 k.ichinose
      -->
     <xsl:template match="*[contains(@class,' topic/ul ')]">
+        <xsl:call-template name="processUl"/>
+    </xsl:template>
+
+    <xsl:template name="processUl">
         <fo:list-block>
             <xsl:copy-of select="ahf:getAttributeSet('atsUl')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
@@ -298,14 +328,21 @@ E-mail : info@antennahouse.com
         </xsl:if>
     </xsl:template>
     
+    <!-- 
+     function:	ul/li template
+     param:	    
+     return:	Unordered list (fo:list-item)
+     note:		Call "processUlLi" for overriding from other plug-ins.
+                2015-09-04 k.ichinose
+     -->
     <xsl:template match="*[contains(@class,' topic/ul ')]/*[contains(@class,' topic/li ')]">
+        <xsl:call-template name="processUlLi"/>
+    </xsl:template>
+    
+    <xsl:template name="processUlLi">
         <fo:list-item>
             <xsl:copy-of select="ahf:getAttributeSet('atsUlItem')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
-            <!-- Discard first space-before -->
-            <xsl:if test="not(preceding-sibling::*[contains(@class,' topic/li ')])">
-                <xsl:attribute name="{$liSpacingAttr}" select="'0mm'"/>
-            </xsl:if>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <fo:list-item-label end-indent="label-end()"> 
                 <fo:block>
@@ -352,10 +389,6 @@ E-mail : info@antennahouse.com
             <xsl:copy-of select="ahf:getAttributeSet('atsSlItem')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:choose>
-                <!-- Discard first space-before -->
-                <xsl:when test="not(preceding-sibling::*[contains(@class,' topic/sli ')])">
-                    <xsl:attribute name="{$liSpacingAttr}" select="'0mm'"/>
-                </xsl:when>
                 <!-- Apply compact spacing -->
                 <xsl:when test="string($compactAttrVal) and $prmDoCompact">
                     <xsl:attribute name="{$slCompactAttrName}" 
@@ -599,9 +632,14 @@ E-mail : info@antennahouse.com
         function:	Section template
         param:	    
         return:	    Section contents
-        note:		
+        note:		Call "processSection" for overriding from other plug-ins.
+                    2015-09-04 k.ichinose
     -->
     <xsl:template match="*[contains(@class, ' topic/section ')]">
+        <xsl:call-template name="processSection"/>
+    </xsl:template>
+    
+    <xsl:template name="processSection">
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsSection')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
@@ -783,16 +821,18 @@ E-mail : info@antennahouse.com
      function:	image template
      param:	    
      return:	fo:external-graphic (fo:block)
-     note:		
+     note:	correspond PRM_AUTO_SCALE_DOWN_TO_FIT parameter 2015-09-01 k.ichinose
      -->
     <xsl:template match="*[contains(@class, ' topic/image ')]">
         <xsl:choose>
             <xsl:when test="@placement='break'">
                 <!-- block level image -->
+		    <!-- modify 2015-09-01 k.ichinose -->
                 <xsl:choose>
                     <xsl:when test="$pAutoScaleDownToFit">
                         <fo:block-container>
-                            <fo:block start-indent="0mm">
+                            <fo:block>
+                                <xsl:copy-of select="ahf:getAttributeSet('atsImageAutoScallDownToFitBlock')"/>
                                 <xsl:copy-of select="ahf:getImageBlockAttr(.)"/>
                                 <xsl:call-template name="ahf:processImage"/>
                                 <xsl:apply-templates/>
@@ -865,6 +905,7 @@ E-mail : info@antennahouse.com
         <xsl:variable name="height" select="ahf:getLength(string($prmImage/@height))"/>
         <xsl:variable name="width"  select="ahf:getLength(string($prmImage/@width))"/>
         <xsl:variable name="scale"  select="normalize-space($prmImage/@scale)"/>
+        <!-- add 2015-09-01 k.ichinose -->
         <xsl:variable name="placement" select="string($prmImage/@placement)"/>
         
         <xsl:choose>
@@ -879,12 +920,11 @@ E-mail : info@antennahouse.com
                     <xsl:attribute name="scaling" select="'non-uniform'"/>
                 </xsl:if>
             </xsl:when>
+		<!-- add 2015-09-01 k.ichinose -->
             <xsl:when test="$placement eq 'break'">
                 <xsl:choose>
                     <xsl:when test="$pAutoScaleDownToFit">
-                        <xsl:attribute name="scaling" select="'uniform'"/>
-                        <xsl:attribute name="content-width" select="'scale-down-to-fit'"/>
-                        <xsl:attribute name="width" select="'100%'"/>
+                        <xsl:copy-of select="ahf:getAttributeSet('atsImageAutoScallDownToFit')"/>
                     </xsl:when>
                     <xsl:when test="string($scale)">
                         <xsl:attribute name="scaling" select="'uniform'"/>
@@ -981,9 +1021,14 @@ E-mail : info@antennahouse.com
      function:	pre template
      param:	    none
      return:	fo:block
-     note:		
+     note:		Call "processPre" for overriding from other plug-ins.
+                2015-09-04 k.ichinose
      -->
     <xsl:template match="*[contains(@class, ' topic/pre ')]">
+        <xsl:call-template name="processPre"/>
+    </xsl:template>
+    
+    <xsl:template name="processPre">
         <fo:block>
             <xsl:copy-of select="ahf:getAttributeSet('atsPre')"/>
             <xsl:copy-of select="ahf:getDisplayAtts(.,'atsPre')"/>
@@ -1178,7 +1223,8 @@ E-mail : info@antennahouse.com
         function:	draft-comment template
         param:      none
         return:	    fo:block
-        note:		none
+     note:		remove the condition judgment of PRM_OUTPUT_DRAFT_COMMENT param.
+				2015-09-04 k.ichinose
     -->
     <xsl:variable name="draftCommentTitlePrefix" select="ahf:getVarValue('Draft_Comment_Title_Prefix')"/>
     <xsl:variable name="draftCommentAuthor"      select="ahf:getVarValue('Draft_Comment_Author')"/>
@@ -1187,50 +1233,55 @@ E-mail : info@antennahouse.com
     <xsl:variable name="draftCommentTitleSuffix" select="ahf:getVarValue('Draft_Comment_Title_Suffix')"/>
     
     <xsl:template match="*[contains(@class,' topic/draft-comment ')]">
-        <xsl:if test="$pOutputDraftComment">
+        <fo:block>
+            <xsl:copy-of select="ahf:getAttributeSet('atsDraftComment')"/>
+            <xsl:call-template name="ahf:getIdAtts"/>
+            <xsl:call-template name="ahf:getLocalizationAtts"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <fo:block>
-                <xsl:copy-of select="ahf:getAttributeSet('atsDraftComment')"/>
-                <xsl:call-template name="ahf:getIdAtts"/>
-                <xsl:call-template name="ahf:getLocalizationAtts"/>
-                <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
-                <fo:block>
-                    <xsl:copy-of select="ahf:getAttributeSet('atsDraftCommentTitle')"/>
-                    <xsl:value-of select="$draftCommentTitlePrefix"/>
-                    <xsl:if test="string(@author)">
-                        <xsl:value-of select="$draftCommentAuthor"/>
-                        <xsl:value-of select="@author"/>
-                    </xsl:if>
-                    <xsl:if test="string(@time)">
-                        <xsl:value-of select="$draftCommentTime"/>
-                        <xsl:value-of select="@time"/>
-                    </xsl:if>
-                    <xsl:if test="string(@disposition)">
-                        <xsl:value-of select="$draftCommentDisposition"/>
-                        <xsl:value-of select="@disposition"/>
-                    </xsl:if>
-                    <xsl:value-of select="$draftCommentTitleSuffix"/>
-                </fo:block>
-                <xsl:apply-templates/>
+                <xsl:copy-of select="ahf:getAttributeSet('atsDraftCommentTitle')"/>
+                <xsl:value-of select="$draftCommentTitlePrefix"/>
+                <xsl:if test="string(@author)">
+                    <xsl:value-of select="$draftCommentAuthor"/>
+                    <xsl:value-of select="@author"/>
+                </xsl:if>
+                <xsl:if test="string(@time)">
+                    <xsl:value-of select="$draftCommentTime"/>
+                    <xsl:value-of select="@time"/>
+                </xsl:if>
+                <xsl:if test="string(@disposition)">
+                    <xsl:value-of select="$draftCommentDisposition"/>
+                    <xsl:value-of select="@disposition"/>
+                </xsl:if>
+                <xsl:value-of select="$draftCommentTitleSuffix"/>
             </fo:block>
-        </xsl:if>
+            <xsl:apply-templates/>
+        </fo:block>
     </xsl:template>
         
     <!-- 
         function:	fn template
         param:      
         return:	    fo:basic-link(fo:footnote)
-        note:		none
+        note:        BUG-FIX: Don't generate any element if @id exists.
+                    2015-09-02 k.ichinose
     -->
     <xsl:template match="*[contains(@class,' topic/fn ')]">
         <xsl:param name="prmMakeCover" required="no" as="xs:boolean" select="false()"/>
+        <xsl:param name="prmGetContent" required="no" tunnel="yes" as="xs:boolean" select="false()"/>
         
         <xsl:variable name="fn" select="."/>
         
         <!-- This stylesheet outputs footnote as postnote -->
         <xsl:choose>
             <xsl:when test="$prmMakeCover"/>
+            <xsl:when test="$prmGetContent"/>
             <xsl:when test="@id">
-                <fo:inline/>
+                <xsl:comment>
+                    <xsl:text>fn/@id="</xsl:text>
+                    <xsl:value-of select="string(@id)"/>
+                    <xsl:text>"</xsl:text>
+                </xsl:comment>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:variable name="fnPrefix" as="xs:string">
@@ -1323,7 +1374,7 @@ E-mail : info@antennahouse.com
                                 count="*[contains(@class,' topic/fn ')][not(contains(@class,' pr-d/synnote '))][not(@callout)]"
                                 from="*[. is $parentElement]"/>
                         </xsl:variable>
-                        <xsl:sequence select="concat($cFootnoteTagPrefix,string($fnNumber))"/>
+                        <xsl:sequence select="concat($cFootnoteTagPrefix,string($fnNumber),$cFootnoteTagSuffix)"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:otherwise>
@@ -1355,7 +1406,7 @@ E-mail : info@antennahouse.com
                         count="*[contains(@class,' topic/fn ')][not(contains(@class,' pr-d/synnote '))][not(@callout)]"
                         from="*[. is $prmParentElem]"/>
                 </xsl:variable>
-                <xsl:sequence select="concat($cFootnoteTagPrefix,$fnNumber)"/>
+                <xsl:sequence select="concat($cFootnoteTagPrefix,string($fnNumber),$cFootnoteTagSuffix)"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
@@ -1365,9 +1416,14 @@ E-mail : info@antennahouse.com
         function:	term template
         param:	    
         return:	fo:inline
-        note:		
+        note:   Call "processTerm" for overriding from other plug-ins.
+                2015-09-04 k.ichinose
     -->
     <xsl:template match="*[contains(@class,' topic/term ')]">
+        <xsl:call-template name="processTerm"/>
+    </xsl:template>
+    
+    <xsl:template name="processTerm">
         <fo:inline>
             <xsl:copy-of select="ahf:getAttributeSet('atsTerm')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>

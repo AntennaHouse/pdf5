@@ -114,17 +114,16 @@ E-mail : info@antennahouse.com
     
     <!-- indexterm is coded in dita2fo_indexcommon.xsl -->
     
-    <!-- required-cleanup -->
+    <!-- required-cleanup  
+		Remove the condition judgment of  PRM_OUTPUT_REQUIRED_CLEANUP option. 2015-09-04 k.ichinose -->
     <xsl:template match="*[contains(@class,' topic/required-cleanup ')]" mode="TEXT_ONLY">
-        <xsl:if test="$pOutputRequiredCleanup">
-            <xsl:value-of select="$requiredCleanupTitlePrefix"/>
-            <xsl:if test="string(@remap)">
-                <xsl:value-of select="$requiredCleanupRemap"/>
-                <xsl:value-of select="@remap"/>
-            </xsl:if>
-            <xsl:value-of select="$requiredCleanupTitleSuffix"/>
-            <xsl:apply-templates  mode="TEXT_ONLY"/>
+        <xsl:value-of select="$requiredCleanupTitlePrefix"/>
+        <xsl:if test="string(@remap)">
+            <xsl:value-of select="$requiredCleanupRemap"/>
+            <xsl:value-of select="@remap"/>
         </xsl:if>
+        <xsl:value-of select="$requiredCleanupTitleSuffix"/>
+        <xsl:apply-templates  mode="TEXT_ONLY"/>
     </xsl:template>
     
     <!-- state -->

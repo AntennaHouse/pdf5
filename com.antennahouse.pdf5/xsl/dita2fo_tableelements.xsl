@@ -93,16 +93,32 @@ E-mail : info@antennahouse.com
      function:	table/title template
      param:	    prmTopicRef, prmNeedId
      return:	fo:block
-     note:		
+     note:		separate a template for placement of table title. 2015-09-01 k.ichinose
      -->
-    <xsl:template match="*[contains(@class, ' topic/table ')]/*[contains(@class, ' topic/title ')]" priority="2">
+    <xsl:template match="*[contains(@class, ' topic/table ')]/*[contains(@class, ' topic/title ')][$pOutputTableTitleAfter]" priority="2">
         <xsl:variable name="tableTitlePrefix" as="xs:string">
             <xsl:call-template name="ahf:getTableTitlePrefix">
                 <xsl:with-param name="prmTable" select="parent::*[1]"/>
             </xsl:call-template>
         </xsl:variable>
         <fo:block>
-            <xsl:copy-of select="ahf:getAttributeSet('atsTableTitle')"/>
+            <xsl:copy-of select="ahf:getAttributeSet('atsTableTitleAfter')"/>
+            <xsl:call-template name="ahf:getUnivAtts"/>
+            <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
+            <xsl:value-of select="$tableTitlePrefix"/>
+            <xsl:text>&#x00A0;</xsl:text>
+            <xsl:apply-templates/>
+        </fo:block>
+    </xsl:template>
+
+    <xsl:template match="*[contains(@class, ' topic/table ')]/*[contains(@class, ' topic/title ')][not($pOutputTableTitleAfter)]" priority="2">
+        <xsl:variable name="tableTitlePrefix" as="xs:string">
+            <xsl:call-template name="ahf:getTableTitlePrefix">
+                <xsl:with-param name="prmTable" select="parent::*[1]"/>
+            </xsl:call-template>
+        </xsl:variable>
+        <fo:block>
+            <xsl:copy-of select="ahf:getAttributeSet('atsTableTitleBefore')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <xsl:value-of select="$tableTitlePrefix"/>
@@ -111,14 +127,21 @@ E-mail : info@antennahouse.com
         </fo:block>
     </xsl:template>
     
-    
-    
     <!-- 
      function:	tgroup template
      param:	    prmTopicRef, prmNeedId, prmTableAttr
      return:	fo:table
-     note:		
+     note:		Added template of @pgwide eq '1' 2015-08-27 k.ichinose
      -->
+    <xsl:template match="*[contains(@class, ' topic/tgroup ')][string(parent::*/@pgwide) eq '1']" priority="2">
+        <xsl:param name="prmTableAttr" required="yes" as="element()"/>
+        <fo:block start-indent="0mm" end-indent="0mm">
+            <xsl:next-match>
+                <xsl:with-param name="prmTableAttr" select="$prmTableAttr"/>
+            </xsl:next-match>
+        </fo:block>
+    </xsl:template>
+
     <xsl:template match="*[contains(@class, ' topic/tgroup ')]">
         <xsl:param name="prmTableAttr" required="yes" as="element()"/>
     
@@ -128,9 +151,6 @@ E-mail : info@antennahouse.com
                 <xsl:with-param name="prmTgroupAttr" select="$tgroupAttr"/>
             </xsl:apply-templates>
         </xsl:variable>
-        <xsl:if test="$tgroupAttr/@pgwide='1'">
-            <xsl:text disable-output-escaping="yes">&lt;fo:block start-indent="0mm" end-indent="0mm"&gt;</xsl:text>
-        </xsl:if>
         <fo:wrapper>
             <xsl:copy-of select="ahf:getAttribute('atsTable','font-size')"/>
             <fo:table-and-caption>
@@ -154,9 +174,6 @@ E-mail : info@antennahouse.com
                 </fo:table>
             </fo:table-and-caption>
     	</fo:wrapper>
-        <xsl:if test="$tgroupAttr/@pgwide='1'">
-            <xsl:text disable-output-escaping="yes">&lt;/fo:block&gt;</xsl:text>
-        </xsl:if>
     </xsl:template>
     
     <!-- 

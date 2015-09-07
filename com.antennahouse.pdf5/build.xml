@@ -224,6 +224,9 @@
         <xslt processor="trax"
           in="${inputFile}"
           out="${outputFile}" style="${stylesheet}">
+	<!-- add required parameter 2015-09-04 k.ichinose -->
+            <param name="PRM_MAP_DIR_URL" expression="${user.input.dir.url}" if="user.input.dir.url"/>
+            <param name="PRM_OT_VERSION" expression="${otversion}" if="otversion"/>
         </xslt>
     </target>
 

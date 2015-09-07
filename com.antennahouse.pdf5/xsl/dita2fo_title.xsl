@@ -115,7 +115,7 @@ E-mail : info@antennahouse.com
      function:	Heading generation template for part/chapter
      param:		prmTopicRef, prmTopicContent
      return:	title contents
-     note:		
+     note:		Fix: Does not generate marker if topic level is over 2. 2015-09-04 k.ichinose 
      -->
     <xsl:template name="genChapterTitle">
         <xsl:param name="prmTopicRef"     required="yes" as="element()"/>
@@ -151,28 +151,16 @@ E-mail : info@antennahouse.com
                     <xsl:copy-of select="ahf:getIdAtts($titleElement,$prmTopicRef,true())"/>
                     <xsl:copy-of select="ahf:getLocalizationAtts($titleElement)"/>
                     <xsl:copy-of select="ahf:getFoStyleAndProperty($titleElement)"/>
-                    <xsl:if test="$pAddNumberingTitlePrefix">
-                        <fo:marker marker-class-name="{$cTitlePrefix}">
-                            <fo:inline><xsl:value-of select="$titlePrefix"/></fo:inline>
+                    <xsl:if test="($level eq 1) or ($level eq 2)">
+                        <xsl:if test="$pAddNumberingTitlePrefix">
+                            <fo:marker marker-class-name="{$cTitlePrefix}">
+                                <fo:inline><xsl:value-of select="$titlePrefix"/></fo:inline>
+                            </fo:marker>
+                        </xsl:if>
+                        <fo:marker marker-class-name="{$cTitleBody}">
+                            <fo:inline><xsl:copy-of select="$title"/></fo:inline>
                         </fo:marker>
                     </xsl:if>
-                    <xsl:choose>
-                        <xsl:when test="($level eq 1) or ($level eq 2)">
-                            <xsl:if test="$pAddNumberingTitlePrefix">
-                                <fo:marker marker-class-name="{$cTitlePrefix}">
-                                    <fo:inline><xsl:value-of select="$titlePrefix"/></fo:inline>
-                                </fo:marker>
-                            </xsl:if>
-                            <fo:marker marker-class-name="{$cTitleBody}">
-                                <fo:inline><xsl:copy-of select="$title"/></fo:inline>
-                            </fo:marker>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:call-template name="makeMarker">
-                                <xsl:with-param name="prmTopicRef" select="$prmTopicRef/parent::node()"/>
-                            </xsl:call-template>
-                        </xsl:otherwise>
-                    </xsl:choose>
                     <xsl:call-template name="processIndextermInMetadata">
                         <xsl:with-param name="prmTopicRef"      select="$prmTopicRef"/>
                         <xsl:with-param name="prmTopicContent" select="$prmTopicContent"/>
@@ -201,23 +189,27 @@ E-mail : info@antennahouse.com
                     </xsl:choose>
                     <!--xsl:copy-of select="ahf:getIdAtts($prmTopicRef,$prmTopicRef,true())"/>
                     <xsl:copy-of select="ahf:getLocalizationAtts($prmTopicRef)"/-->
-                    <xsl:choose>
-                        <xsl:when test="($level eq 1) or ($level eq 2)">
-                            <xsl:if test="$pAddNumberingTitlePrefix">
-                                <fo:marker marker-class-name="{$cTitlePrefix}">
-                                    <fo:inline><xsl:value-of select="$titlePrefix"/></fo:inline>
-                                </fo:marker>
-                            </xsl:if>
-                            <fo:marker marker-class-name="{$cTitleBody}">
-                                <fo:inline><xsl:value-of select="$prmTopicRef/@navtitle"/></fo:inline>
+
+                    <xsl:variable name="titleForMarker" as="node()*">
+                        <xsl:choose>
+                            <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
+                                <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]" mode="GET_CONTENTS"/>
+                            </xsl:when>
+                            <xsl:when test="$prmTopicRef/@navtitle">
+                                <xsl:value-of select="$prmTopicRef/@navtitle"/>        
+                            </xsl:when>
+                        </xsl:choose>
+                    </xsl:variable>
+                    <xsl:if test="($level eq 1) or ($level eq 2)">
+                        <xsl:if test="$pAddNumberingTitlePrefix">
+                            <fo:marker marker-class-name="{$cTitlePrefix}">
+                                <fo:inline><xsl:value-of select="$titlePrefix"/></fo:inline>
                             </fo:marker>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:call-template name="makeMarker">
-                                <xsl:with-param name="prmTopicRef" select="$prmTopicRef/parent::node()"/>
-                            </xsl:call-template>
-                        </xsl:otherwise>
-                    </xsl:choose>
+                        </xsl:if>
+                        <fo:marker marker-class-name="{$cTitleBody}">
+                            <xsl:copy-of select="$titleForMarker"/>
+                        </fo:marker>
+                    </xsl:if>
                     <xsl:call-template name="processIndextermInMetadata">
                         <xsl:with-param name="prmTopicRef"      select="$prmTopicRef"/>
                         <xsl:with-param name="prmTopicContent"  select="$prmTopicContent"/>
@@ -255,7 +247,7 @@ E-mail : info@antennahouse.com
      function:	Heading generation template for appendix
      param:		prmTopicRef, prmTopicContent
      return:	title contents
-     note:		
+     note:		Fix: Does not generate marker if topic level is over 2. 2015-09-04 k.ichinose 
       -->
     <xsl:template name="genAppendixTitle">
         <xsl:param name="prmTopicRef"     required="yes" as="element()"/>
@@ -294,23 +286,16 @@ E-mail : info@antennahouse.com
                     <xsl:copy-of select="ahf:getLocalizationAtts($titleElement)"/>
                     <xsl:copy-of select="ahf:getFoStyleAndProperty($titleElement)"/>
                     
-                    <xsl:choose>
-                        <xsl:when test="($level eq 1) or ($level eq 2)">
-                            <xsl:if test="$pAddNumberingTitlePrefix">
-                                <fo:marker marker-class-name="{$cTitlePrefix}">
-                                    <fo:inline><xsl:value-of select="$titlePrefix"/></fo:inline>
-                                </fo:marker>
-                            </xsl:if>
-                            <fo:marker marker-class-name="{$cTitleBody}">
-                                <fo:inline><xsl:copy-of select="$title"/></fo:inline>
+                    <xsl:if test="($level eq 1) or ($level eq 2)">
+                        <xsl:if test="$pAddNumberingTitlePrefix">
+                            <fo:marker marker-class-name="{$cTitlePrefix}">
+                                <fo:inline><xsl:value-of select="$titlePrefix"/></fo:inline>
                             </fo:marker>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:call-template name="makeMarker">
-                                <xsl:with-param name="prmTopicRef" select="$prmTopicRef/parent::node()"/>
-                            </xsl:call-template>
-                        </xsl:otherwise>
-                    </xsl:choose>
+                        </xsl:if>
+                        <fo:marker marker-class-name="{$cTitleBody}">
+                            <fo:inline><xsl:copy-of select="$title"/></fo:inline>
+                        </fo:marker>
+                    </xsl:if>
                     <xsl:call-template name="processIndextermInMetadata">
                         <xsl:with-param name="prmTopicRef"     select="$prmTopicRef"/>
                         <xsl:with-param name="prmTopicContent" select="$prmTopicContent"/>
@@ -339,23 +324,27 @@ E-mail : info@antennahouse.com
                     </xsl:choose>
                     <!--xsl:copy-of select="ahf:getIdAtts($prmTopicRef,$prmTopicRef,true())"/>
                     <xsl:copy-of select="ahf:getLocalizationAtts($prmTopicRef)"/-->
-                    <xsl:choose>
-                        <xsl:when test="($level eq 1) or ($level eq 2)">
-                            <xsl:if test="$pAddNumberingTitlePrefix">
-                                <fo:marker marker-class-name="{$cTitlePrefix}">
-                                    <fo:inline><xsl:value-of select="$titlePrefix"/></fo:inline>
-                                </fo:marker>
-                            </xsl:if>
-                            <fo:marker marker-class-name="{$cTitleBody}">
-                                <fo:inline><xsl:value-of select="$prmTopicRef/@navtitle"/></fo:inline>
+
+                    <xsl:variable name="titleForMarker" as="node()*">
+                        <xsl:choose>
+                            <xsl:when test="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]">
+                                <xsl:apply-templates select="$prmTopicRef/*[contains(@class,' map/topicmeta ')]/*[contains(@class,' topic/navtitle ')]" mode="GET_CONTENTS"/>
+                            </xsl:when>
+                            <xsl:when test="$prmTopicRef/@navtitle">
+                                <xsl:value-of select="$prmTopicRef/@navtitle"/>        
+                            </xsl:when>
+                        </xsl:choose>
+                    </xsl:variable>
+                    <xsl:if test="($level eq 1) or ($level eq 2)">
+                        <xsl:if test="$pAddNumberingTitlePrefix">
+                            <fo:marker marker-class-name="{$cTitlePrefix}">
+                                <fo:inline><xsl:value-of select="$titlePrefix"/></fo:inline>
                             </fo:marker>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:call-template name="makeMarker">
-                                <xsl:with-param name="prmTopicRef" select="$prmTopicRef/parent::node()"/>
-                            </xsl:call-template>
-                        </xsl:otherwise>
-                    </xsl:choose>
+                        </xsl:if>
+                        <fo:marker marker-class-name="{$cTitleBody}">
+                            <xsl:copy-of select="$titleForMarker"/>
+                        </fo:marker>
+                    </xsl:if>
                     <xsl:call-template name="processIndextermInMetadata">
                         <xsl:with-param name="prmTopicRef"     select="$prmTopicRef"/>
                         <xsl:with-param name="prmTopicContent" select="$prmTopicContent"/>

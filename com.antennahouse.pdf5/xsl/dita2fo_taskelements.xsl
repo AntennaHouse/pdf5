@@ -47,10 +47,6 @@ E-mail : info@antennahouse.com
             <!-- Set list-item attribute. -->
             <xsl:copy-of select="ahf:getAttributeSet('atsStepSection')"/>
             <xsl:call-template name="ahf:getUnivAtts"/>
-            <!-- Discard first space-before -->
-            <xsl:if test="not(preceding-sibling::*[contains(@class,' topic/li ')])">
-                <xsl:attribute name="{$liSpacingAttr}" select="'0mm'"/>
-            </xsl:if>
             <xsl:copy-of select="ahf:getFoStyleAndProperty(.)"/>
             <fo:list-item-label> 
                 <fo:block/>
