@@ -25,13 +25,11 @@ E-mail : info@antennahouse.com
      function:	properties template
      param:	    
      return:	fo:table
-     note:		
+     note:		remove checking @expanse attribute
+				2015-09-08 k.ichinose
      -->
     <xsl:template match="*[contains(@class, ' reference/properties ')]" priority="2">
         <xsl:variable name="keyCol" select="ahf:getKeyCol(.)" as="xs:integer"/>
-        <xsl:if test="@expanse='page' or @expanse='column'">
-            <xsl:text disable-output-escaping="yes">&lt;fo:block start-indent="0mm" end-indent="0mm"&gt;</xsl:text>
-        </xsl:if>
         <fo:table>
             <xsl:copy-of select="ahf:getAttributeSet('atsPropertyTable')"/>
             <xsl:copy-of select="ahf:getDisplayAtts(.,'atsPropertyTable')"/>
