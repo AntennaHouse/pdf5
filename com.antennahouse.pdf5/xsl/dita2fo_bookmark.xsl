@@ -357,7 +357,8 @@ E-mail : info@antennahouse.com
      function:	General topiref template for bookmark
      param:		none
      return:	fo:bookmark
-     note:		
+     note:		Make bookmark from topicref even if it has no @navtitle nortopicmeta/navtitle nor topic/title.
+				2015-09-08 k.ichinose
      -->
     <xsl:template match="*[contains(@class,' map/topicref ')][not(ahf:isToc(.))]" mode="MAKE_BOOKMARK"/>
             
@@ -408,8 +409,7 @@ E-mail : info@antennahouse.com
             <xsl:when test="not($addBookmark)">
                 <!-- Ignore this element and descendant. -->
             </xsl:when>
-            <xsl:when test="exists($linkContent) or $hasNavtitle or string($prmDefaultTitle)">
-                <!--xsl:comment>id=<xsl:value-of select="if exists($oid) then string($oid[1]) else ''"/></xsl:comment-->
+		<xsl:otherwise>
                 <fo:bookmark starting-state="{$cStartingState}">
                 	<xsl:choose>
     	                <xsl:when test="exists($oid)">
@@ -434,9 +434,6 @@ E-mail : info@antennahouse.com
                     <!-- Navigate to lower level -->
                     <xsl:apply-templates mode="#current"/>
                 </fo:bookmark>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:apply-templates mode="#current"/>
             </xsl:otherwise>
         </xsl:choose>
     
