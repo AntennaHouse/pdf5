@@ -5,6 +5,36 @@
       Copyright (C) 2009-2015 Antenna House, Inc. All rights reserved.
              Antenna House is a trademark of Antenna House, Inc.
 _______________________________________________________________________________
+Sep, 2015
+V2.2.1
+- Add warning message.
+- Use URI instead of relative path.
+- Fixed Fig & table title generation.
+- Fixed plug-in folder to [DITA-OT]/plugins.
+- Use standard template to output message.
+- Drop cover related templates.
+- Remove unused parameter.
+- Remove deprecated parameter.
+- Add sort.glossentry to build.xml.
+- Fixed table/fig title prefix generation.
+- Fixed Duplicate id error in glossentry.
+- Fixed XTDE0700 error.
+- Add variable for note/@type="notice".
+- Add property for copy image to out folder.
+- Fixed @id generation.
+- Fixed level 5, 6 title.
+- Fixed style definition.
+- Fixed title generation.
+- Changed to count li without stepsection.
+- Aarrage the xsl:numer attributes for ol/li and xref to li.
+- Change license.
+- Corect indent, rename stylesheet for compatibilty.
+- Correct the typo.
+- Add auto scall down to fit function.
+- Add support toc/index for map.
+- Fixed ahf:isCoverTopicRef function.
+- Added cover for print processing.
+
 Mar, 2015
 V2.2.0
 - Remove $prmTopicRef,$prmNeedId from most of the template.
