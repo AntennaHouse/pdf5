@@ -30,6 +30,10 @@ com.antennahouse.pdf5 folder
 This folder contains PDF5 plug-in files and folders. To install this plug-in, 
 refer to pdf5_manual.pdf.
 
+jp.acme-corporation.pdf folder
+----------------------------
+This folder contains sample plug-in that overrides PDF5 plug-in for your own customization.
+index-data folder
 index-data folder
 -----------------
 This folder contains DITA sample files. The sample files covers en, 
