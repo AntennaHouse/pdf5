@@ -12,7 +12,6 @@ V2.2.1
 - Fixed Fig & table title generation.
 - Fixed plug-in folder to [DITA-OT]/plugins.
 - Use standard template to output message.
-- Drop cover related templates.
 - Remove unused parameter.
 - Remove deprecated parameter.
 - Add sort.glossentry to build.xml.
@@ -33,7 +32,6 @@ V2.2.1
 - Add auto scall down to fit function.
 - Add support toc/index for map.
 - Fixed ahf:isCoverTopicRef function.
-- Added cover for print processing.
 
 Mar, 2015
 V2.2.0
