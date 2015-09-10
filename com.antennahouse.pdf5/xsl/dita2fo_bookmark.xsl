@@ -20,7 +20,8 @@ E-mail : info@antennahouse.com
      function:	Generate bookmark tree
      param:		none
      return:	fo:bookmark-tree
-     note:		none
+     note:		do not output 'index' if there is no indexterm element in contents.
+				2015-09-09 k.ichinose
      -->
     <xsl:template name="genBookmarkTree">
     	<fo:bookmark-tree>
@@ -28,7 +29,7 @@ E-mail : info@antennahouse.com
     	        <xsl:call-template name="genMapTocBookmark"/>
     	    </xsl:if>
     		<xsl:apply-templates select="$map" mode="MAKE_BOOKMARK"/>
-    	    <xsl:if test="$isMap and $pMakeIndexForMap">
+		    <xsl:if test="$isMap and $pMakeIndexForMap and ($indextermSortedCount gt 0)">
     	        <xsl:call-template name="genMapIndexBookmark"/>
     	    </xsl:if>
     	</fo:bookmark-tree>
