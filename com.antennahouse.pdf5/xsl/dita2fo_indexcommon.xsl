@@ -483,7 +483,7 @@ E-mail : info@antennahouse.com
             </xsl:call-template>
         </xsl:if>
     	
-    	<xsl:if test="$indextermSortedCount &gt; 0">
+    	<xsl:if test="$pOutputIndex and ($indextermSortedCount &gt; 0)">
     	    <psmi:page-sequence>
                 <xsl:choose>
                     <xsl:when test="$pOnlinePdf">
@@ -582,7 +582,7 @@ E-mail : info@antennahouse.com
             </xsl:call-template>
         </xsl:if>
         
-        <xsl:if test="$indextermSortedCount &gt; 0">
+        <xsl:if test="$pOutputIndex and ($indextermSortedCount &gt; 0)">
             <fo:page-sequence>
                 <xsl:choose>
                     <xsl:when test="$pOnlinePdf">

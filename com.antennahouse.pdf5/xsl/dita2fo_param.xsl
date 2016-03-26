@@ -199,5 +199,11 @@ E-mail : info@antennahouse.com
      -->
     <xsl:param name="PRM_IMAGE_IN_OUTPUT_FOLDER" required="no" as="xs:string" select="$cNo"/>
     <xsl:variable name="pImageInOutputFolder" select="boolean($PRM_IMAGE_IN_OUTPUT_FOLDER eq $cYes)" as="xs:boolean"/>
-    
+
+    <!-- Output index
+         2016-03-26 t.makita
+     -->
+    <xsl:param name="PRM_OUTPUT_INDEX" required="no" as="xs:string" select="$cYes"/>
+    <xsl:variable name="pOutputIndex" select="boolean($PRM_OUTPUT_INDEX eq $cYes)" as="xs:boolean"/>
+
 </xsl:stylesheet>

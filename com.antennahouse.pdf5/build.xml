@@ -84,6 +84,7 @@
     <property name="auto.scale.down.to.fit" value="yes"/>
     <property name="make.toc.for.map" value="yes"/>
     <property name="make.index.for.map" value="yes"/>
+    <property name="output.index" value="yes"/>
     <condition property="image.in.output.folder" value="no">
         <isset property="preprocess.copy-image.skip"/>
     </condition>
@@ -263,6 +264,7 @@
             <arg line='"PRM_AUTO_SCALE_DOWN_TO_FIT=${auto.scale.down.to.fit}"'/>
             <arg line='"PRM_MAKE_TOC_FOR_MAP=${make.toc.for.map}"'/>
             <arg line='"PRM_MAKE_INDEX_FOR_MAP=${make.index.for.map}"'/>
+            <arg line='"PRM_OUTPUT_INDEX=${output.index}"'/>
             <arg line='"PRM_IMAGE_IN_OUTPUT_FOLDER=${image.in.output.folder}"'/>
             <arg line='"PRM_USE_I18N_INDEX_LIB=${use.i18n.index.lib}"'/>
             <arg line='"PRM_MAP_DIR_URL=${user.input.dir.url}"'/>
